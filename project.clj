@@ -1,4 +1,4 @@
-(defproject entity-editor-cljs "0.1.0-SNAPSHOT"
+(defproject flow-editor "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.170"]
                  [reagent "0.5.1"]
@@ -23,14 +23,14 @@
 
   :garden {:builds [{:id "screen"
                      :source-paths ["src/clj"]
-                     :stylesheet entity-editor-cljs.css/screen
+                     :stylesheet flow-editor.css/screen
                      :compiler {:output-to "resources/public/css/compiled/screen.css"
                                 :pretty-print? true}}]}
 
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/cljs"]
-                        :figwheel {:on-jsload "entity-editor-cljs.core/mount-root"}
-                        :compiler {:main entity-editor-cljs.core
+                        :figwheel {:on-jsload "flow-editor.core/mount-root"}
+                        :compiler {:main flow-editor.core
                                    :output-to "resources/public/js/compiled/app.js"
                                    :output-dir "resources/public/js/compiled/out"
                                    :asset-path "js/compiled/out"
@@ -39,12 +39,12 @@
                        {:id "test"
                         :source-paths ["src/cljs" "test/cljs"]
                         :compiler {:output-to "resources/public/js/compiled/test.js"
-                                   :main entity-editor-cljs.runner
+                                   :main flow-editor.runner
                                    :optimizations :none}}
 
                        {:id "min"
                         :source-paths ["src/cljs"]
-                        :compiler {:main entity-editor-cljs.core
+                        :compiler {:main flow-editor.core
                                    :output-to "resources/public/js/compiled/app.js"
                                    :optimizations :advanced
                                    :closure-defines {goog.DEBUG false}
