@@ -19,7 +19,8 @@
                                     "test/js"
                                     "resources/public/css/compiled"]
 
-  :figwheel {:css-dirs ["resources/public/css"]}
+  :figwheel {:css-dirs ["resources/public/css"]
+             :server-port 8080}
 
   :garden {:builds [{:id "screen"
                      :source-paths ["src/clj"]
@@ -48,4 +49,8 @@
                                    :output-to "resources/public/js/compiled/app.js"
                                    :optimizations :advanced
                                    :closure-defines {goog.DEBUG false}
-                                   :pretty-print false}}]})
+                                   :pretty-print false}}]}
+  :repl-options {:port 8999
+                 :init (do
+                         (use 'figwheel-sidecar.repl-api)
+                         (start-figwheel!))})

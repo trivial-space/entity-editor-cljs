@@ -22,3 +22,7 @@ exit
 (shout)
 (in-ns 'flow-editor.core)
 (shout)
+(use 'figwheel-sidecar.repl-api)
+(start-figwheel!)
+(cljs-repl)
+(js/alert "fuu")
