@@ -26,3 +26,5 @@ exit
 (start-figwheel!)
 (cljs-repl)
 (js/alert "fuu")
+(cljs-repl)
+(js/alert "fuu")

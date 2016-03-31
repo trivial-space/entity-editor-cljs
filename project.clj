@@ -4,7 +4,8 @@
                  [reagent "0.5.1"]
                  [re-frame "0.7.0"]
                  [re-com "0.8.0"]
-                 [garden "1.3.2"]]
+                 [garden "1.3.2"]
+                 [cljsjs/codemirror "5.11.0-1"]]
 
   :min-lein-version "2.5.3"
 
