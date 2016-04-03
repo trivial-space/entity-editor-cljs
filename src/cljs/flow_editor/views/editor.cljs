@@ -1,19 +1,12 @@
 (ns flow-editor.views.editor
-  (:require [cljsjs.codemirror :as cm]
-            [re-frame.core :as re-frame]
+  (:require [flow-editor.views.utils.codemirror :refer [cm]]
+            [re-frame.core :refer [subscribe]]
             [reagent.core :as r]
             [re-com.core :as re-com]))
 
 
-(defn codemirror []
-  (let [value (r/atom "fuu")]
-    (fn []
-      [:textarea {:value @value
-                  :on-change #(reset! value (-> % .-target .-value))}])))
-
-
 (defn title []
-  (let [name (re-frame/subscribe [:name])]
+  (let [name (subscribe [:name])]
     (fn []
       [re-com/title
        :label (str "Hello from " @name)
@@ -25,4 +18,4 @@
     [re-com/v-box
      :height "100%"
      :children [[title]
-                [codemirror]]]))
+                [cm "fuu" {:mode "JavaScript"}]]]))
