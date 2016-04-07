@@ -36,12 +36,16 @@
                                    :output-to "resources/public/js/compiled/app.js"
                                    :output-dir "resources/public/js/compiled/out"
                                    :asset-path "js/compiled/out"
+                                   :foreign-libs [{:file "libs/flow/build/tvs-flow.js"
+                                                   :provides ["libs.flow"]}]
                                    :source-map-timestamp true}}
 
                        {:id "test"
                         :source-paths ["src/cljs" "test/cljs"]
                         :compiler {:output-to "resources/public/js/compiled/test.js"
                                    :main flow-editor.runner
+                                   :foreign-libs [{:file "libs/flow/build/tvs-flow.js"
+                                                   :provides ["libs.flow"]}]
                                    :optimizations :none}}
 
                        {:id "min"
@@ -50,6 +54,9 @@
                                    :output-to "resources/public/js/compiled/app.js"
                                    :optimizations :advanced
                                    :closure-defines {goog.DEBUG false}
+                                   :foreign-libs [{:file "libs/flow/build/tvs-flow.js"
+                                                   :provides ["libs.flow"]}]
+                                   :externs ["libs/flow/externs/tvs-flow-externs.js"]
                                    :pretty-print false}}]}
   :repl-options {:port 8999
                  :init (do

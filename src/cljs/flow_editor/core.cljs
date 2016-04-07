@@ -4,7 +4,8 @@
               [flow-editor.handlers]
               [flow-editor.subs]
               [flow-editor.views.editor :refer [editor title]]
-              [flow-editor.config :as config]))
+              [flow-editor.config :as config]
+              [libs.flow]))
 
 
 (when config/debug?
