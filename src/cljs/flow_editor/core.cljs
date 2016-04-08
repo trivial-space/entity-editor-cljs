@@ -5,7 +5,7 @@
               [flow-editor.subs]
               [flow-editor.views.editor :refer [editor title]]
               [flow-editor.config :as config]
-              [libs.flow]))
+              [cljs.pprint :refer [pprint]]))
 
 
 (when config/debug?
@@ -17,10 +17,14 @@
                   (.getElementById js/document "app")))
 
 
-(defn ^:export init []
+(defn ^:export init [flow-runtime]
   (re-frame/dispatch-sync [:initialize-db])
+  (re-frame/dispatch-sync [:initialize-flow-runtime flow-runtime])
   (mount-root))
 
 
-(defn shout []
-  (.log js/console "lalala!!!"))
+(defn inspect-db
+  ([]
+   (println (pprint @re-frame.db/app-db)))
+  ([k]
+   (println (pprint (k @re-frame.db/app-db)))))

@@ -44,7 +44,6 @@
 (defn cm [val opts changes]
   (let [defaults (subscribe [:code-mirror-defaults])   ;; obtain the data]
         options (merge @defaults opts)]
-    (println "codemirror outer component" val opts)
     (fn [v o changes]
       [cm-inner {:val v
                  :opts options

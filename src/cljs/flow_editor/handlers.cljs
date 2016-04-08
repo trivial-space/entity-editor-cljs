@@ -5,4 +5,12 @@
 (re-frame/register-handler
  :initialize-db
  (fn  [_ _]
-   db/default-db))
+   db/initial-db))
+
+
+(re-frame/register-handler
+ :initialize-flow-runtime
+ (fn  [db [_ runtime]]
+   (-> db
+      (assoc :runtime runtime)
+      (assoc :graph (js->clj (.getState runtime) :keywordize-keys true)))))
