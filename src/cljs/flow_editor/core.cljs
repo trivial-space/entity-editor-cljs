@@ -3,7 +3,7 @@
               [re-frame.core :as re-frame]
               [flow-editor.handlers]
               [flow-editor.subs]
-              [flow-editor.views.editor :refer [editor title]]
+              [flow-editor.views.editor :refer [editor]]
               [flow-editor.config :as config]
               [cljs.pprint :refer [pprint]]))
 
