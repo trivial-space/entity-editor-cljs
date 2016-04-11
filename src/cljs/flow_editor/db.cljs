@@ -12,4 +12,5 @@
       :scrollbarStyle nil
       :autoRefresh true}
    :runtime nil
-   :graph nil})
+   :graph nil
+   :modal nil})

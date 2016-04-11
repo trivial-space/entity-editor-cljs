@@ -25,3 +25,9 @@
  :edited-processes
  (fn [db]
    (reaction (vals (get-in @db [:graph :processes])))))
+
+
+(register-sub
+  :modal
+ (fn [db]
+   (reaction (:modal @db))))

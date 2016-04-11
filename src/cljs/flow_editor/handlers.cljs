@@ -14,3 +14,9 @@
    (-> db
       (assoc :runtime runtime)
       (assoc :graph (js->clj (.getState runtime) :keywordize-keys true)))))
+
+
+(re-frame/register-handler
+ :open-modal
+ (fn  [db [_ modal-key]]
+   (assoc db :modal modal-key)))
