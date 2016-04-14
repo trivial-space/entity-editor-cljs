@@ -14,7 +14,7 @@
                            :level :level2
                            :margin-bottom "20px"]
                           [input-text
-                           :model @entity-id
+                           :model entity-id
                            :on-change #(reset! entity-id %)
                            :placeholder "Entity id"]
                           [line
@@ -24,7 +24,7 @@
                            :children [[button
                                        :label "Create"
                                        :class "btn-primary"
-                                       :on-click #(dispatch [:runtime-update/add-entity @entity-id])]
+                                       :on-click #(dispatch [:flow-runtime/add-entity @entity-id])]
                                       [button
                                        :label "Cancel"
-                                       :on-click #(dispatch [:modals/close])]]]]]])))
+                                       :on-click #(dispatch [:ui/close-modal])]]]]]])))

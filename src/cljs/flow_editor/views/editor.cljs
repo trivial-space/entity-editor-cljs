@@ -29,7 +29,7 @@
                                        :margin-top "0.1em"]]
                               [button
                                :label "add"
-                               :on-click #(dispatch [:open-modal :modals/add-entity])]]]
+                               :on-click #(dispatch [:ui/open-modal :modals/add-entity])]]]
                   (map entity-component @entities)]])))
 
 
@@ -47,7 +47,7 @@
                                        :margin-top "0.1em"]]
                               [button
                                :label "add"
-                               :on-click #(dispatch [:open-modal :modals/add-process])]]]
+                               :on-click #(dispatch [:ui/open-modal :modals/add-process])]]]
                   (map process-component @processes)]])))
 
 

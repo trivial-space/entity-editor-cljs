@@ -1,7 +1,7 @@
 (ns flow-editor.core
     (:require [reagent.core :as reagent]
-              [re-frame.core :as re-frame]
-              [flow-editor.handlers]
+              [re-frame.core :as re-frame :refer [dispatch-sync]]
+              [flow-editor.handlers.core]
               [flow-editor.subs]
               [flow-editor.views.editor :refer [editor]]
               [flow-editor.config :as config]
@@ -18,8 +18,8 @@
 
 
 (defn ^:export init [flow-runtime]
-  (re-frame/dispatch-sync [:initialize-db])
-  (re-frame/dispatch-sync [:initialize-flow-runtime flow-runtime])
+  (dispatch-sync [:initialize-db])
+  (dispatch-sync [:initialize-flow-runtime flow-runtime])
   (mount-root))
 
 
