@@ -26,3 +26,17 @@
    (.addProcess (:runtime db) #js {:id process-id :code default-process-code})
    (dispatch [:ui/close-modal])
    (update-runtime db)))
+
+
+(register-handler
+ :flow-runtime/remove-entity
+ (fn [db [_ entity-id]]
+   (.removeEntity (:runtime db) entity-id)
+   (update-runtime db)))
+
+
+(register-handler
+ :flow-runtime/remove-process
+ (fn [db [_ process-id]]
+   (.removeProcess (:runtime db) process-id)
+   (update-runtime db)))

@@ -30,7 +30,8 @@
                               [button
                                :label "add"
                                :on-click #(dispatch [:ui/open-modal :modals/add-entity])]]]
-                  (map entity-component @entities)]])))
+                  (for [entity @entities]
+                    ^{:key (:id entity)} [entity-component entity])]])))
 
 
 (defn process-list []
@@ -48,7 +49,8 @@
                               [button
                                :label "add"
                                :on-click #(dispatch [:ui/open-modal :modals/add-process])]]]
-                  (map process-component @processes)]])))
+                  (for [process @processes]
+                    ^{:key (:id process)} [process-component process])]])))
 
 
 (defn editor []
