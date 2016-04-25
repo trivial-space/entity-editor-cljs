@@ -34,7 +34,7 @@
                                 (reset! cm editor)
                                 (update comp)
                                 (when changes
-                                  (.on editor "change" #(println (.getValue editor))))))
+                                  (.on editor "change" #(reset! changes (.getValue editor))))))
 
        :component-did-update update
        :display-name "gmap-inner"})))

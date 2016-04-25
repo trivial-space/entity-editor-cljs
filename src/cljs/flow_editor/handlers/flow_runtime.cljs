@@ -8,6 +8,7 @@
 
 (defn update-runtime [db]
   (let [new-graph (js->clj (.getState (:runtime db)) :keywordize-keys true)]
+    (println "flow graph updated! " new-graph)
     (when-let [local-storage-key (:local-storage-key db)]
       (.setItem js/localStorage local-storage-key (.stringify js/JSON (clj->js new-graph))))
     (assoc db :graph new-graph)))
@@ -41,3 +42,27 @@
  (fn [db [_ process-id]]
    (.removeProcess (:runtime db) process-id)
    (update-runtime db)))
+
+
+(register-handler
+ :flow-runtime/update-process-code
+ (fn [db [_ pid code]]
+   (let [p (get-in db [:graph :processes (keyword pid)])]
+     (->> (merge p {:code code :procedure nil})
+      (clj->js)
+      (.addProcess (:runtime db)))
+     (update-runtime db))))
+
+
+(register-handler
+ :flow-runtime/start-process
+ (fn [db [_ pid]]
+   (.start (:runtime db) pid)
+   db))
+
+
+(register-handler
+ :flow-runtime/stop-process
+ (fn [db [_ pid]]
+   (.stop (:runtime db) pid)
+   db))
