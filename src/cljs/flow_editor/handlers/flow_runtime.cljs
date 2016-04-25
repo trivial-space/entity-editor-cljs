@@ -8,7 +8,8 @@
 
 (defn update-runtime [db]
   (let [new-graph (js->clj (.getState (:runtime db)) :keywordize-keys true)]
-    (println "flow graph updated! " new-graph)
+    (when-let [local-storage-key (:local-storage-key db)]
+      (.setItem js/localStorage local-storage-key (.stringify js/JSON (clj->js new-graph))))
     (assoc db :graph new-graph)))
 
 

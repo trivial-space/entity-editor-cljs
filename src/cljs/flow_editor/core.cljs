@@ -17,10 +17,14 @@
                   (.getElementById js/document "app")))
 
 
-(defn ^:export init [flow-runtime]
-  (dispatch-sync [:initialize-db])
-  (dispatch-sync [:initialize-flow-runtime flow-runtime])
-  (mount-root))
+(defn ^:export init
+  ([flow-runtime]
+   (dispatch-sync [:initialize-db])
+   (dispatch-sync [:initialize-flow-runtime flow-runtime])
+   (mount-root))
+  ([flow-runtime local-storage-key]
+   (init flow-runtime)
+   (dispatch-sync [:initialize-local-storage-key local-storage-key])))
 
 
 (defn inspect-db
