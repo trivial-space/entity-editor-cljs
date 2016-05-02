@@ -41,3 +41,14 @@
                (vals)
                (filter (fn [arc]
                          (= (:process arc) pid)))))))
+
+
+(register-sub
+  :flow-runtime/output-port
+  (fn [db [_ pid]]
+    (reaction (->> (get-in @db [:graph :arcs])
+                (vals)
+                (filter (fn [arc]
+                          (and (= (:process arc) pid)
+                               (not (:port arc)))))
+                (first)))))

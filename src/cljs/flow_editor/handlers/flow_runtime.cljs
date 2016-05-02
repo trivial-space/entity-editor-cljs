@@ -143,3 +143,17 @@
         (.removeArc (:runtime db) (:id arc)))
       (.addProcess (:runtime db) (clj->js (merge p {:ports (dissoc (:ports p) (keyword port-name))})))
       (update-runtime db))))
+
+
+(register-handler
+  :flow-runtime/connect-output
+  (fn [db [_ pid eid]]
+    (doseq [arc (->> (get-in db [:graph :arcs])
+                  (vals)
+                  (filter (fn [{:keys [process port] :as arc}]
+                            (and (= process pid)
+                                 (not port)))))]
+      (.removeArc (:runtime db) (:id arc)))
+    (when eid
+      (.addArc (:runtime db) (clj->js {:process pid :entity eid})))
+    (update-runtime db)))

@@ -50,9 +50,9 @@
                              (mapv :id)
                              (set)
                              (remove (set (mapv :entity @connections)))
-                             (union #{current-entity})
+                             (union (if current-entity #{current-entity} #{}))
                              (mapv (fn [id] {:id id :label id}))
-                             (concat [{:id nil :label "::disconnect !::"}]))]
+                             (concat [{:id nil :label "-- Disconnect !"}]))]
         (println port-types)
         [h-box
          :children [[input-text
@@ -93,6 +93,29 @@
                 ^{:key (str pid "::port::" port-name)} [port-row (name port-name) type pid])]])
 
 
+(defn output-port
+  [pid]
+  (let [out-arc (subscribe [:flow-runtime/output-port pid])
+        entities (subscribe [:flow-runtime/all-entities])
+        connections (subscribe [:flow-runtime/process-port-connection pid])]
+    (fn [pid]
+      (let [entity (:entity @out-arc)
+            entity-choices (->> @entities
+                             (mapv :id)
+                             (set)
+                             (remove (set (mapv :entity @connections)))
+                             (union (if entity #{entity} #{}))
+                             (mapv (fn [id] {:id id :label id}))
+                             (concat [{:id nil :label "-- Disconnect !"}]))]
+        (println "output choices" entity-choices)
+        [single-dropdown
+         :choices entity-choices
+         :model entity
+         :width "200px"
+         :filter-box? true
+         :on-change #(dispatch [:flow-runtime/connect-output pid %])]))))
+
+
 (defn process-component [process]
   (let [model (r/atom process)
         code-changes (atom (:code process))
@@ -109,4 +132,5 @@
                    [button
                     :label "update"
                     :on-click #(dispatch [:flow-runtime/update-process-code id @code-changes])]
-                   [label :label "output"]]]])))
+                   [label :label "output"]
+                   [output-port id]]]])))
