@@ -42,7 +42,7 @@
 
 
 (defn cm [val opts changes]
-  (let [defaults (subscribe [:code-mirror-defaults])   ;; obtain the data]
+  (let [defaults (subscribe [:ui/code-mirror-defaults])
         options (merge @defaults opts)]
     (fn [v o changes]
       [cm-inner {:val v

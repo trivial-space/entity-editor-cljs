@@ -1,0 +1,43 @@
+(ns flow-editor.subs.flow-runtime
+  (:require-macros [reagent.ratom :refer [reaction]])
+  (:require [re-frame.core :refer [register-sub]]))
+
+
+(register-sub
+ :flow-runtime/edited-entities
+ (fn [db]
+   (reaction (vals (get-in @db [:graph :entities])))))
+
+
+(register-sub
+ :flow-runtime/edited-processes
+ (fn [db]
+   (reaction (vals (get-in @db [:graph :processes])))))
+
+
+(register-sub
+  :flow-runtime/all-entities
+  (fn [db]
+    (reaction (vals (get-in @db [:graph :entities])))))
+
+
+(register-sub
+ :flow-runtime/all-processes
+ (fn [db]
+   (reaction (vals (get-in @db [:graph :processes])))))
+
+
+(register-sub
+ :flow-runtime/port-types
+ (fn [db]
+   (when-let [runtime (:runtime @db)]
+    (reaction (js->clj (.-PORT_TYPES runtime))))))
+
+
+(register-sub
+ :flow-runtime/process-port-connection
+ (fn [db [_ pid]]
+   (reaction (->> (get-in @db [:graph :arcs])
+               (vals)
+               (filter (fn [arc]
+                         (= (:process arc) pid)))))))

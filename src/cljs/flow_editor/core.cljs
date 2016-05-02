@@ -2,7 +2,7 @@
     (:require [reagent.core :as reagent]
               [re-frame.core :as re-frame :refer [dispatch-sync]]
               [flow-editor.handlers.core]
-              [flow-editor.subs]
+              [flow-editor.subs.core]
               [flow-editor.views.editor :refer [editor]]
               [flow-editor.config :as config]
               [cljs.pprint :refer [pprint]]))

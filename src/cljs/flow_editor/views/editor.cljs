@@ -16,7 +16,7 @@
 
 
 (defn entity-list []
-  (let [entities (subscribe [:edited-entities])]
+  (let [entities (subscribe [:flow-runtime/edited-entities])]
     (fn []
       [v-box
        :width "100%"
@@ -35,7 +35,7 @@
 
 
 (defn process-list []
-  (let [processes (subscribe [:edited-processes])]
+  (let [processes (subscribe [:flow-runtime/edited-processes])]
     (fn []
       [v-box
        :width "100%"
@@ -54,7 +54,7 @@
 
 
 (defn editor []
-  (let [modal-key (subscribe [:modal])]
+  (let [modal-key (subscribe [:ui/modal])]
     (fn []
       (let [modal (get-modal @modal-key)]
         [v-box

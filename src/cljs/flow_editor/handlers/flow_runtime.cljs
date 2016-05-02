@@ -66,3 +66,80 @@
  (fn [db [_ pid]]
    (.stop (:runtime db) pid)
    db))
+
+
+(register-handler
+ :flow-runtime/add-process-port
+ (fn [db [_ pid]]
+   (let [p (get-in db [:graph :processes (keyword pid)])
+         runtime (:runtime db)
+         ports (merge (:ports p) {"" (.-PORT_TYPES.COLD runtime)})]
+     (.addProcess runtime (clj->js (merge p {:ports ports})))
+     (update-runtime db))))
+
+
+(register-handler
+ :flow-runtime/rename-port
+ (fn [db [_ pid old-name new-name]]
+   (let [p (get-in db [:graph :processes (keyword pid)])
+         runtime (:runtime db)
+         port-type (get-in p [:ports (keyword old-name)])
+         ports (-> (:ports p)
+                 (dissoc (keyword old-name))
+                 (assoc (keyword new-name) port-type))
+         arcs (->> (get-in db [:graph :arcs])
+                (vals)
+                (filter (fn [{:keys [process port] :as arc}]
+                          (and (= process pid)
+                               (or (= port old-name)
+                                   (= port new-name))))))]
+     (doseq [arc arcs]
+       (.removeArc runtime (:id arc)))
+     (.addProcess runtime (clj->js (merge p {:ports ports})))
+     (update-runtime db))))
+
+
+(register-handler
+ :flow-runtime/change-port-type
+ (fn [db [_ pid port-name port-type]]
+   (let [p (get-in db [:graph :processes (keyword pid)])
+         runtime (:runtime db)
+         ports (-> (:ports p)
+                 (assoc (keyword port-name) port-type))
+         arcs (->> (get-in db [:graph :arcs])
+                (vals)
+                (filter (fn [{:keys [process port] :as arc}]
+                          (and (= process pid)
+                               (= port port-name)))))]
+     (when (= port-type (.-PORT_TYPES.ACCUMULATOR runtime))
+       (doseq [arc arcs]
+         (.removeArc runtime (:id arc))))
+     (.addProcess runtime (clj->js (merge p {:ports ports})))
+     (update-runtime db))))
+
+
+(register-handler
+  :flow-runtime/connect-port
+  (fn [db [_ pid port-name eid]]
+    (doseq [arc (->> (get-in db [:graph :arcs])
+                  (vals)
+                  (filter (fn [{:keys [process port] :as arc}]
+                            (and (= process pid)
+                                 (= port port-name)))))]
+      (.removeArc (:runtime db) (:id arc)))
+    (when eid (.addArc (:runtime db) (clj->js {:port port-name :process pid :entity eid})))
+    (update-runtime db)))
+
+
+(register-handler
+  :flow-runtime/remove-process-port
+  (fn [db [_ pid port-name]]
+    (let [p (get-in db [:graph :processes (keyword pid)])]
+      (doseq [arc (->> (get-in db [:graph :arcs])
+                    (vals)
+                    (filter (fn [{:keys [process port] :as arc}]
+                              (and (= process pid)
+                                   (= port port-name)))))]
+        (.removeArc (:runtime db) (:id arc)))
+      (.addProcess (:runtime db) (clj->js (merge p {:ports (dissoc (:ports p) (keyword port-name))})))
+      (update-runtime db))))
