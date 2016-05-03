@@ -13,4 +13,5 @@
       :autoRefresh true}
    :runtime nil
    :graph nil
+   :entity-values {}
    :modal nil})

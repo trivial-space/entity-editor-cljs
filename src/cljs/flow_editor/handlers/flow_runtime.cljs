@@ -14,26 +14,55 @@
     (assoc db :graph new-graph)))
 
 
+;; ===== Entity handlers =====
+
 (register-handler
  :flow-runtime/add-entity
  (fn [db [_ entity-id]]
    (.addEntity (:runtime db) #js {:id entity-id})
    (dispatch [:ui/close-modal])
+   (dispatch [:flow-runtime/watch-entity entity-id])
    (update-runtime db)))
 
 
 (register-handler
- :flow-runtime/add-process
- (fn [db [_ process-id]]
-   (.addProcess (:runtime db) #js {:id process-id :code default-process-code})
-   (dispatch [:ui/close-modal])
-   (update-runtime db)))
+  :flow-runtime/watch-entity
+  (fn [db [_ entity-id]]
+    (.on (:runtime db) entity-id #(dispatch [:flow-runtime/entity-value-changed
+                                             entity-id %]))
+    (dispatch [:flow-runtime/entity-value-changed
+               entity-id (.get (:runtime db) entity-id)])
+    db))
+
+
+(register-handler
+  :flow-runtime/unwatch-entity
+  (fn [db [_ entity-id]]
+    (.off (:runtime db) entity-id)
+    (update-in db [:entity-values] dissoc entity-id)))
+
+
+(register-handler
+  :flow-runtime/entity-value-changed
+  (fn [db [_ entity-id value]]
+    (let [i (get-in db [:entity-values entity-id :iter] 0)]
+      (assoc-in db [:entity-values entity-id] {:iter (inc i) :value value}))))
 
 
 (register-handler
  :flow-runtime/remove-entity
  (fn [db [_ entity-id]]
    (.removeEntity (:runtime db) entity-id)
+   (update-runtime db)))
+
+
+;; ===== Process handlers =====
+
+(register-handler
+ :flow-runtime/add-process
+ (fn [db [_ process-id]]
+   (.addProcess (:runtime db) #js {:id process-id :code default-process-code})
+   (dispatch [:ui/close-modal])
    (update-runtime db)))
 
 

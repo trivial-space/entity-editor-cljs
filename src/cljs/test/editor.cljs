@@ -23,4 +23,5 @@
         (doseq [k (.keys js/Object arcs)]
           (.addArc runtime (aget arcs k)))))
 
+    (aset js/window "runtime" runtime)
     (editor/init runtime local-storage-key)))

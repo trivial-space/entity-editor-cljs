@@ -3,6 +3,8 @@
   (:require [re-frame.core :refer [register-sub]]))
 
 
+;; ===== Entity subscriptions =====
+
 (register-sub
  :flow-runtime/edited-entities
  (fn [db]
@@ -10,15 +12,23 @@
 
 
 (register-sub
- :flow-runtime/edited-processes
- (fn [db]
-   (reaction (vals (get-in @db [:graph :processes])))))
-
-
-(register-sub
   :flow-runtime/all-entities
   (fn [db]
     (reaction (vals (get-in @db [:graph :entities])))))
+
+
+(register-sub
+  :flow-runtime/entity-value
+  (fn [db [_ eid]]
+    (reaction (get-in @db [:entity-values eid]))))
+
+
+;; ===== Process subscriptions =====
+
+(register-sub
+ :flow-runtime/edited-processes
+ (fn [db]
+   (reaction (vals (get-in @db [:graph :processes])))))
 
 
 (register-sub

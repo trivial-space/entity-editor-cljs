@@ -107,7 +107,6 @@
                              (union (if entity #{entity} #{}))
                              (mapv (fn [id] {:id id :label id}))
                              (concat [{:id nil :label "-- Disconnect !"}]))]
-        (println "output choices" entity-choices)
         [single-dropdown
          :choices entity-choices
          :model entity
@@ -117,8 +116,7 @@
 
 
 (defn process-component [process]
-  (let [model (r/atom process)
-        code-changes (atom (:code process))
+  (let [code-changes (atom (:code process))
         id (:id process)]
     (fn [process]
       [:div
