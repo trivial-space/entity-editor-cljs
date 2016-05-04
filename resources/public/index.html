@@ -1,20 +1,27 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>flow editor</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="vendor/css/material-design-iconic-font.min.css">
-    <link rel="stylesheet" href="vendor/css/re-com.css">
-    <link rel="stylesheet" href="vendor/css/codemirror.css">
-    <link rel="stylesheet" href="vendor/css/cm-theme/monokai.css">
-    <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300" rel="stylesheet" type="text/css">
-    <link href="css/compiled/screen.css" rel="stylesheet" type="text/css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>flow editor</title>
+
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <style>
+    body {
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      background-image:linear-gradient(0deg, transparent 50%, #aaa 50%), linear-gradient(90deg, #aaa 50%, #ccc 50%);
+      background-size:50px 50px,50px 50px;
+      background-position:0 0, 0 25px;
+    }
+    </style>
 
   </head>
   <body>
-    <div id="app"></div>
     <script src="js/compiled/app.js"></script>
     <script>test.editor.init()</script>
   </body>

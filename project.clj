@@ -4,16 +4,12 @@
                  [reagent "0.6.0-alpha"]
                  [re-frame "0.7.0"]
                  [re-com "0.8.3"]
-                 [garden "1.3.2"]
                  [cljsjs/codemirror "5.11.0-1"]]
 
   :min-lein-version "2.5.3"
 
-  :source-paths ["src/clj"]
-
   :plugins [[lein-cljsbuild "1.1.3"]
             [lein-figwheel "0.5.0-6"]
-            [lein-garden "0.2.6"]
             [lein-doo "0.1.6"]]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"
@@ -22,12 +18,6 @@
 
   :figwheel {:css-dirs ["resources/public/css"]
              :server-port 8080}
-
-  :garden {:builds [{:id "screen"
-                     :source-paths ["src/clj"]
-                     :stylesheet flow-editor.css/screen
-                     :compiler {:output-to "resources/public/css/compiled/screen.css"
-                                :pretty-print? true}}]}
 
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/cljs"]

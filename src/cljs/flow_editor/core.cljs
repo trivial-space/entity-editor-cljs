@@ -12,9 +12,21 @@
   (println "dev mode"))
 
 
+(def root-el-id "tvs-flow-editor")
+
+
+(defn create-root-el
+  []
+  (let [el (.createElement js/document "div")]
+    (aset el "id" root-el-id)
+    (.appendChild (.-body js/document) el)
+    el))
+
+
 (defn mount-root []
-  (reagent/render [editor]
-                  (.getElementById js/document "app")))
+  (let [el (or (.getElementById js/document root-el-id)
+               (create-root-el))]
+    (reagent/render [editor] el)))
 
 
 (defn ^:export init

@@ -18,17 +18,6 @@
    	min-width:      0px;
 }
 
-html, body {
-    font-family:    Segoe UI, Roboto, sans-serif;
-    font-size:      14px;
-    font-weight:    400;
-    color:          rgba(68, 68, 68, 1.0);
-    letter-spacing: 0.002em;
-    height:         100%;
-    margin:         0px;
-    padding:        0px;
-}
-
 /*----------------------------------------------------------------------------------------
   Bootstrap overrides after upgrading to 3.3.5
 ----------------------------------------------------------------------------------------*/
@@ -91,7 +80,6 @@ html, body {
   border: 1px solid #cccccc;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
-  -webkit-box-shadow: 0 8px 8px rgba(0, 0, 0, .25);
   box-shadow: 0 8px 8px rgba(0, 0, 0, .25);
   margin-top: -1px;
   position: absolute;
@@ -178,15 +166,12 @@ html, body {
 }
 .chosen-container-single .chosen-single {
   background-color: #ffffff;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding;
   background-clip: padding-box;
   border: 1px solid #cccccc;
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   color: #555555;
   display: block;
@@ -252,7 +237,6 @@ html, body {
   border-top-left-radius: 4px;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   margin: 1px 0;
   padding: 4px 20px 4px 4px;
@@ -262,8 +246,6 @@ html, body {
   margin-top: -1px;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding;
   background-clip: padding-box;
 }
 .chosen-container-single-nosearch .chosen-search input {
@@ -277,7 +259,6 @@ html, body {
   border-top-left-radius: 4px;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   cursor: text;
   height: auto !important;
@@ -299,7 +280,6 @@ html, body {
 .chosen-container-multi .chosen-choices .search-field input[type="text"] {
   background: transparent !important;
   border: 0 !important;
-  -webkit-box-shadow: none;
   box-shadow: none;
   color: #555555;
   height: 32px;
@@ -311,8 +291,6 @@ html, body {
   color: #999;
 }
 .chosen-container-multi .chosen-choices .search-choice {
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding;
   background-clip: padding-box;
   background-color: #eeeeee;
   border: 1px solid #cccccc;
@@ -320,12 +298,8 @@ html, body {
   border-top-left-radius: 4px;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
-  background-image: -webkit-linear-gradient(top, #ffffff 0%, #eeeeee 100%);
-  background-image: -o-linear-gradient(top, #ffffff 0%, #eeeeee 100%);
   background-image: linear-gradient(to bottom, #ffffff 0%, #eeeeee 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffeeeeee', GradientType=0);
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   color: #333333;
   cursor: default;
@@ -363,10 +337,7 @@ html, body {
 }
 .chosen-container-active .chosen-single {
   border: 1px solid #66afe9;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .075) inset, 0 0 8px rgba(82, 168, 236, .6);
   box-shadow: 0 1px 1px rgba(0, 0, 0, .075) inset, 0 0 8px rgba(82, 168, 236, .6);
-  -webkit-transition: border linear .2s, box-shadow linear .2s;
-  -o-transition: border linear .2s, box-shadow linear .2s;
   transition: border linear .2s, box-shadow linear .2s;
 }
 .chosen-container-active.chosen-with-drop .chosen-single {
@@ -374,10 +345,7 @@ html, body {
   border: 1px solid #66afe9;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .075) inset, 0 0 8px rgba(82, 168, 236, .6);
   box-shadow: 0 1px 1px rgba(0, 0, 0, .075) inset, 0 0 8px rgba(82, 168, 236, .6);
-  -webkit-transition: border linear .2s, box-shadow linear .2s;
-  -o-transition: border linear .2s, box-shadow linear .2s;
   transition: border linear .2s, box-shadow linear .2s;
 }
 .chosen-container-active.chosen-with-drop .chosen-single div {
@@ -391,10 +359,7 @@ html, body {
   border: 1px solid #66afe9;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .075) inset, 0 0 8px rgba(82, 168, 236, .6);
   box-shadow: 0 1px 1px rgba(0, 0, 0, .075) inset, 0 0 8px rgba(82, 168, 236, .6);
-  -webkit-transition: border linear .2s, box-shadow linear .2s;
-  -o-transition: border linear .2s, box-shadow linear .2s;
   transition: border linear .2s, box-shadow linear .2s;
 }
 .chosen-container-active .chosen-choices .search-field input[type="text"] {
@@ -542,8 +507,6 @@ html, body {
     left: 20px;
     padding: 10px 10px 5px;
     margin-top: 1px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
     line-height: 16px;
     border-radius: 4px;
 }
@@ -562,8 +525,6 @@ html, body {
     max-height: 26px;
     min-width: 27px;
     min-height: 26px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
     border-radius: 4px;
     padding: 4px;
     cursor: default;
@@ -590,27 +551,19 @@ html, body {
 }
 
 .datepicker td.in-range {
-    background: #ebf4f8;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-  border-radius: 0;
+	background: #ebf4f8;
+	border-radius: 0;
 }
 
 .datepicker td.start-date {
-    -webkit-border-radius: 4px 0 0 4px;
-    -moz-border-radius: 4px 0 0 4px;
     border-radius: 4px 0 0 4px;
 }
 
 .datepicker td.end-date {
-    -webkit-border-radius: 0 4px 4px 0;
-    -moz-border-radius: 0 4px 4px 0;
     border-radius: 0 4px 4px 0;
 }
 
 .datepicker td.start-date.end-date {
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
     border-radius: 4px;
 }
 
@@ -707,26 +660,6 @@ html, body {
         opacity: 0;
     }
 }
-@-moz-keyframes blink {
-    0% {
-        -moz-transform: scale(1);
-        opacity: 1;
-    }
-    100% {
-        -moz-transform: scale(.5);
-        opacity: 0;
-    }
-}
-@-webkit-keyframes blink {
-    0% {
-        -webkit-transform: scale(1);
-        opacity: 1;
-    }
-    100% {
-        -webkit-transform: scale(.5);
-        opacity: 0;
-    }
-}
 
 .loader {
     position: relative;
@@ -748,64 +681,48 @@ html, body {
     margin-top: -3px;
     margin-left: -3px;
     opacity: 0;
-    -webkit-animation: blink .8s ease infinite;
-    -moz-animation: blink .8s ease infinite;
     animation: blink .8s ease infinite;
 }
 
 .loader li:nth-child(1) {
     top: 0%;
     left: 50%;
-    -webkit-animation-delay: -.7s;
-    -moz-animation-delay: -.7s;
     animation-delay: -.7s;
 }
 
 .loader li:nth-child(2) {
     top: 15%;
     left: 85%;
-    -webkit-animation-delay: -.6s;
-    -moz-animation-delay: -.6s;
     animation-delay: -.6s;
 }
 
 .loader li:nth-child(3) {
     top: 50%;
     left: 100%;
-    -webkit-animation-delay: -.5s;
-    -moz-animation-delay: -.5s;
     animation-delay: -.5s;
 }
 
 .loader li:nth-child(4) {
     top: 85%;
     left: 85%;
-    -webkit-animation-delay: -.4s;
-    -moz-animation-delay: -.4s;
     animation-delay: -.4s;
 }
 
 .loader li:nth-child(5) {
     top: 100%;
     left: 50%;
-    -webkit-animation-delay: -.3s;
-    -moz-animation-delay: -.3s;
     animation-delay: -.3s;
 }
 
 .loader li:nth-child(6) {
     top: 85%;
     left: 15%;
-    -webkit-animation-delay: -.2s;
-    -moz-animation-delay: -.2s;
     animation-delay: -.2s;
 }
 
 .loader li:nth-child(7) {
     top: 50%;
     left: 0%;
-    -webkit-animation-delay: -.1s;
-    -moz-animation-delay: -.1s;
     animation-delay: -.1s;
 
 }
@@ -1162,7 +1079,7 @@ code {
 
 .rc-row-button {
     text-align:          center;             /* to horizontally center the icon */
-    color:               #2167f2; /2196f3;
+    color:               #2167f2;
     background-color:    inherit;
     opacity:             0;
     cursor:              pointer;
@@ -1275,10 +1192,7 @@ code {
 }
 
 .noselect {
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+	user-select: none;
 }
 /*----------------------------------------------------------------------------------------
   Flexbox "display" styles
@@ -1286,11 +1200,9 @@ code {
 ----------------------------------------------------------------------------------------*/
 
 .display-flex {
-    display: -webkit-flex;
     display: flex;
 }
 .display-inline-flex {
-    display: -webkit-inline-flex;
     display: inline-flex;
 }
 

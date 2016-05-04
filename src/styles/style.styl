@@ -1,0 +1,39 @@
+@import url("http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic")
+@import url("http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300")
+
+
+#tvs-flow-editor
+
+  @import "vendor/bootstrap"
+  @import "vendor/material-design-iconic-font"
+  @import "vendor/re-com"
+  @import "vendor/codemirror"
+  @import "vendor/cm-theme/monokai"
+
+  font-family Segoe UI, Roboto, sans-serif
+  font-size 14px
+  font-weight 400
+  line-height 1.42857143
+  color rgba(68, 68, 68, 1.0)
+  letter-spacing 0.002em
+  -webkit-tap-highlight-color rgba(0, 0, 0, 0)
+
+  position fixed
+  top 10px
+  left 20px
+  margin 0
+  padding 10px
+  max-width: 95%
+  max-height: 95vh
+  overflow: hidden
+
+  background-color rgba(#fff, 0.7)
+  box-shadow 0 10px 20px rgba(0, 0, 0, 0.4)
+  border-radius 4px
+
+
+  .CodeMirror
+    height auto
+    font-family "Source Code Pro", Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace
+    line-height 1.5
+    font-size 16px
