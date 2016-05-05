@@ -14,4 +14,13 @@
    :runtime nil
    :graph nil
    :entity-values {}
-   :modal nil})
+   :ui
+     {:modal nil
+      :main-frame-dimensions
+       {:width 0
+        :height 0
+        :top 0
+        :left 0}
+      :window-size
+       {:width 0
+        :height 0}}})

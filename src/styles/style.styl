@@ -19,18 +19,46 @@
   -webkit-tap-highlight-color rgba(0, 0, 0, 0)
 
   position fixed
-  top 10px
-  left 20px
+  top 5%
+  left 5%
   margin 0
   padding 10px
-  max-width: 95%
-  max-height: 95vh
-  overflow: hidden
+  width: 940px
+  height: 800px
+  max-width: calc(100% - 20px)
+  max-height: calc(100% - 20px)
+  box-sizing: border-box
 
-  background-color rgba(#fff, 0.7)
+  background-color rgba(#fff, 0.6)
   box-shadow 0 10px 20px rgba(0, 0, 0, 0.4)
   border-radius 4px
 
+
+  .main-header
+    user-select: none
+    cursor: grab
+
+  .main-content
+    user-select: none
+
+  .resize-drag
+    position: absolute
+    display: block
+    right: 0
+    bottom: 0
+    width: 20px
+    height: 20px
+    cursor: grab
+    background: linear-gradient(to bottom right, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.2) 51%)
+
+  .entity-component
+  .process-component
+    margin 5px
+    padding 10px
+    background-color rgba(#fff, 0.6)
+    border-top 1px solid white
+    box-shadow 0 2px 5px rgba(0, 0, 0, 0.3)
+    border-radius 4px
 
   .CodeMirror
     height auto

@@ -4,16 +4,33 @@
             [re-com.core :refer [title button v-box h-box box h-split scroller]]
             [flow-editor.views.process :refer [process-component]]
             [flow-editor.views.entity :refer [entity-component]]
-            [flow-editor.views.modals.helpers :refer [get-modal]]))
+            [flow-editor.views.modals.helpers :refer [get-modal]]
+            [goog.events :as events])
+  (:import [goog.events EventType]))
+
+
+(defn headerline-drag [e]
+  (let [old-pos (atom {:x (.-clientX e)
+                       :y (.-clientY e)})
+        on-move (fn [e]
+                  (let [new-pos {:x (.-clientX e)
+                                 :y (.-clientY e)}]
+                    (dispatch [:ui/update-main-frame-pos
+                                {:top (- (:y new-pos) (:y @old-pos))
+                                 :left (- (:x new-pos) (:x @old-pos))}])
+                    (reset! old-pos new-pos)))]
+    (events/listen js/window EventType.MOUSEMOVE on-move)
+    (events/listen js/window EventType.MOUSEUP
+      #(events/unlisten js/window EventType.MOUSEMOVE on-move))))
 
 
 (defn headline []
-  (let [name (subscribe [:name])]
-    (fn []
-      [title
-       :margin-top "0.1em"
-       :label (str "Flow Editor " @name)
-       :level :level1])))
+  [title
+   :class "main-header"
+   :attr {:on-mouse-down headerline-drag}
+   :margin-top "0.1em"
+   :label (str "Flow editor")
+   :level :level1])
 
 
 (defn entity-list []
@@ -31,9 +48,13 @@
                               [button
                                :label "add"
                                :on-click #(dispatch [:ui/open-modal :modals/add-entity])]]]
-                  [:div {:class-name "item-list entity-item-list"}
-                    (for [entity @entities]
-                      ^{:key (:id entity)} [entity-component entity])]]])))
+                  [scroller
+                   :class "item-list entity-item-list"
+                   :min-width "400px"
+                   :child [v-box
+                           :gap "5px"
+                           :children [(for [entity @entities]
+                                        ^{:key (str "entity-" (:id entity))} [entity-component entity])]]]]])))
 
 
 (defn process-list []
@@ -53,11 +74,26 @@
                                :on-click #(dispatch [:ui/open-modal :modals/add-process])]]]
                   [scroller
                    :class "item-list process-item-list"
-                   :size "initial"
-                   :max-height "600px"
+                   :min-width "520px"
                    :child [v-box
+                           :gap "5px"
                            :children [(for [process @processes]
-                                        ^{:key (:id process)} [process-component process])]]]]])))
+                                        ^{:key (str "process-" (:id process))} [process-component process])]]]]])))
+
+
+(defn resize-drag [e]
+  (let [old-pos (atom {:x (.-clientX e)
+                       :y (.-clientY e)})
+        on-move (fn [e]
+                  (let [new-pos {:x (.-clientX e)
+                                 :y (.-clientY e)}]
+                    (dispatch [:ui/update-main-frame-size
+                                {:height (- (:y new-pos) (:y @old-pos))
+                                 :width (- (:x new-pos) (:x @old-pos))}])
+                    (reset! old-pos new-pos)))]
+    (events/listen js/window EventType.MOUSEMOVE on-move)
+    (events/listen js/window EventType.MOUSEUP
+      #(events/unlisten js/window EventType.MOUSEMOVE on-move))))
 
 
 (defn editor []
@@ -66,9 +102,18 @@
       (let [modal (get-modal @modal-key)]
         [v-box
          :size "auto"
+         :width "100%"
+         :height "100%"
          :children [[headline]
-                    [h-box
-                     :size "auto"
-                     :children [[entity-list]
-                                [process-list]]]
+                    [scroller
+                     :class "main-content"
+                     :v-scroll :off
+                     :child [h-box
+                             :size "auto"
+                             :gap "10px"
+                             :children [[entity-list]
+                                        [process-list]]]]
+                    [:div
+                     {:class-name "resize-drag"
+                      :on-mouse-down resize-drag}]
                     [modal]]]))))

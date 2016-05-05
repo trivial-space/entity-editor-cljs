@@ -57,6 +57,7 @@
         [h-box
          :children [[input-text
                      :model name
+                     :width "160px"
                      :on-change #(dispatch [:flow-runtime/rename-port pid name %])]
                     [single-dropdown
                      :choices port-type-choices
@@ -119,10 +120,9 @@
   (let [code-changes (atom (:code process))
         id (:id process)]
     (fn [process]
-      [:div
-       {:class-name "process-component"
-        :style {:padding "10px"}}
        [v-box
+        :class "process-component"
+        :gap "5px"
         :children [[header id]
                    [ports-editor (:ports process) id]
                    [label :label "process code"]
@@ -131,4 +131,4 @@
                     :label "update"
                     :on-click #(dispatch [:flow-runtime/update-process-code id @code-changes])]
                    [label :label "output"]
-                   [output-port id]]]])))
+                   [output-port id]]])))

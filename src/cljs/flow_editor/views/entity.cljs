@@ -51,15 +51,14 @@
         value-tab-selection (r/atom (:id (first value-tabs)))]
     (fn [entity]
       (let [current-value (.stringify js/JSON (:value @value-ratom) nil "   ")]
-        [:div
-         {:class-name "entity-component"
-          :style {:padding "10px"}}
-         [v-box
-          :children [[header entity]
-                     [horizontal-bar-tabs
-                      :tabs value-tabs
-                      :model value-tab-selection
-                      :on-change #(reset! value-tab-selection %)]
-                     (if (= @value-tab-selection ::initial)
-                       [initial-value-editor id (:value entity)]
-                       [:pre current-value])]]]))))
+        [v-box
+         :class "entity-component"
+         :gap "5px"
+         :children [[header entity]
+                    [horizontal-bar-tabs
+                     :tabs value-tabs
+                     :model value-tab-selection
+                     :on-change #(reset! value-tab-selection %)]
+                    (if (= @value-tab-selection ::initial)
+                      [initial-value-editor id (:value entity)]
+                      [:pre current-value])]]))))

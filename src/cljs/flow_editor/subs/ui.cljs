@@ -4,12 +4,24 @@
 
 
 (register-sub
- :ui/code-mirror-defaults
- (fn [db]
-   (reaction (:code-mirror-defaults @db))))
+  :ui/code-mirror-defaults
+  (fn [db]
+    (reaction (:code-mirror-defaults @db))))
 
 
 (register-sub
   :ui/modal
- (fn [db]
-   (reaction (:modal @db))))
+  (fn [db]
+    (reaction (get-in @db [:ui :modal]))))
+
+
+(register-sub
+  :ui/main-frame-dimensions
+  (fn [db]
+    (reaction (get-in @db [:ui :main-frame-dimensions]))))
+
+
+(register-sub
+  :ui/window-size
+  (fn [db]
+    (reaction (get-in @db [:ui :window-size]))))

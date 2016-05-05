@@ -4,6 +4,7 @@
               [flow-editor.handlers.core]
               [flow-editor.subs.core]
               [flow-editor.views.editor :refer [editor]]
+              [flow-editor.views.main-frame :as main-frame]
               [flow-editor.config :as config]
               [cljs.pprint :refer [pprint]]))
 
@@ -26,7 +27,8 @@
 (defn mount-root []
   (let [el (or (.getElementById js/document root-el-id)
                (create-root-el))]
-    (reagent/render [editor] el)))
+    (reagent/render [editor] el)
+    (main-frame/setup el)))
 
 
 (defn ^:export init
