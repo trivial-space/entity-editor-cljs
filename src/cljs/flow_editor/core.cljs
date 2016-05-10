@@ -10,7 +10,12 @@
 
 
 (when config/debug?
-  (println "dev mode"))
+  (println "dev mode")
+  (defn inspect-db
+    ([]
+     (println (pprint @re-frame.db/app-db)))
+    ([k]
+     (println (pprint (k @re-frame.db/app-db))))))
 
 
 (def root-el-id "tvs-flow-editor")
@@ -39,10 +44,3 @@
   ([flow-runtime local-storage-key]
    (init flow-runtime)
    (dispatch-sync [:initialize-local-storage-key local-storage-key])))
-
-
-(defn inspect-db
-  ([]
-   (println (pprint @re-frame.db/app-db)))
-  ([k]
-   (println (pprint (k @re-frame.db/app-db)))))

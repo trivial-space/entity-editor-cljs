@@ -53,7 +53,6 @@
                              (union (if current-entity #{current-entity} #{}))
                              (mapv (fn [id] {:id id :label id}))
                              (concat [{:id nil :label "-- Disconnect !"}]))]
-        (println port-types)
         [h-box
          :children [[input-text
                      :model name

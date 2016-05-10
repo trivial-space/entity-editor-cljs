@@ -17,12 +17,11 @@
 ;; ===== Entity handlers =====
 
 (register-handler
- :flow-runtime/add-entity
- (fn [db [_ entity-id]]
-   (.addEntity (:runtime db) #js {:id entity-id})
-   (dispatch [:ui/close-modal])
-   (dispatch [:flow-runtime/watch-entity entity-id])
-   (update-runtime db)))
+  :flow-runtime/add-entity
+  (fn [db [_ entity-id]]
+    (.addEntity (:runtime db) #js {:id entity-id})
+    (dispatch [:ui/close-modal])
+    (update-runtime db)))
 
 
 (register-handler
@@ -39,7 +38,7 @@
   :flow-runtime/unwatch-entity
   (fn [db [_ entity-id]]
     (.off (:runtime db) entity-id)
-    (update-in db [:entity-values] dissoc entity-id)))
+    db))
 
 
 (register-handler
@@ -50,82 +49,99 @@
 
 
 (register-handler
- :flow-runtime/remove-entity
- (fn [db [_ entity-id]]
-   (.removeEntity (:runtime db) entity-id)
-   (update-runtime db)))
+  :flow-runtime/remove-entity
+  (fn [db [_ entity-id]]
+    (.removeEntity (:runtime db) entity-id)
+    (update-runtime db)))
 
+
+(register-handler
+  :flow-runtime/edit-entity-value
+  (fn [db [_ eid value]]
+    (println "updating initial value" eid value)
+    (let [e (get-in db [:graph :entities (keyword eid)])]
+      (->> (merge e {:value value})
+        (clj->js)
+        (.addEntity (:runtime db))))
+    (update-runtime db)))
+
+
+(register-handler
+  :flow-runtime/set-current-value
+  (fn [db [_ eid value]]
+    (.set (:runtime db) eid value)
+    db))
 
 ;; ===== Process handlers =====
 
 (register-handler
- :flow-runtime/add-process
- (fn [db [_ process-id]]
-   (.addProcess (:runtime db) #js {:id process-id :code default-process-code})
-   (dispatch [:ui/close-modal])
-   (update-runtime db)))
+  :flow-runtime/add-process
+  (fn [db [_ process-id]]
+    (.addProcess (:runtime db) #js {:id process-id :code default-process-code})
+    (dispatch [:ui/close-modal])
+    (update-runtime db)))
 
 
 (register-handler
- :flow-runtime/remove-process
- (fn [db [_ process-id]]
-   (.removeProcess (:runtime db) process-id)
-   (update-runtime db)))
+  :flow-runtime/remove-process
+  (fn [db [_ process-id]]
+    (.removeProcess (:runtime db) process-id)
+    (update-runtime db)))
 
 
 (register-handler
- :flow-runtime/update-process-code
- (fn [db [_ pid code]]
-   (let [p (get-in db [:graph :processes (keyword pid)])]
-     (->> (merge p {:code code :procedure nil})
-      (clj->js)
-      (.addProcess (:runtime db)))
-     (update-runtime db))))
+  :flow-runtime/update-process-code
+  (fn [db [_ pid code]]
+    (let [p (get-in db [:graph :processes (keyword pid)])]
+      (->> (merge p {:code code :procedure nil})
+        (clj->js)
+        (.addProcess (:runtime db))))
+    (update-runtime db)))
 
 
 (register-handler
- :flow-runtime/start-process
- (fn [db [_ pid]]
-   (.start (:runtime db) pid)
-   db))
+  :flow-runtime/start-process
+  (fn [db [_ pid]]
+    (.start (:runtime db) pid)
+    db))
 
 
 (register-handler
- :flow-runtime/stop-process
- (fn [db [_ pid]]
-   (.stop (:runtime db) pid)
-   db))
+  :flow-runtime/stop-process
+  (fn [db [_ pid]]
+    (.stop (:runtime db) pid)
+    db))
 
 
 (register-handler
- :flow-runtime/add-process-port
- (fn [db [_ pid]]
-   (let [p (get-in db [:graph :processes (keyword pid)])
-         runtime (:runtime db)
-         ports (merge (:ports p) {"" (.-PORT_TYPES.COLD runtime)})]
-     (.addProcess runtime (clj->js (merge p {:ports ports})))
-     (update-runtime db))))
+  :flow-runtime/add-process-port
+  (fn [db [_ pid]]
+    (let [p (get-in db [:graph :processes (keyword pid)])
+          runtime (:runtime db)
+          ports (merge (:ports p) {"" (.-PORT_TYPES.COLD runtime)})]
+      (.addProcess runtime (clj->js (merge p {:ports ports}))))
+    (update-runtime db)))
 
 
 (register-handler
- :flow-runtime/rename-port
- (fn [db [_ pid old-name new-name]]
-   (let [p (get-in db [:graph :processes (keyword pid)])
-         runtime (:runtime db)
-         port-type (get-in p [:ports (keyword old-name)])
-         ports (-> (:ports p)
-                 (dissoc (keyword old-name))
-                 (assoc (keyword new-name) port-type))
-         arcs (->> (get-in db [:graph :arcs])
-                (vals)
-                (filter (fn [{:keys [process port] :as arc}]
-                          (and (= process pid)
-                               (or (= port old-name)
-                                   (= port new-name))))))]
-     (doseq [arc arcs]
-       (.removeArc runtime (:id arc)))
-     (.addProcess runtime (clj->js (merge p {:ports ports})))
-     (update-runtime db))))
+  :flow-runtime/rename-port
+  (fn [db [_ pid old-name new-name]]
+    (let [p (get-in db [:graph :processes (keyword pid)])
+          runtime (:runtime db)
+          port-type (get-in p [:ports (keyword old-name)])
+          ports (-> (:ports p)
+                  (dissoc (keyword old-name))
+                  (assoc (keyword new-name) port-type))
+          arcs (->> (get-in db [:graph :arcs])
+                 (vals)
+                 (filter (fn [{:keys [process port] :as arc}]
+                           (and (= process pid)
+                                (or (= port old-name)
+                                    (= port new-name))))))]
+      (doseq [arc arcs]
+        (.removeArc runtime (:id arc)))
+      (.addProcess runtime (clj->js (merge p {:ports ports})))
+      (update-runtime db))))
 
 
 (register-handler

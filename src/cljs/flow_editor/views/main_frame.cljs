@@ -8,7 +8,6 @@
 
 (defn setup
   [el]
-  (println js/window)
   (let [window-w (.-innerWidth js/window)
         window-h (.-innerHeight js/window)
         r (.getBoundingClientRect el)
