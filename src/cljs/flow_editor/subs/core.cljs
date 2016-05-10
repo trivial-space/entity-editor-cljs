@@ -6,6 +6,12 @@
 
 
 (register-sub
- :name
- (fn [db]
-   (reaction (:name @db))))
+  :name
+  (fn [db]
+    (reaction (:name @db))))
+
+
+(register-sub
+  :graph
+  (fn [db]
+    (reaction (:graph @db))))

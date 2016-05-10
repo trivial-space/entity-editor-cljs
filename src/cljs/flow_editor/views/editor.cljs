@@ -1,7 +1,7 @@
 (ns flow-editor.views.editor
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
-            [re-com.core :refer [title button v-box h-box box h-split scroller]]
+            [re-com.core :refer [title button v-box gap h-box box h-split scroller]]
             [flow-editor.views.process :refer [process-component]]
             [flow-editor.views.entity :refer [entity-component]]
             [flow-editor.views.modals.helpers :refer [get-modal]]
@@ -25,12 +25,20 @@
 
 
 (defn headline []
-  [title
-   :class "main-header"
-   :attr {:on-mouse-down headerline-drag}
-   :margin-top "0.1em"
-   :label (str "Flow editor")
-   :level :level1])
+  [h-box
+   :children [[title
+               :class "main-header"
+               :attr {:on-mouse-down headerline-drag}
+               :margin-top "0.1em"
+               :label (str "Flow editor")
+               :level :level1]
+              [gap
+               :size "auto"
+               :class "main-header"
+               :attr {:on-mouse-down headerline-drag}]
+              [button
+               :label "export"
+               :on-click #(dispatch [:ui/open-modal :modals/export-graph])]]])
 
 
 (defn entity-list []
