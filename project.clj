@@ -4,7 +4,8 @@
                  [reagent "0.6.0-alpha2"]
                  [re-frame "0.7.0"]
                  [re-com "0.8.3"]
-                 [cljsjs/codemirror "5.11.0-1"]]
+                 [cljsjs/codemirror "5.11.0-1"]
+                 [cljsjs/vis "4.16.1-0"]]
 
   :min-lein-version "2.5.3"
 

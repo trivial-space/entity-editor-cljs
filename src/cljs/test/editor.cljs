@@ -13,15 +13,7 @@
 
     (when graph
       (println graph "at" local-storage-key)
-      (let [arcs (aget graph "arcs")
-            processes (aget graph "processes")
-            entities (aget graph "entities")]
-        (doseq [k (.keys js/Object entities)]
-          (.addEntity runtime (aget entities k)))
-        (doseq [k (.keys js/Object processes)]
-          (.addProcess runtime (aget processes k)))
-        (doseq [k (.keys js/Object arcs)]
-          (.addArc runtime (aget arcs k)))))
+      (.addGraph runtime graph))
 
     (aset js/window "runtime" runtime)
     (editor/init runtime local-storage-key)))

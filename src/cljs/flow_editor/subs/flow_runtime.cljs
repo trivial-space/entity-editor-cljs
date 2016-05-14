@@ -3,6 +3,12 @@
   (:require [re-frame.core :refer [register-sub]]))
 
 
+(register-sub
+  :flow-runtime/graph
+  (fn [db]
+    (reaction (:graph @db))))
+
+
 ;; ===== Entity subscriptions =====
 
 (register-sub

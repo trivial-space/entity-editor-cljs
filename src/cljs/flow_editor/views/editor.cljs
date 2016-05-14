@@ -4,6 +4,7 @@
             [re-com.core :refer [title button v-box gap h-box box h-split scroller]]
             [flow-editor.views.process :refer [process-component]]
             [flow-editor.views.entity :refer [entity-component]]
+            [flow-editor.views.graph-viewer :refer [graph-component]]
             [flow-editor.views.modals.helpers :refer [get-modal]]
             [goog.events :as events])
   (:import [goog.events EventType]))
@@ -119,7 +120,15 @@
                      :child [h-box
                              :size "auto"
                              :gap "10px"
-                             :children [[entity-list]
+                             :children [[v-box
+                                         :min-width "500px"
+                                         :children [[title
+                                                     :label "Graph"
+                                                     :level :level2
+                                                     :margin-top "0.1em"]
+                                                    [graph-component]]]
+
+                                        [entity-list]
                                         [process-list]]]]
                     [:div
                      {:class-name "resize-drag"
