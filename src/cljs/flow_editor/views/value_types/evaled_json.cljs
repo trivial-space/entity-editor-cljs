@@ -27,9 +27,9 @@
 
 (defn initial-value-editor
   [eid value]
-  (let [changes (atom value)]
+  (let [changes (atom (json value))]
     [v-box
-     :children [[cm (json value) {:mode "javascript"} changes]
+     :children [[cm @changes {:mode "javascript"} changes]
                 [button
                  :label "update"
                  :on-click #(dispatch [:flow-runtime/edit-entity-value
