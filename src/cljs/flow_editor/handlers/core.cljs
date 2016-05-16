@@ -17,7 +17,6 @@
     (let [new-db (assoc db :runtime runtime)
           new-db (flow-handler/update-runtime new-db)]
       (doseq [entity (vals (get-in new-db [:graph :entities]))]
-        (println "watching entity " entity)
         (dispatch [:flow-runtime/watch-entity (:id entity)]))
       new-db)))
 

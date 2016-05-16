@@ -40,7 +40,6 @@
   [eid current-value]
   (let [editing (r/atom false)]
     (fn [eid current-value]
-      (println current-value)
       (if @editing
         (let [changes (atom (json (:value current-value)))]
           (dispatch [:flow-runtime/unwatch-entity eid])

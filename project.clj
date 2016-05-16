@@ -23,10 +23,10 @@
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/cljs"]
                         :figwheel {:on-jsload "flow-editor.core/mount-root"}
-                        :compiler {:main test.editor
+                        :compiler {:main dev.editor
                                    :output-to "resources/public/js/compiled/app.js"
                                    :output-dir "resources/public/js/compiled/out"
-                                   :asset-path "js/compiled/out"
+                                   :asset-path "/js/compiled/out"
                                    :foreign-libs [{:file "libs/flow/build/tvs-flow.js"
                                                    :provides ["libs.flow"]}]
                                    :source-map-timestamp true}}
