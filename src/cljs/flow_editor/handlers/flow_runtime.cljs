@@ -157,10 +157,12 @@
                 (filter (fn [{:keys [process port] :as arc}]
                           (and (= process pid)
                                (= port port-name)))))]
-     (when (= port-type (.-PORT_TYPES.ACCUMULATOR runtime))
-       (doseq [arc arcs]
-         (.removeArc runtime (:id arc))))
      (.addProcess runtime (clj->js (merge p {:ports ports})))
+     (if (= port-type (.-PORT_TYPES.ACCUMULATOR runtime))
+       (doseq [arc arcs]
+         (.removeArc runtime (:id arc)))
+       (doseq [arc arcs]
+         (.addArc runtime (clj->js arc))))
      (update-runtime db))))
 
 
