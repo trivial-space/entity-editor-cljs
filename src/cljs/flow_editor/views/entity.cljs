@@ -34,6 +34,7 @@
 
 (defn initial-value-editor
   [eid value type mode]
+  (dispatch [:flow-runtime/unwatch-entity eid])
   (if value
     [v-box
      :gap "10px"

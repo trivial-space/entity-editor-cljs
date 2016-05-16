@@ -29,9 +29,9 @@
   (fn [db [_ entity-id]]
     (.on (:runtime db) entity-id #(dispatch [:flow-runtime/entity-value-changed
                                              entity-id %]))
-    (dispatch [:flow-runtime/entity-value-changed
-               entity-id (.get (:runtime db) entity-id)])
-    db))
+    (let [i (get-in db [:entity-values entity-id :iter] 0)]
+      (assoc-in db [:entity-values entity-id]
+                {:iter i :value (.get (:runtime db) entity-id)}))))
 
 
 (register-handler

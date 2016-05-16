@@ -38,23 +38,24 @@
 
 (defn current-value-editor
   [eid current-value]
-  (let [editing (r/atom false)
-        changes (atom (json (:value current-value)))]
+  (let [editing (r/atom false)]
     (fn [eid current-value]
+      (println current-value)
       (if @editing
-        (do (dispatch [:flow-runtime/unwatch-entity eid])
-            [v-box
-             :children [[cm (json (:value current-value)) {:mode "javascript"} changes]
-                        [h-box
-                         :gap "10px"
-                         :children [[button
-                                     :label "set"
-                                     :on-click #(do (dispatch [:flow-runtime/set-current-value
-                                                               eid (eval @changes)])
-                                                    (reset! editing false))]
-                                    [button
-                                     :label "cancel"
-                                     :on-click #(reset! editing false)]]]]])
+        (let [changes (atom (json (:value current-value)))]
+          (dispatch [:flow-runtime/unwatch-entity eid])
+          [v-box
+           :children [[cm @changes {:mode "javascript"} changes]
+                      [h-box
+                       :gap "10px"
+                       :children [[button
+                                   :label "set"
+                                   :on-click #(do (dispatch [:flow-runtime/set-current-value
+                                                             eid (eval @changes)])
+                                                  (reset! editing false))]
+                                  [button
+                                   :label "cancel"
+                                   :on-click #(reset! editing false)]]]]])
         (do (dispatch [:flow-runtime/watch-entity eid])
             [v-box
              :children [[:pre (json (:value current-value))]
