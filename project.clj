@@ -42,13 +42,14 @@
                        {:id "min"
                         :source-paths ["src/cljs"]
                         :compiler {:main flow-editor.core
-                                   :output-to "resources/public/js/compiled/app.js"
+                                   :output-to "resources/public/js/dist/app.js"
                                    :optimizations :advanced
                                    :closure-defines {goog.DEBUG false}
                                    :foreign-libs [{:file "libs/flow/build/tvs-flow.js"
                                                    :provides ["libs.flow"]}]
-                                   :externs ["libs/flow/externs/tvs-flow-externs.js"]
-                                   :pretty-print false}}]}
+                                   :externs ["libs/flow/externs/tvs-flow-externs.js"
+                                             "resources/externs/main.js"]
+                                   :pretty-print true}}]}
   :repl-options {:port 8999
                  :init (do
                          (use 'figwheel-sidecar.repl-api)

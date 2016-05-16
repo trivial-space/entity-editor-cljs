@@ -3,7 +3,8 @@ const gulp = require('gulp'),
       autoprefixer = require('gulp-autoprefixer'),
       postcss = require('gulp-postcss'),
       stylus = require('gulp-stylus'),
-      lost = require('lost')
+      lost = require('lost'),
+      webpack = require('webpack-stream')
 
 
 const paths = {
@@ -11,6 +12,13 @@ const paths = {
   styles: 'src/styles/**/*',
   styleDest: 'resources/public/css'
 }
+
+
+gulp.task('flow-runtime', function() {
+  return gulp.src('libs/flow/lib/index.js')
+    .pipe(webpack( require('./libs/flow/webpack.config.js') ))
+    .pipe(gulp.dest('resources/public/js/libs'));
+})
 
 
 gulp.task('styles', function() {

@@ -47,7 +47,7 @@
  :flow-runtime/port-types
  (fn [db]
    (when-let [runtime (:runtime @db)]
-    (reaction (js->clj (.-PORT_TYPES runtime))))))
+    (reaction (js->clj (aget runtime "PORT_TYPES"))))))
 
 
 (register-sub

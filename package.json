@@ -1,10 +1,15 @@
 {
   "devDependencies": {
+    "babel-core": "^6.8.0",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-postcss": "^6.1.1",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-stylus": "^2.3.1",
-    "lost": "^6.7.2"
+    "lost": "^6.7.2",
+    "webpack-stream": "^3.2.0"
   }
 }

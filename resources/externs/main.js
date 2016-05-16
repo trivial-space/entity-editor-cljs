@@ -1,0 +1,3 @@
+CodeMirror.Vim = {
+  map: function() {}
+}

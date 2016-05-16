@@ -6,7 +6,7 @@
 (def runtime (.create js/tvsFlow))
 
 (defn ^:export init []
-  (let [local-storage-key "__flowEditorStorage"
+  (let [local-storage-key "__test_graph1"
         graph (->> local-storage-key
                 (.getItem js/localStorage)
                 (.parse js/JSON))]
