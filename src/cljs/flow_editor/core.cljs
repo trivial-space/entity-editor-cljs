@@ -21,26 +21,28 @@
 (def root-el-id "tvs-flow-editor")
 
 
-(defn create-root-el
-  []
+(defn create-root-el []
   (let [el (.createElement js/document "div")]
     (aset el "id" root-el-id)
     (.appendChild (.-body js/document) el)
     el))
 
 
+(defonce el
+  (or (.getElementById js/document root-el-id)
+      (create-root-el)))
+
+
 (defn mount-root []
-  (let [el (or (.getElementById js/document root-el-id)
-               (create-root-el))]
-    (reagent/render [editor] el)
-    (main-frame/setup el)))
+  (reagent/render [editor] el))
 
 
 (defn ^:export init
   ([flow-runtime]
    (dispatch-sync [:initialize-db])
    (dispatch-sync [:initialize-flow-runtime flow-runtime])
-   (mount-root))
+   (mount-root)
+   (main-frame/setup el))
   ([flow-runtime local-storage-key]
    (init flow-runtime)
    (dispatch-sync [:initialize-local-storage-key local-storage-key])))

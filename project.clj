@@ -23,7 +23,7 @@
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/cljs"]
                         :figwheel {:on-jsload "flow-editor.core/mount-root"}
-                        :compiler {:main dev.editor
+                        :compiler {:main flow-editor.core
                                    :output-to "resources/public/js/compiled/app.js"
                                    :output-dir "resources/public/js/compiled/out"
                                    :asset-path "/js/compiled/out"
