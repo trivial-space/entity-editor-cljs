@@ -1,5 +1,4 @@
 var graph =
-
 {
     "entities": {
         "mouse-position": {
@@ -36,7 +35,7 @@ var graph =
         "mouse-move-collector": {
             "id": "mouse-move-collector",
             "ports": {},
-            "code": "function(ports, send) {\n\tfunction onMouseMove(e) {\n      send({x: e.clientX, y: e.clientY});\n    };\n  \n  window.addEventListener(\"mousemove\", onMouseMove);\n  \n  return function stop() {\n  \twindow.removeEventListener(\"mousemove\", onMouseMove);\n  }\n}",
+            "code": "function(ports, send) {\n\n\tfunction onMouseMove(e) {\n\t\tsend({x: e.clientX, y: e.clientY});\n\t};\n\n\twindow.addEventListener(\"mousemove\", onMouseMove);\n\n\treturn function stop() {\n\t\twindow.removeEventListener(\"mousemove\", onMouseMove);\n\t}\n}",
             "autostart": true,
             "meta": {}
         },
@@ -46,14 +45,14 @@ var graph =
                 "position": "hot",
                 "size": "hot"
             },
-            "code": "function(ports, send) {\n\tsend({\n      x: ports.position.x / ports.size.width,\n      y: ports.position.y / ports.size.height,\n    });\n}",
+            "code": "function(ports, send) {\n\n\tsend({\n\t\tx: ports.position.x / ports.size.width,\n\t\ty: ports.position.y / ports.size.height,\n\t});\n}",
             "autostart": null,
             "meta": {}
         },
         "window-size-collector": {
             "id": "window-size-collector",
             "ports": {},
-            "code": "function(ports, send) {\n\tfunction onResize(e) {\n      send({width: window.innerWidth, height: window.innerHeight});\n    };\n  onResize();\n  \n  window.addEventListener(\"resize\", onResize);\n  \n  return function stop() {\n  \twindow.removeEventListener(\"resize\", onResize);\n  }\n}",
+            "code": "function(ports, send) {\n\n\tfunction onResize(e) {\n\t\tsend({width: window.innerWidth, height: window.innerHeight});\n\t};\n\n\tonResize();\n\n\twindow.addEventListener(\"resize\", onResize);\n\n\treturn function stop() {\n\t\twindow.removeEventListener(\"resize\", onResize);\n\t}\n}",
             "autostart": true,
             "meta": {}
         },
@@ -63,7 +62,7 @@ var graph =
                 "ratio": "hot",
                 "base_color": "hot"
             },
-            "code": "function(ports, send) {\n  var base = ports.base_color,\n  \t  rY = ports.ratio.y,\n      rX = ports.ratio.x;\n\tsend([\n      Math.floor(base[0] * rY), \n      Math.floor(base[1] * rX), \n      Math.floor(base[2] * rY * rX)\n    ]);\n}",
+            "code": "function(ports, send) {\n\n\tvar base = ports.base_color,\n\t\t\trY = ports.ratio.y,\n\t\t  rX = ports.ratio.x;\n\n\tsend([\n\t\tMath.floor(base[0] * rY), \n\t\tMath.floor(base[1] * rX), \n\t\tMath.floor(base[2] * rY * rX)\n\t]);\n}",
             "autostart": null,
             "meta": {}
         },
@@ -72,7 +71,7 @@ var graph =
             "ports": {
                 "color": "hot"
             },
-            "code": "function(ports, send) {\n  var c = ports.color;\n  document.body.style.backgroundColor = \"rgb(\" \n    + c[0] + \", \"\n    + c[1] + \", \"\n    + c[2] + \")\"\n}",
+            "code": "function(ports, send) {\n\n\tvar c = ports.color;\n\n\tdocument.body.style.backgroundColor = \"rgb(\" \n\t\t+ c[0] + \", \"\n\t\t+ c[1] + \", \"\n\t\t+ c[2] + \")\";\n}",
             "autostart": null,
             "meta": {}
         }

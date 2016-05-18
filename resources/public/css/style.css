@@ -13513,9 +13513,11 @@
 }
 #tvs-flow-editor .CodeMirror {
   height: auto;
+  max-width: 600px;
   font-family: "Source Code Pro", Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
   line-height: 1.5;
   font-size: 15px;
+  border-radius: 4px;
 }
 
 /*# sourceMappingURL=style.css.map */

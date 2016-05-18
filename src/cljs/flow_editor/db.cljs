@@ -10,6 +10,10 @@
       :showCursorWhenSelecting true
       :viewportMargin js/Infinity
       :scrollbarStyle nil
+      :tabSize 2
+      :indentWithTabs true
+      :autoCloseBrackets true
+      :showTrailingSpace true
       :autoRefresh true}
    :runtime nil
    :graph nil

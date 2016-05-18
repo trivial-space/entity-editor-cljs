@@ -122,6 +122,7 @@
                              :gap "10px"
                              :children [[v-box
                                          :min-width "500px"
+                                         :size "auto"
                                          :children [[title
                                                      :label "Graph"
                                                      :level :level2

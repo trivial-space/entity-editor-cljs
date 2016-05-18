@@ -7,13 +7,14 @@
             [cljsjs.codemirror.addon.edit.closetag]
             [cljsjs.codemirror.addon.edit.matchbrackets]
             [cljsjs.codemirror.addon.edit.matchtags]
+            [cljsjs.codemirror.addon.edit.trailingspace]
             [cljsjs.codemirror.addon.display.autorefresh]
             [re-frame.core :refer [subscribe]]
             [reagent.core :as r]))
 
 
-(.map CodeMirror/Vim "jj" "<Esc>" "insert")
-(.map CodeMirror/Vim "kk" "<Esc>" "insert")
+(.map js/CodeMirror.Vim "jj" "<Esc>" "insert")
+(.map js/CodeMirror.Vim "kk" "<Esc>" "insert")
 
 
 (defn cm-inner []
