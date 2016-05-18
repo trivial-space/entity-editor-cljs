@@ -10,6 +10,7 @@
                                  title
                                  label
                                  button
+                                 gap
                                  v-box
                                  h-box
                                  box]]))
@@ -126,8 +127,13 @@
                    [ports-editor (:ports process) id]
                    [label :label "process code"]
                    [cm (:code process) {:mode "javascript"} code-changes]
-                   [button
-                    :label "update"
-                    :on-click #(dispatch [:flow-runtime/update-process-code id @code-changes])]
-                   [label :label "output"]
-                   [output-port id]]])))
+                   [h-box
+                    :gap "10px"
+                    :children [[button
+                                :label "update"
+                                :on-click #(dispatch [:flow-runtime/update-process-code id @code-changes])]
+                               [gap :size "auto"]
+                               [label
+                                :label "output"
+                                :style {:margin-top "8px"}]
+                               [output-port id]]]]])))
