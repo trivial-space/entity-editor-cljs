@@ -10,10 +10,18 @@
 
 
 (def graph-options
-  {:layout {:randomSeed 3}
+  {:layout {:randomSeed 3
+            :hierarchical {:sortMethod "directed"}}
    :edges {:arrows "to"
            :smooth false
-           :color {:inherit "from"}}
+           :color {:inherit "from"}
+           :shadow true
+           :width 2}
+   :nodes {:shadow true
+           :font {:size 20
+                  :strokeColor "white"
+                  :strokeWidth 2}
+           :size 23}
    :physics {:enabled true
              :forceAtlas2Based {:avoidOverlap 0.4
                                 :gravitationalConstant -70
@@ -34,11 +42,12 @@
                        entity-nodes (->> (:entities graph)
                                       (keys)
                                       (map (fn [e]
-                                             {:id e :label e :shape "box" :group "entities"})))
+                                             {:id e :label e :shape "square" :group "entities"})))
                        process-nodes (->> (:processes graph)
                                        (keys)
                                        (map (fn [p]
-                                              {:id p :label p :group "processes"})))
+                                              {:id p :label p :shape "dot" :group "processes"})))
+                       nodes (concat entity-nodes process-nodes)
                        edges (->> (:arcs graph)
                                (vals)
                                (map (fn [a]
@@ -49,8 +58,7 @@
                                           (if (= port (get @types "COLD"))
                                             (assoc edge :dashes true)
                                             edge))
-                                        {:from (:process a) :to (:entity a)}))))
-                       nodes (concat entity-nodes process-nodes)]
+                                        {:from (:process a) :to (:entity a)}))))]
                    (.setSize net (aget dom-rect "width") (aget dom-rect "height"))
                    (.setData net (clj->js {:nodes nodes :edges edges}))))]
 

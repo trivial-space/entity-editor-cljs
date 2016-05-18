@@ -1,4 +1,5 @@
 var graph =
+
 {
     "entities": {
         "mouse-position": {
@@ -20,14 +21,23 @@ var graph =
             "id": "color",
             "value": null,
             "meta": {}
+        },
+        "base-color": {
+            "id": "base-color",
+            "value": [
+                198,
+                58,
+                155
+            ],
+            "meta": {}
         }
     },
     "processes": {
         "mouse-move-collector": {
             "id": "mouse-move-collector",
-            "autostart": true,
             "ports": {},
             "code": "function(ports, send) {\n\tfunction onMouseMove(e) {\n      send({x: e.clientX, y: e.clientY});\n    };\n  \n  window.addEventListener(\"mousemove\", onMouseMove);\n  \n  return function stop() {\n  \twindow.removeEventListener(\"mousemove\", onMouseMove);\n  }\n}",
+            "autostart": true,
             "meta": {}
         },
         "to-ratio": {
@@ -42,17 +52,18 @@ var graph =
         },
         "window-size-collector": {
             "id": "window-size-collector",
-            "autostart": true,
             "ports": {},
             "code": "function(ports, send) {\n\tfunction onResize(e) {\n      send({width: window.innerWidth, height: window.innerHeight});\n    };\n  onResize();\n  \n  window.addEventListener(\"resize\", onResize);\n  \n  return function stop() {\n  \twindow.removeEventListener(\"resize\", onResize);\n  }\n}",
+            "autostart": true,
             "meta": {}
         },
-        "ration-to-color": {
-            "id": "ration-to-color",
+        "ratio-to-color": {
+            "id": "ratio-to-color",
             "ports": {
-                "ratio": "hot"
+                "ratio": "hot",
+                "base_color": "hot"
             },
-            "code": "function(ports, send) {\n  function to_8_bit(ratio) {\n     return Math.floor(Math.min(ratio, 1) * 255)\n  }\n\tsend([to_8_bit(ports.ratio.y), to_8_bit(ports.ratio.x), 155]);\n}",
+            "code": "function(ports, send) {\n  var base = ports.base_color,\n  \t  rY = ports.ratio.y,\n      rX = ports.ratio.x;\n\tsend([\n      Math.floor(base[0] * rY), \n      Math.floor(base[1] * rX), \n      Math.floor(base[2] * rY * rX)\n    ]);\n}",
             "autostart": null,
             "meta": {}
         },
@@ -67,20 +78,6 @@ var graph =
         }
     },
     "arcs": {
-        "mouse-move-collector->mouse-position": {
-            "id": "mouse-move-collector->mouse-position",
-            "entity": "mouse-position",
-            "process": "mouse-move-collector",
-            "port": null,
-            "meta": {}
-        },
-        "mouse-position->to-ratio::position": {
-            "id": "mouse-position->to-ratio::position",
-            "entity": "mouse-position",
-            "process": "to-ratio",
-            "port": "position",
-            "meta": {}
-        },
         "window-size-collector->window-size": {
             "id": "window-size-collector->window-size",
             "entity": "window-size",
@@ -95,6 +92,13 @@ var graph =
             "port": "size",
             "meta": {}
         },
+        "ratio-to-color->color": {
+            "id": "ratio-to-color->color",
+            "entity": "color",
+            "process": "ratio-to-color",
+            "port": null,
+            "meta": {}
+        },
         "to-ratio->position-ratio": {
             "id": "to-ratio->position-ratio",
             "entity": "position-ratio",
@@ -102,18 +106,25 @@ var graph =
             "port": null,
             "meta": {}
         },
-        "position-ratio->ration-to-color::ratio": {
-            "id": "position-ratio->ration-to-color::ratio",
-            "entity": "position-ratio",
-            "process": "ration-to-color",
-            "port": "ratio",
+        "mouse-move-collector->mouse-position": {
+            "id": "mouse-move-collector->mouse-position",
+            "entity": "mouse-position",
+            "process": "mouse-move-collector",
+            "port": null,
             "meta": {}
         },
-        "ration-to-color->color": {
-            "id": "ration-to-color->color",
-            "entity": "color",
-            "process": "ration-to-color",
-            "port": null,
+        "base-color->ratio-to-color::base_color": {
+            "id": "base-color->ratio-to-color::base_color",
+            "entity": "base-color",
+            "process": "ratio-to-color",
+            "port": "base_color",
+            "meta": {}
+        },
+        "position-ratio->ratio-to-color::ratio": {
+            "id": "position-ratio->ratio-to-color::ratio",
+            "entity": "position-ratio",
+            "process": "ratio-to-color",
+            "port": "ratio",
             "meta": {}
         },
         "color->background-color::color": {
@@ -121,6 +132,13 @@ var graph =
             "entity": "color",
             "process": "background-color",
             "port": "color",
+            "meta": {}
+        },
+        "mouse-position->to-ratio::position": {
+            "id": "mouse-position->to-ratio::position",
+            "entity": "mouse-position",
+            "process": "to-ratio",
+            "port": "position",
             "meta": {}
         }
     },
