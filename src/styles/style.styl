@@ -41,7 +41,9 @@
 
   .main-header
     user-select: none
-    cursor: grab
+
+    &:not(.fullscreen)
+      cursor: grab
 
   .main-content
     user-select: none
@@ -53,7 +55,7 @@
     bottom: 0
     width: 20px
     height: 20px
-    cursor: grab
+    cursor: nwse-resize
     background: linear-gradient(to bottom right, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.2) 51%)
 
   .entity-component

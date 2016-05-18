@@ -20,11 +20,14 @@
    :entity-values {}
    :ui
      {:modal nil
+      :minimized? false
+      :fullscreen? false
       :main-frame-dimensions
-       {:width 0
-        :height 0
-        :top 0
-        :left 0}
+       {:current {:width 0
+                  :height 0
+                  :top 0
+                  :left 0}
+        :old nil}
       :window-size
        {:width 0
         :height 0}}})

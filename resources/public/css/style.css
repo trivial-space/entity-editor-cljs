@@ -13448,6 +13448,8 @@
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+}
+#tvs-flow-editor .main-header:not(.fullscreen) {
   cursor: -webkit-grab;
   cursor: grab;
 }
@@ -13464,8 +13466,7 @@
   bottom: 0;
   width: 20px;
   height: 20px;
-  cursor: -webkit-grab;
-  cursor: grab;
+  cursor: nwse-resize;
   background: -webkit-linear-gradient(top left, rgba(0,0,0,0) 50%, rgba(0,0,0,0.2) 51%);
   background: linear-gradient(to bottom right, rgba(0,0,0,0) 50%, rgba(0,0,0,0.2) 51%);
 }

@@ -18,10 +18,22 @@
 (register-sub
   :ui/main-frame-dimensions
   (fn [db]
-    (reaction (get-in @db [:ui :main-frame-dimensions]))))
+    (reaction (get-in @db [:ui :main-frame-dimensions :current]))))
 
 
 (register-sub
   :ui/window-size
   (fn [db]
     (reaction (get-in @db [:ui :window-size]))))
+
+
+(register-sub
+  :ui/minimized?
+  (fn [db]
+    (reaction (get-in @db [:ui :minimized?]))))
+
+
+(register-sub
+  :ui/fullscreen?
+  (fn [db]
+    (reaction (get-in @db [:ui :fullscreen?]))))

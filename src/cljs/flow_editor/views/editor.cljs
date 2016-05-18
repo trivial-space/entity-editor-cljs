@@ -1,13 +1,24 @@
 (ns flow-editor.views.editor
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
-            [re-com.core :refer [title button v-box gap h-box box h-split scroller]]
+            [re-com.core :refer [title md-icon-button button v-box gap h-box box h-split scroller]]
             [flow-editor.views.process :refer [process-component]]
             [flow-editor.views.entity :refer [entity-component]]
             [flow-editor.views.graph-viewer :refer [graph-component]]
             [flow-editor.views.modals.helpers :refer [get-modal]]
             [goog.events :as events])
   (:import [goog.events EventType]))
+
+
+(defn minimized
+  []
+  [box
+   :child [md-icon-button
+           :md-icon-name "zmdi-fullscreen"
+           :size :larger
+           :style {:margin-top "-5px"
+                   :margin-left "-5px"}
+           :on-click #(dispatch [:ui/minimized-exit])]])
 
 
 (defn headerline-drag [e]
@@ -25,21 +36,44 @@
       #(events/unlisten js/window EventType.MOUSEMOVE on-move))))
 
 
-(defn headline []
-  [h-box
-   :children [[title
-               :class "main-header"
-               :attr {:on-mouse-down headerline-drag}
-               :margin-top "0.1em"
-               :label (str "Flow editor")
-               :level :level1]
-              [gap
-               :size "auto"
-               :class "main-header"
-               :attr {:on-mouse-down headerline-drag}]
-              [button
-               :label "export"
-               :on-click #(dispatch [:ui/open-modal :modals/export-graph])]]])
+(defn headline [fullscreen?]
+  (let [drag-handler (if-not fullscreen?
+                       headerline-drag
+                       (fn []))
+        class (str "main-header "
+                (when fullscreen? "fullscreen"))]
+    [h-box
+     :gap "5px"
+     :children [[title
+                 :class class
+                 :attr {:on-mouse-down drag-handler}
+                 :margin-top "0.1em"
+                 :label (str "Flow editor")
+                 :level :level1]
+                [gap
+                 :size "auto"
+                 :class class
+                 :attr {:on-mouse-down drag-handler}]
+                [button
+                 :label "export"
+                 :on-click #(dispatch [:ui/open-modal :modals/export-graph])]
+                (if fullscreen?
+                  [md-icon-button
+                   :md-icon-name "zmdi-minus"
+                   :size :larger
+                   :tooltip "exit fullscreen"
+                   :on-click #(dispatch [:ui/fullscreen-exit])]
+                  [md-icon-button
+                   :md-icon-name "zmdi-plus"
+                   :size :larger
+                   :tooltip "fullscreen"
+                   :on-click #(dispatch [:ui/fullscreen-enter])])
+                (when-not fullscreen?
+                  [md-icon-button
+                   :md-icon-name "zmdi-close"
+                   :size :larger
+                   :tooltip "minimize window"
+                   :on-click #(dispatch [:ui/minimized-enter])])]]))
 
 
 (defn entity-list []
@@ -106,32 +140,37 @@
 
 
 (defn editor []
-  (let [modal-key (subscribe [:ui/modal])]
+  (let [modal-key (subscribe [:ui/modal])
+        minimized? (subscribe [:ui/minimized?])
+        fullscreen? (subscribe [:ui/fullscreen?])]
     (fn []
-      (let [modal (get-modal @modal-key)]
-        [v-box
-         :size "auto"
-         :width "100%"
-         :height "100%"
-         :children [[headline]
-                    [scroller
-                     :class "main-content"
-                     :v-scroll :off
-                     :child [h-box
-                             :size "auto"
-                             :gap "10px"
-                             :children [[v-box
-                                         :min-width "500px"
-                                         :size "auto"
-                                         :children [[title
-                                                     :label "Graph"
-                                                     :level :level2
-                                                     :margin-top "0.1em"]
-                                                    [graph-component]]]
+      (if @minimized?
+        [minimized]
+        (let [modal (get-modal @modal-key)]
+          [v-box
+           :size "auto"
+           :width "100%"
+           :height "100%"
+           :children [[headline @fullscreen?]
+                      [scroller
+                       :class "main-content"
+                       :v-scroll :off
+                       :child [h-box
+                               :size "auto"
+                               :gap "10px"
+                               :children [[v-box
+                                           :min-width "500px"
+                                           :size "auto"
+                                           :children [[title
+                                                       :label "Graph"
+                                                       :level :level2
+                                                       :margin-top "0.1em"]
+                                                      [graph-component]]]
 
-                                        [entity-list]
-                                        [process-list]]]]
-                    [:div
-                     {:class-name "resize-drag"
-                      :on-mouse-down resize-drag}]
-                    [modal]]]))))
+                                          [entity-list]
+                                          [process-list]]]]
+                      (when-not @fullscreen?
+                        [:div
+                         {:class-name "resize-drag"
+                          :on-mouse-down resize-drag}])
+                      [modal]]])))))
