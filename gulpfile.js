@@ -41,4 +41,4 @@ gulp.task('watch', function() {
 })
 
 
-gulp.task('default', ['styles', 'watch'])
+gulp.task('default', ['flow-runtime', 'styles', 'watch'])
