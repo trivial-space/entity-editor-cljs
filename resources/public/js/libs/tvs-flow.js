@@ -89,12 +89,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function create() {
 
 	  var entities = {},
 	      processes = {},
 	      arcs = {},
 	      meta = {},
+	      context = null,
 	      engine = {
 	    es: {},
 	    ps: {}
@@ -110,6 +113,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      state[eId] = engine.es[eId].val;
 	    }
 	    return state;
+	  }
+
+	  function getContext() {
+	    return context;
+	  }
+
+	  function setContext(ctx) {
+	    context = ctx;
 	  }
 
 	  function getMeta() {
@@ -154,7 +165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    entities[e.id] = e;
 	    var eE = engineE(e.id);
 	    if (e.value != null && eE.val == null) {
-	      set(e.id, e.value);
+	      propagateValue(eE, e.value);
 	    }
 	    return e;
 	  }
@@ -169,11 +180,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  function addProcess(spec) {
-	    var p = _runtimeTypes2.default.createProcess(spec);
+	    var p = _runtimeTypes2.default.createProcess(spec, context);
 	    processes[p.id] = p;
 	    var eP = engineP(p.id);
 
 	    eP.acc = null;
+
+	    // cleanup unused arcs
+	    var portNames = Object.keys(p.ports);
+	    for (var aId in eP.arcs) {
+	      var port = arcs[aId].port;
+	      if (port && (portNames.indexOf(port) < 0 || p.ports[port] === _runtimeTypes2.default.PORT_TYPES.ACCUMULATOR)) {
+	        removeArc(aId);
+	      }
+	    }
 
 	    // set accumulator if present
 	    for (var portId in p.ports) {
@@ -183,8 +203,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    // readjust already present arc
-	    for (var aId in eP.arcs) {
-	      updateArc(arcs[aId]);
+	    for (var _aId in eP.arcs) {
+	      updateArc(arcs[_aId]);
 	    }
 
 	    return p;
@@ -219,8 +239,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (arc.port) {
 	        delete eE.effects[arc.process];
 	        delete eP.sources[arc.port];
+	        delete eP.values[arc.port];
 	      } else {
-	        eP.send = function () {};
+	        eP.sink = function () {};
+	        delete eP.out;
 	        delete eE.reactions[arc.process];
 	      }
 	    }
@@ -251,9 +273,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // from process to entity
 	      } else {
-	          eP.send = function (value) {
+	          eP.sink = function (value) {
 	            return propagateValue(eE, value, eP);
 	          };
+	          eP.out = eId;
 	          if (eP.acc) {
 	            eP.sources[eP.acc] = eId;
 	            eE.reactions[pId] = true;
@@ -264,7 +287,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      // autostart
 	      if (p.autostart === true && Object.keys(eP.arcs).length === Object.keys(p.ports).length + 1) {
+	        touchedEntities = _defineProperty({}, eP.out, true);
 	        start(p.id);
+	        touchedEntities = null;
 	      }
 	    }
 	  }
@@ -331,12 +356,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  function start(processId) {
 	    var eP = engineP(processId);
-	    var ports = {};
 	    for (var portId in eP.sources) {
-	      ports[portId] = engine.es[eP.sources[portId]].val;
+	      eP.values[portId] = engine.es[eP.sources[portId]].val;
 	    }
 	    eP.stop && eP.stop();
-	    eP.stop = processes[processId].procedure(ports, eP.send);
+	    eP.stop = processes[processId].procedure.call(context, eP.values, eP.sink);
 	  }
 
 	  function stop(processId) {
@@ -365,7 +389,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      acc: null,
 	      sources: {},
 	      arcs: {},
-	      send: function send() {}
+	      values: {},
+	      sink: function sink() {}
 	    });
 	  }
 
@@ -385,6 +410,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    getState: getState,
 	    setMeta: setMeta,
 	    getMeta: getMeta,
+	    getContext: getContext,
+	    setContext: setContext,
 
 	    get: get,
 	    set: set,
@@ -439,7 +466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	}
 
-	function createProcess(_ref2) {
+	function createProcess(_ref2, context) {
 	  var _ref2$id = _ref2.id;
 	  var id = _ref2$id === undefined ? _uuid2.default.v4() : _ref2$id;
 	  var _ref2$ports = _ref2.ports;
@@ -453,7 +480,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // calculated values
 	  if (code == null) code = procedure.toString();
 	  if (procedure == null) {
-	    procedure = (0, _codeEvaluator.evaluate)(code);
+	    procedure = (0, _codeEvaluator.evaluate)(code, context);
 	  }
 
 	  return {
