@@ -12675,7 +12675,6 @@
 }
 #tvs-flow-editor .time-entry {
   -webkit-box-flex: 0;
-  -webkit-flex: none;
       -ms-flex: none;
           flex: none;
   padding-left: 0.3em;
@@ -12689,7 +12688,6 @@
 }
 #tvs-flow-editor .time-icon {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   padding: 0 0.3em;
@@ -12840,7 +12838,6 @@
 }
 #tvs-flow-editor .rc-div-table {
   -webkit-box-flex: 0;
-  -webkit-flex: none;
       -ms-flex: none;
           flex: none;
   width: auto;
@@ -12913,7 +12910,6 @@
   letter-spacing: 0.002em;
   font-variant: small-caps;
   -webkit-box-flex: 0;
-  -webkit-flex: none;
       -ms-flex: none;
           flex: none;
 }
@@ -12925,13 +12921,11 @@
 }
 #tvs-flow-editor .display-flex {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 #tvs-flow-editor .display-inline-flex {
   display: -webkit-inline-box;
-  display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
 }
@@ -13486,14 +13480,11 @@
 #tvs-flow-editor .graph-container,
 #tvs-flow-editor .vis-network {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-flow: inherit;
-      -ms-flex-flow: inherit;
-          flex-flow: inherit;
+  -ms-flex-flow: inherit;
+      flex-flow: inherit;
   -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
   width: 100%;

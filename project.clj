@@ -10,7 +10,7 @@
   :min-lein-version "2.5.3"
 
   :plugins [[lein-cljsbuild "1.1.3"]
-            [lein-figwheel "0.5.0-6"]
+            [lein-figwheel "0.5.3-2"]
             [lein-doo "0.1.6"]]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"
@@ -27,16 +27,12 @@
                                    :output-to "resources/public/js/compiled/app.js"
                                    :output-dir "resources/public/js/compiled/out"
                                    :asset-path "/js/compiled/out"
-                                   :foreign-libs [{:file "libs/flow/build/tvs-flow.js"
-                                                   :provides ["libs.flow"]}]
                                    :source-map-timestamp true}}
 
                        {:id "test"
                         :source-paths ["src/cljs" "test/cljs"]
                         :compiler {:output-to "resources/public/js/compiled/test.js"
                                    :main flow-editor.runner
-                                   :foreign-libs [{:file "libs/flow/build/tvs-flow.js"
-                                                   :provides ["libs.flow"]}]
                                    :optimizations :none}}
 
                        {:id "min"
@@ -45,12 +41,7 @@
                                    :output-to "resources/public/js/dist/app.js"
                                    :optimizations :advanced
                                    :closure-defines {goog.DEBUG false}
-                                   :foreign-libs [{:file "libs/flow/build/tvs-flow.js"
-                                                   :provides ["libs.flow"]}]
-                                   :externs ["libs/flow/externs/tvs-flow-externs.js"
+                                   :externs ["resources/externs/tvs-flow-externs.js"
                                              "resources/externs/main.js"]
                                    :pretty-print true}}]}
-  :repl-options {:port 8999
-                 :init (do
-                         (use 'figwheel-sidecar.repl-api)
-                         (start-figwheel!))})
+  :repl-options {:port 8999})

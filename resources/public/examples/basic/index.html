@@ -19,22 +19,13 @@
       background-position:0 0, 0 25px;
     }
     </style>
-
   </head>
   <body>
-    <script src="/js/libs/tvs-flow.js"></script>
+    <script src="/js/libs/system.js"></script>
+    <script src="/js/config.js"></script>
     <script src="/js/compiled/app.js"></script>
-    <script src="graph.js"></script>
     <script>
-      var localStorageKey = "__basic-example";
-      var runtime = tvsFlow.create()
-      var localGraph = localStorage.getItem(localStorageKey)
-      if (localGraph) {
-        runtime.addGraph(JSON.parse(localGraph));
-      } else {
-        runtime.addGraph(graph);
-      }
-      flow_editor.core.init(runtime, localStorageKey);
+      System.import('./main')
     </script>
   </body>
 </html>

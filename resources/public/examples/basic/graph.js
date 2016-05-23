@@ -1,4 +1,4 @@
-var graph =
+export const graph =
 {
     "entities": {
         "mouse-position": {
