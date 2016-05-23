@@ -1,3 +1,0 @@
-[submodule "libs/flow"]
-	path = libs/flow
-	url = git@github.com:trivial-space/flow.git
