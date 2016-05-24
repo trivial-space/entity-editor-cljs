@@ -132,15 +132,7 @@
           port-type (get-in p [:ports (keyword old-name)])
           ports (-> (:ports p)
                   (dissoc (keyword old-name))
-                  (assoc (keyword new-name) port-type))
-          arcs (->> (get-in db [:graph :arcs])
-                 (vals)
-                 (filter (fn [{:keys [process port] :as arc}]
-                           (and (= process pid)
-                                (or (= port old-name)
-                                    (= port new-name))))))]
-      (doseq [arc arcs]
-        (.removeArc runtime (:id arc)))
+                  (assoc (keyword new-name) port-type))]
       (.addProcess runtime (clj->js (merge p {:ports ports})))
       (update-runtime db))))
 
@@ -151,18 +143,8 @@
    (let [p (get-in db [:graph :processes (keyword pid)])
          runtime (:runtime db)
          ports (-> (:ports p)
-                 (assoc (keyword port-name) port-type))
-         arcs (->> (get-in db [:graph :arcs])
-                (vals)
-                (filter (fn [{:keys [process port] :as arc}]
-                          (and (= process pid)
-                               (= port port-name)))))]
+                 (assoc (keyword port-name) port-type))]
      (.addProcess runtime (clj->js (merge p {:ports ports})))
-     (if (= port-type (.-PORT_TYPES.ACCUMULATOR runtime))
-       (doseq [arc arcs]
-         (.removeArc runtime (:id arc)))
-       (doseq [arc arcs]
-         (.addArc runtime (clj->js arc))))
      (update-runtime db))))
 
 
