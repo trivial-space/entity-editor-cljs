@@ -14,8 +14,8 @@ System.config({
   },
 
   meta: {
-    '**/*.coffee': {
-      loader: 'coffee'
+    "**/*.coffee": {
+      "loader": "coffee"
     }
   },
 
@@ -24,8 +24,9 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "coffee": "github:forresto/system-coffee@0.1.2",
     "core-js": "npm:core-js@1.2.6",
-    "tvs-flow": "github:trivial-space/flow@master",
     "gl-matrix": "npm:gl-matrix@2.3.2",
+    "three": "npm:three@0.76.1",
+    "tvs-flow": "github:trivial-space/flow@master",
     "tvs-libs": "github:trivial-space/libs@master/src",
     "tvs-renderer": "github:trivial-space/renderer@master",
     "uuid": "npm:uuid@2.0.2",
@@ -304,6 +305,13 @@ System.config({
     },
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
+    },
+    "npm:three@0.76.1": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",
