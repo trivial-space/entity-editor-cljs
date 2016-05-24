@@ -10,8 +10,8 @@
 
 
 (def graph-options
-  {:layout {:randomSeed 3
-            :hierarchical {:sortMethod "directed"}}
+  {:layout {:randomSeed 3}
+            ;;:hierarchical {:sortMethod "hubsize"}}
    :edges {:arrows "to"
            :smooth false
            :color {:inherit "from"}
@@ -40,25 +40,37 @@
                        dom-rect (.getBoundingClientRect dom-node)
                        graph (:graph (r/props comp))
                        entity-nodes (->> (:entities graph)
-                                      (keys)
-                                      (map (fn [e]
-                                             {:id e :label e :shape "square" :group "entities"})))
+                                      (map (fn [[eid e]]
+                                             (let [node {:id eid :label eid :shape "square" :group "entities"}]
+                                               (if (:value e)
+                                                 (assoc node :borderWidth 4)
+                                                 node)))))
                        process-nodes (->> (:processes graph)
-                                       (keys)
-                                       (map (fn [p]
-                                              {:id p :label p :shape "dot" :group "processes"})))
+                                       (map (fn [[pid p]]
+                                              (let [node {:id pid :label pid :shape "dot" :group "processes"}]
+                                                (if (:autostart p)
+                                                  (assoc node :borderWidth 4)
+                                                  node)))))
                        nodes (concat entity-nodes process-nodes)
                        edges (->> (:arcs graph)
                                (vals)
                                (map (fn [a]
-                                      (if (:port a)
-                                        (let [pid (:process a)
-                                              port (get-in graph [:processes (keyword pid) :ports (keyword (:port a))])
-                                              edge {:from (:entity a) :to pid}]
-                                          (if (= port (get @types "COLD"))
-                                            (assoc edge :dashes true)
-                                            edge))
-                                        {:from (:process a) :to (:entity a)}))))]
+                                      (let [pid (:process a)
+                                            eid (:entity a)
+                                            ports (get-in graph [:processes (keyword pid) :ports])
+                                            acc? (and (not (:port a))
+                                                      (some #(= % (get @types "ACCUMULATOR")) (vals ports)))]
+
+                                        (if (or acc? (:port a))
+                                          (let [port (get ports (keyword (:port a)))
+                                                edge {:from eid :to pid}]
+                                            (if (= port (get @types "COLD"))
+                                              (assoc edge :dashes true)
+                                              (if acc?
+                                                (assoc edge :arrows {:middle true :from true :to true}
+                                                            :color {:inherit "to"})
+                                                edge)))
+                                          {:from pid :to eid})))))]
                    (.setSize net (aget dom-rect "width") (aget dom-rect "height"))
                    (.setData net (clj->js {:nodes nodes :edges edges}))))]
 

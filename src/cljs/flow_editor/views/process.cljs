@@ -17,22 +17,48 @@
 
 
 (defn header
-  [process-id]
-  [h-box
-   :children [[box
-               :size "auto"
-               :child [title
-                       :label (str "ID: " process-id)
-                       :level :level3]]
-              [md-icon-button
-               :md-icon-name "zmdi-play"
-               :on-click #(dispatch [:flow-runtime/start-process process-id])]
-              [md-icon-button
-               :md-icon-name "zmdi-stop"
-               :on-click #(dispatch [:flow-runtime/stop-process process-id])]
-              [md-icon-button
-               :md-icon-name "zmdi-delete"
-               :on-click #(dispatch [:flow-runtime/remove-process process-id])]]])
+  [process]
+  (let [port-types (subscribe [:flow-runtime/port-types])]
+    (fn [process]
+      (let [id (:id process)
+            acc-type (get @port-types "ACCUMULATOR")
+            autostart? (:autostart process)
+            accumulator? (->> (:ports process)
+                           (vals)
+                           (some #(= % acc-type)))]
+        [h-box
+         :children [[box
+                     :size "auto"
+                     :child [title
+                             :label (str "ID: " id)
+                             :level :level3]]
+                    (if accumulator?
+                      [md-icon-button
+                       :md-icon-name "zmdi-brightness-5"
+                       :disabled? true
+                       :tooltip "no autostart for accumulator"]
+                      (if autostart?
+                        [md-icon-button
+                         :md-icon-name "zmdi-brightness-auto"
+                         :tooltip "turn off autostart"
+                         :style {:color "orange"}
+                         :on-click #(dispatch [:flow-runtime/set-process-autostart id nil])]
+                        [md-icon-button
+                         :md-icon-name "zmdi-brightness-5"
+                         :tooltip "turn on autostart"
+                         :on-click #(dispatch [:flow-runtime/set-process-autostart id true])]))
+                    [md-icon-button
+                     :md-icon-name "zmdi-play"
+                     :tooltip "start"
+                     :on-click #(dispatch [:flow-runtime/start-process id])]
+                    [md-icon-button
+                     :md-icon-name "zmdi-stop"
+                     :tooltip "stop"
+                     :on-click #(dispatch [:flow-runtime/stop-process id])]
+                    [md-icon-button
+                     :md-icon-name "zmdi-delete"
+                     :tooltip "delete this process"
+                     :on-click #(dispatch [:flow-runtime/remove-process id])]]]))))
 
 
 (defn port-row
@@ -123,7 +149,7 @@
        [v-box
         :class "process-component"
         :gap "5px"
-        :children [[header id]
+        :children [[header process]
                    [ports-editor (:ports process) id]
                    [label :label "procedure"]
                    [cm (:code process) {:mode "javascript"} code-changes]

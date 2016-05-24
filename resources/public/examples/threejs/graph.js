@@ -11,7 +11,7 @@ export const graph =
             "value": [
                 0,
                 0,
-                1000
+                700
             ],
             "meta": {}
         },
@@ -28,7 +28,7 @@ export const graph =
         "size": {
             "id": "size",
             "value": {
-                "width": 500,
+                "width": 800,
                 "height": 500
             },
             "meta": {}
@@ -60,18 +60,19 @@ export const graph =
             "ports": {
                 "mesh": "accumulator",
                 "material": "hot",
-                "geometry": "hot",
-                "color": "hot"
+                "geometry": "hot"
             },
-            "code": "function(ports, send) {\n\tvar mesh = ports.mesh,\n\t\t\tmat = ports.material\n\tmat.color = parseInt(ports.color)\n\tmesh.material = mat\n\tmesh.geometry = ports.geometry\n\tsend(mesh)\n}",
+            "code": "function(ports, send) {\n\tconsole.log(\"update-mesh\")\n\t\n\tvar mesh = ports.mesh,\n\t\t\tmat = ports.material\n\t\t\t\n\tmesh.material = mat\n\tmesh.geometry = ports.geometry\n\tsend(mesh)\n}",
             "autostart": null,
             "meta": {}
         },
         "create-material": {
             "id": "create-material",
-            "ports": {},
-            "code": "function(ports, send) {\n\tsend(new this.three.MeshBasicMaterial({\n        color: 0xff0000,\n        wireframe: true\n    }))\n}",
-            "autostart": null,
+            "ports": {
+                "color": "hot"
+            },
+            "code": "function(ports, send) {\n\tconsole.log(\"create-material\")\n\t\n\tsend(new this.three.MeshBasicMaterial({\n        color: parseInt(ports.color),\n        wireframe: true\n    }))\n}",
+            "autostart": true,
             "meta": {}
         },
         "create-scene": {
@@ -79,15 +80,15 @@ export const graph =
             "ports": {
                 "mesh": "hot"
             },
-            "code": "function(ports, send) {\n\tvar scene = new this.three.Scene()\n\tscene.add(ports.mesh)\n\tsend(scene)\n}",
+            "code": "function(ports, send) {\n\tconsole.log(\"create-scene\")\n\t\n\tvar scene = new this.three.Scene()\n\tscene.add(ports.mesh)\n\tsend(scene)\n}",
             "autostart": null,
             "meta": {}
         },
         "create-renderer": {
             "id": "create-renderer",
             "ports": {},
-            "code": "function(ports, send) {\n\tvar renderer = new this.three.WebGLRenderer()\n\t\n\tdocument.body.appendChild(renderer.domElement)\n\t\n\tsend(renderer)\n}",
-            "autostart": null,
+            "code": "function(ports, send) {\n\tconsole.log(\"create-renderer\")\n\t\n\tvar renderer = new this.three.WebGLRenderer()\n\t\n\tdocument.body.appendChild(renderer.domElement)\n\t\n\tsend(renderer)\n}",
+            "autostart": true,
             "meta": {}
         },
         "render": {
@@ -97,41 +98,41 @@ export const graph =
                 "renderer": "cold",
                 "camera": "hot"
             },
-            "code": "function(ports, send) {\n\tports.renderer.render(ports.scene, ports.camera)\n}",
+            "code": "function(ports, send) {\n\tconsole.log(\"render\")\n\t\n\tports.renderer.render(ports.scene, ports.camera)\n}",
             "autostart": null,
             "meta": {}
         },
         "create-mesh": {
             "id": "create-mesh",
             "ports": {},
-            "code": "function(ports, send) {\n\tsend(new this.three.Mesh())\n}",
-            "autostart": null,
+            "code": "function(ports, send) {\n\tconsole.log(\"create-mesh\")\n\t\n\tsend(new this.three.Mesh())\n}",
+            "autostart": true,
             "meta": {}
         },
         "create-geometry": {
             "id": "create-geometry",
             "ports": {},
-            "code": "function(ports, send) {\n\tsend(new this.three.BoxGeometry(200, 200, 200))\n}",
-            "autostart": null,
+            "code": "function(ports, send) {\n\tconsole.log(\"create-geometry\")\n\t\n\tsend(new this.three.BoxGeometry(200, 200, 200))\n}",
+            "autostart": true,
             "meta": {}
         },
         "update-size": {
             "id": "update-size",
             "ports": {
-                "renderer": "cold",
-                "size": "cold"
+                "renderer": "hot",
+                "size": "hot"
             },
-            "code": "function(ports, send) {\n\tports.renderer.setSize(ports.size.width, ports.size.height)\n}",
+            "code": "function(ports, send) {\n\tconsole.log(\"update-size\")\n\t\n\tports.renderer.setSize(ports.size.width, ports.size.height)\n}",
             "autostart": null,
             "meta": {}
         },
         "create-camera": {
             "id": "create-camera",
             "ports": {
-                "size": "hot"
+                "size": "cold"
             },
-            "code": "function(ports, send) {\n\tsend(new this.three.PerspectiveCamera(75, ports.size.width / ports.size.height, 1, 1000))\n}",
-            "autostart": null,
+            "code": "function(ports, send) {\n\tconsole.log(\"create-camera\")\n\t\n\tsend(new this.three.PerspectiveCamera(\n\t\t75, ports.size.width / ports.size.height, 1, 1000\n\t))\n}",
+            "autostart": true,
             "meta": {}
         },
         "update-camera": {
@@ -141,7 +142,7 @@ export const graph =
                 "position": "hot",
                 "size": "hot"
             },
-            "code": "function(ports, send) {\n\tvar cam = ports.camera,\n\t\t\tpos = ports.position\n\tconsole.log(ports)\n\t\n\tcam.position.x = pos[0]\n\tcam.position.y = pos[1]\n\tcam.position.z = pos[2]\n\tcam.aspect = ports.size.width / ports.size.height\n\t\n\tsend(cam)\n}",
+            "code": "function(ports, send) {\n\tconsole.log(\"update-camera\")\n\t\n\tvar cam = ports.camera,\n\t\t\tpos = ports.position\n\t\n\tcam.position.x = pos[0]\n\tcam.position.y = pos[1]\n\tcam.position.z = pos[2]\n\tcam.aspect = ports.size.width / ports.size.height\n\t\n\tsend(cam)\n}",
             "autostart": null,
             "meta": {}
         }
@@ -259,6 +260,13 @@ export const graph =
             "port": "material",
             "meta": {}
         },
+        "color->create-material::color": {
+            "id": "color->create-material::color",
+            "entity": "color",
+            "process": "create-material",
+            "port": "color",
+            "meta": {}
+        },
         "camera->render::camera": {
             "id": "camera->render::camera",
             "entity": "camera",
@@ -278,13 +286,6 @@ export const graph =
             "entity": "geometry",
             "process": "create-geometry",
             "port": null,
-            "meta": {}
-        },
-        "color->update-mesh::color": {
-            "id": "color->update-mesh::color",
-            "entity": "color",
-            "process": "update-mesh",
-            "port": "color",
             "meta": {}
         }
     },

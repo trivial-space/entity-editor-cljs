@@ -26,6 +26,7 @@ System.config({
     "core-js": "npm:core-js@1.2.6",
     "gl-matrix": "npm:gl-matrix@2.3.2",
     "three": "npm:three@0.76.1",
+    "trivial-space/flow": "github:trivial-space/flow@master",
     "tvs-flow": "github:trivial-space/flow@master",
     "tvs-libs": "github:trivial-space/libs@master/src",
     "tvs-renderer": "github:trivial-space/renderer@master",

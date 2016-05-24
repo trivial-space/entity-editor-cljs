@@ -91,6 +91,16 @@
 
 
 (register-handler
+  :flow-runtime/set-process-autostart
+  (fn [db [_ pid autostart?]]
+    (let [p (get-in db [:graph :processes (keyword pid)])]
+      (->> (merge p {:autostart autostart?})
+        (clj->js)
+        (.addProcess (:runtime db))))
+    (update-runtime db)))
+
+
+(register-handler
   :flow-runtime/update-process-code
   (fn [db [_ pid code]]
     (let [p (get-in db [:graph :processes (keyword pid)])]
