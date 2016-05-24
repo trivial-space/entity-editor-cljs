@@ -5,6 +5,8 @@
     },
     "configFile": "js/config.js",
     "dependencies": {
+      "coffee": "github:forresto/system-coffee@^0.1.2",
+      "gl-matrix": "npm:gl-matrix@^2.3.2",
       "trivial-space/flow": "github:trivial-space/flow@master",
       "trivial-space/libs": "github:trivial-space/libs@master",
       "trivial-space/renderer": "github:trivial-space/renderer@master",

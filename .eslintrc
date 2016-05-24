@@ -14,7 +14,8 @@
     "jquery": true
   },
   "globals": {
-    "flow_editor": true
+    "flow_editor": true,
+    "System": true
   },
   "rules": {
     "no-unused-vars": 1,

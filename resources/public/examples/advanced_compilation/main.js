@@ -1,4 +1,4 @@
-import flow from "flow"
+import flow from "tvs-flow"
 import {graph} from "./graph"
 
 

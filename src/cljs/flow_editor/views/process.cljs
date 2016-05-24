@@ -125,7 +125,7 @@
         :gap "5px"
         :children [[header id]
                    [ports-editor (:ports process) id]
-                   [label :label "process code"]
+                   [label :label "procedure"]
                    [cm (:code process) {:mode "javascript"} code-changes]
                    [h-box
                     :gap "10px"

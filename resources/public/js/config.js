@@ -13,13 +13,21 @@ System.config({
     "npm:*": "js/libs/npm/*"
   },
 
+  meta: {
+    '**/*.coffee': {
+      loader: 'coffee'
+    }
+  },
+
   map: {
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
+    "coffee": "github:forresto/system-coffee@0.1.2",
     "core-js": "npm:core-js@1.2.6",
-    "flow": "github:trivial-space/flow@master",
-    "libs": "github:trivial-space/libs@master",
-    "renderer": "github:trivial-space/renderer@master",
+    "tvs-flow": "github:trivial-space/flow@master",
+    "gl-matrix": "npm:gl-matrix@2.3.2",
+    "tvs-libs": "github:trivial-space/libs@master/src",
+    "tvs-renderer": "github:trivial-space/renderer@master",
     "uuid": "npm:uuid@2.0.2",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.0"
@@ -214,6 +222,9 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "create-hash": "npm:create-hash@1.1.2",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0"
+    },
+    "npm:gl-matrix@2.3.2": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2"
     },
     "npm:hash.js@1.0.3": {
       "inherits": "npm:inherits@2.0.1"
