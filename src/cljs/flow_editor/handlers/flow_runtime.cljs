@@ -159,19 +159,6 @@
 
 
 (register-handler
-  :flow-runtime/connect-port
-  (fn [db [_ pid port-name eid]]
-    (doseq [arc (->> (get-in db [:graph :arcs])
-                  (vals)
-                  (filter (fn [{:keys [process port] :as arc}]
-                            (and (= process pid)
-                                 (= port port-name)))))]
-      (.removeArc (:runtime db) (:id arc)))
-    (when eid (.addArc (:runtime db) (clj->js {:port port-name :process pid :entity eid})))
-    (update-runtime db)))
-
-
-(register-handler
   :flow-runtime/remove-process-port
   (fn [db [_ pid port-name]]
     (let [p (get-in db [:graph :processes (keyword pid)])]
@@ -185,6 +172,22 @@
       (update-runtime db))))
 
 
+;; ===== Arc handlers =====
+
+(register-handler
+  :flow-runtime/connect-port
+  (fn [db [_ pid port-name eid]]
+    (doseq [arc (->> (get-in db [:graph :arcs])
+                  (vals)
+                  (filter (fn [{:keys [process port] :as arc}]
+                            (and (= process pid)
+                                 (= port port-name)))))]
+      (.removeArc (:runtime db) (:id arc)))
+    (when eid
+      (.addArc (:runtime db) (clj->js {:port port-name :process pid :entity eid})))
+    (update-runtime db)))
+
+
 (register-handler
   :flow-runtime/connect-output
   (fn [db [_ pid eid]]
@@ -196,4 +199,25 @@
       (.removeArc (:runtime db) (:id arc)))
     (when eid
       (.addArc (:runtime db) (clj->js {:process pid :entity eid})))
+    (update-runtime db)))
+
+
+;; ===== Meta handlers =====
+
+(register-handler
+  :flow-runtime/set-node-positions
+  (fn [db [_ positions]]
+    (doseq [[key val] (js->clj positions)]
+      (let [t (get key 0)
+            k (keyword (apply str (rest key)))
+            update (fn [item]
+                     (clj->js (-> item
+                                (assoc-in [:meta :ui :x] (get val "x"))
+                                (assoc-in [:meta :ui :y] (get val "y")))))]
+        (when (= t "e")
+          (when-let [e (get-in db [:graph :entities k])]
+            (.addEntity (:runtime db) (update e))))
+        (when (= t "p")
+          (when-let [p (get-in db [:graph :processes k])]
+            (.addProcess (:runtime db) (update p))))))
     (update-runtime db)))
