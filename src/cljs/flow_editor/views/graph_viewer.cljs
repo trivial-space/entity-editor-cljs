@@ -16,13 +16,31 @@
      :edges {:arrows "to"
              :smooth false
              :color {:inherit "from"}
-             :shadow true
+             :shadow {:x 2}
              :width 2}
-     :nodes {:shadow true
+     :nodes {:shadow {:x 0}
+             :borderWidthSelected 1
              :font {:size 20
                     :strokeColor "white"
                     :strokeWidth 2}
              :size 23}
+     :groups
+     {:useDefaultGroups false
+      :entities
+      {:shape "square"
+       :color {:border "#2B7CE9"
+               :background "#97C2FC"
+               :highlight {:border "#2B7CE9"
+                           :background "#b8fafe"}}}
+      :processes
+      {:shape "dot"
+       :color {:border "#de7a13"
+               :background "#f7d26e"
+               :highlight {:border "#de7a13"
+                           :background "#f5fba8"}}}}
+
+
+     :interaction {:multiselect true}
      :physics {:enabled true
                :forceAtlas2Based {:avoidOverlap 0.4
                                   :gravitationalConstant -70
@@ -49,33 +67,31 @@
                      (let [ui (get-in item [:meta :ui])
                            x (:x ui)
                            y (:y ui)
-                           pos? (not (and x y))
-                           node (merge node {:x (:x ui)
-                                             :y (:y ui)
-                                             :physics (boolean pos?)})]
-                       (println node)
-                       node))
+                           pos? (not (and x y))]
+                       (merge node {:x (:x ui)
+                                    :y (:y ui)
+                                    :physics (boolean pos?)})))
 
         entity-nodes (->> (:entities graph)
                        (map (fn [[eid e]]
                               (let [node {:id (e-node-id (name eid))
                                           :label eid
-                                          :shape "square"
                                           :group "entities"}
                                     node (adjust-pos e node)]
                                 (if (:value e)
-                                  (assoc node :borderWidth 4)
+                                  (assoc node :borderWidth 5
+                                              :borderWidthSelected 5)
                                   node)))))
 
         process-nodes (->> (:processes graph)
                         (map (fn [[pid p]]
                                (let [node {:id (p-node-id (name pid))
                                            :label pid
-                                           :shape "dot"
                                            :group "processes"}
                                      node (adjust-pos p node)]
                                  (if (:autostart p)
-                                   (assoc node :borderWidth 4)
+                                   (assoc node :borderWidth 5
+                                               :borderWidthSelected 5)
                                    node)))))
 
         nodes (concat entity-nodes process-nodes)
@@ -85,10 +101,10 @@
                 (map (fn [a]
                        (let [pid (p-node-id (:process a))
                              eid (e-node-id (:entity a))
-                             ports (get-in graph [:processes (keyword pid) :ports])
+                             ports (get-in graph [:processes (keyword (:process a)) :ports])
                              acc? (and (not (:port a))
                                        (some #(= % (get types "ACCUMULATOR")) (vals ports)))]
-
+                         (println acc?)
                          (if (or acc? (:port a))
                            (let [port (get ports (keyword (:port a)))
                                  edge {:from eid :to pid}]
@@ -106,6 +122,10 @@
 (defn init-vis
   [net]
   (.setOptions net graph-options)
+  (.on net "oncontext"
+       (fn [e]
+         (println "context!!")
+         (.preventDefault (aget e "event"))))
   (.on net "dragEnd"
        (fn [e]
          (let [nodes (aget e "nodes")]
@@ -129,7 +149,8 @@
                        graph (:graph (r/props comp))
                        vis-data (get-vis-graph graph @types)]
                    (.setSize net (aget dom-rect "width") (aget dom-rect "height"))
-                   (.setData net (clj->js vis-data))))]
+                   (.setData net (clj->js vis-data))
+                   (.fit net)))]
 
     (r/create-class
       {:reagent-render (fn []
