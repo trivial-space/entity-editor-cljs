@@ -4,7 +4,12 @@ export const graph =
         "color": {
             "id": "color",
             "value": "0xff0000",
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -680,
+                    "x": -488
+                }
+            }
         },
         "camera-position": {
             "id": "camera-position",
@@ -13,17 +18,32 @@ export const graph =
                 0,
                 700
             ],
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -557,
+                    "x": -20
+                }
+            }
         },
         "geometry": {
             "id": "geometry",
             "value": null,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -324,
+                    "x": -315
+                }
+            }
         },
         "renderer": {
             "id": "renderer",
             "value": null,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -321,
+                    "x": 410
+                }
+            }
         },
         "size": {
             "id": "size",
@@ -31,27 +51,52 @@ export const graph =
                 "width": 800,
                 "height": 500
             },
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -609,
+                    "x": 162
+                }
+            }
         },
         "mesh": {
             "id": "mesh",
             "value": null,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -142,
+                    "x": -126
+                }
+            }
         },
         "material": {
             "id": "material",
             "value": null,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -327,
+                    "x": -494
+                }
+            }
         },
         "camera": {
             "id": "camera",
             "value": null,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -307,
+                    "x": 158
+                }
+            }
         },
         "scene": {
             "id": "scene",
             "value": null,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -119,
+                    "x": 159
+                }
+            }
         }
     },
     "processes": {
@@ -64,7 +109,12 @@ export const graph =
             },
             "code": "function(ports, send) {\n\tconsole.log(\"update-mesh\")\n\t\n\tvar mesh = ports.mesh,\n\t\t\tmat = ports.material\n\t\t\t\n\tmesh.material = mat\n\tmesh.geometry = ports.geometry\n\tsend(mesh)\n}",
             "autostart": null,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -146,
+                    "x": -319
+                }
+            }
         },
         "create-material": {
             "id": "create-material",
@@ -73,7 +123,12 @@ export const graph =
             },
             "code": "function(ports, send) {\n\tconsole.log(\"create-material\")\n\t\n\tsend(new this.three.MeshBasicMaterial({\n        color: parseInt(ports.color),\n        wireframe: true\n    }))\n}",
             "autostart": true,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -487,
+                    "x": -495
+                }
+            }
         },
         "create-scene": {
             "id": "create-scene",
@@ -82,14 +137,24 @@ export const graph =
             },
             "code": "function(ports, send) {\n\tconsole.log(\"create-scene\")\n\t\n\tvar scene = new this.three.Scene()\n\tscene.add(ports.mesh)\n\tsend(scene)\n}",
             "autostart": null,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -230,
+                    "x": 13
+                }
+            }
         },
         "create-renderer": {
             "id": "create-renderer",
             "ports": {},
             "code": "function(ports, send) {\n\tconsole.log(\"create-renderer\")\n\t\n\tvar renderer = new this.three.WebGLRenderer()\n\t\n\tdocument.body.appendChild(renderer.domElement)\n\t\n\tsend(renderer)\n}",
             "autostart": true,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -459,
+                    "x": 403
+                }
+            }
         },
         "render": {
             "id": "render",
@@ -100,21 +165,36 @@ export const graph =
             },
             "code": "function(ports, send) {\n\tconsole.log(\"render\")\n\t\n\tports.renderer.render(ports.scene, ports.camera)\n}",
             "autostart": null,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -117,
+                    "x": 412
+                }
+            }
         },
         "create-mesh": {
             "id": "create-mesh",
             "ports": {},
             "code": "function(ports, send) {\n\tconsole.log(\"create-mesh\")\n\t\n\tsend(new this.three.Mesh())\n}",
             "autostart": true,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -328,
+                    "x": -130
+                }
+            }
         },
         "create-geometry": {
             "id": "create-geometry",
             "ports": {},
             "code": "function(ports, send) {\n\tconsole.log(\"create-geometry\")\n\t\n\tsend(new this.three.BoxGeometry(200, 200, 200))\n}",
             "autostart": true,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -485,
+                    "x": -317
+                }
+            }
         },
         "update-size": {
             "id": "update-size",
@@ -124,7 +204,12 @@ export const graph =
             },
             "code": "function(ports, send) {\n\tconsole.log(\"update-size\")\n\t\n\tports.renderer.setSize(ports.size.width, ports.size.height)\n}",
             "autostart": null,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -395,
+                    "x": 275
+                }
+            }
         },
         "create-camera": {
             "id": "create-camera",
@@ -133,7 +218,12 @@ export const graph =
             },
             "code": "function(ports, send) {\n\tconsole.log(\"create-camera\")\n\t\n\tsend(new this.three.PerspectiveCamera(\n\t\t75, ports.size.width / ports.size.height, 1, 1000\n\t))\n}",
             "autostart": true,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -470,
+                    "x": 157
+                }
+            }
         },
         "update-camera": {
             "id": "update-camera",
@@ -144,7 +234,12 @@ export const graph =
             },
             "code": "function(ports, send) {\n\tconsole.log(\"update-camera\")\n\t\n\tvar cam = ports.camera,\n\t\t\tpos = ports.position\n\t\n\tcam.position.x = pos[0]\n\tcam.position.y = pos[1]\n\tcam.position.z = pos[2]\n\tcam.aspect = ports.size.width / ports.size.height\n\t\n\tsend(cam)\n}",
             "autostart": null,
-            "meta": {}
+            "meta": {
+                "ui": {
+                    "y": -390,
+                    "x": 24
+                }
+            }
         }
     },
     "arcs": {
