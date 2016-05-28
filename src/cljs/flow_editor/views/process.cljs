@@ -27,10 +27,18 @@
                            (vals)
                            (some #(= % acc-type)))]
         [h-box
-         :children [[box
+         :children [[:div
+                     {:style {:background-color "#de7a13"
+                              :width "20px"
+                              :height "20px"
+                              :border-radius "10px"
+                              :display "inline-block"}}]
+                    [gap :size "10px"]
+                    [box
                      :size "auto"
                      :child [title
-                             :label (str "ID: " id)
+                             :label id
+                             :margin-top "0.3em"
                              :level :level3]]
                     (if accumulator?
                       [md-icon-button

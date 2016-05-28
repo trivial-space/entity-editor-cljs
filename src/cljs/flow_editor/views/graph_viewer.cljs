@@ -1,6 +1,7 @@
 (ns flow-editor.views.graph-viewer
   (:require-macros [reagent.ratom :refer [reaction]])
   (:require [cljsjs.vis]
+            [flow-editor.utils.graph-ui :refer [p-node-id e-node-id]]
             [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
             [re-com.core :refer [box title h-box v-box button md-icon-button]]))
@@ -49,16 +50,6 @@
                            :gravitationalConstant -3000}
                :solver "forceAtlas2Based"
                :stabilization {:iterations 2000}}}))
-
-
-(defn p-node-id
-  [pid]
-  (str "p" pid))
-
-
-(defn e-node-id
-  [eid]
-  (str "e" eid))
 
 
 (defn get-vis-graph
@@ -125,29 +116,39 @@
 (defn init-vis
   [net]
   (.setOptions net graph-options)
-  (.on net "oncontext"
-       (fn [e]
-         (let [evt (js->clj e :keywordize-keys true)
-               nodes (:nodes evt)
-               edges (:edges evt)]
-           (when (and (= 0 (count nodes))
-                      (= 0 (count edges)))
-             (dispatch [:graph-ui/set-new-node-position (get-in evt [:pointer :canvas])])
-             (dispatch [:graph-ui/open-context-menu :context/add-node
-                                                    (get-in evt [:pointer :DOM])])))
 
-         (.preventDefault (aget e "event"))))
+  (.on net "doubleClick"
+    (fn [e]
+      (let [evt (js->clj e :keywordize-keys true)
+            nodes (:nodes evt)
+            edges (:edges evt)]
+        (when (= (count nodes) 1)
+          (dispatch [:flow-runtime-ui/open-node (first nodes)])))))
+
+  (.on net "oncontext"
+    (fn [e]
+      (let [evt (js->clj e :keywordize-keys true)
+            nodes (:nodes evt)
+            edges (:edges evt)]
+        (when (and (= 0 (count nodes))
+                   (= 0 (count edges)))
+          (dispatch [:graph-ui/set-new-node-position (get-in evt [:pointer :canvas])])
+          (dispatch [:graph-ui/open-context-menu :context/add-node
+                                                 (get-in evt [:pointer :DOM])])))
+      (.preventDefault (aget e "event"))))
+
   (.on net "dragEnd"
-       (fn [e]
-         (let [nodes (aget e "nodes")]
-           (when (< 0 (aget nodes "length"))
-             (dispatch [:flow-runtime/set-node-positions (.getPositions net)])))))
+    (fn [e]
+      (let [nodes (aget e "nodes")]
+        (when (< 0 (aget nodes "length"))
+          (dispatch [:flow-runtime-ui/set-node-positions (.getPositions net)])))))
+
   (.on net "stabilized"
-       (fn [stabilized-event]
-         (println stabilized-event)
-         (aset graph-options "physics" false)
-         (.setOptions net graph-options)
-         (dispatch [:flow-runtime/set-node-positions (.getPositions net)]))))
+    (fn [stabilized-event]
+      (println stabilized-event)
+      (aset graph-options "physics" false)
+      (.setOptions net graph-options)
+      (dispatch [:flow-runtime-ui/set-node-positions (.getPositions net)]))))
 
 
 (defn add-node-menu
@@ -216,6 +217,7 @@
     (fn []
       [v-box
        :size "auto"
+       :min-width "600px"
        :class "graph-container"
        :children [[graph-inner {:graph @graph
                                 :size @height}]

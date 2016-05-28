@@ -1,5 +1,6 @@
 (ns flow-editor.handlers.flow-runtime
-  (:require [re-frame.core :refer [register-handler dispatch]]))
+  (:require [re-frame.core :refer [register-handler dispatch]]
+            [flow-editor.utils.graph-ui :refer [node-from-id]]))
 
 
 (def default-process-code
@@ -7,11 +8,15 @@
 
 
 (defn update-runtime [db]
-  (let [new-graph (js->clj (.getGraph (:runtime db)) :keywordize-keys true)]
+  (let [js-graph (.getGraph (:runtime db))
+        new-graph (js->clj js-graph :keywordize-keys true)
+        layout (get-in new-graph [:meta :ui :layout] [])]
     (println "flow graph updated!")
     (when-let [local-storage-key (:local-storage-key db)]
-      (.setItem js/localStorage local-storage-key (.stringify js/JSON (clj->js new-graph))))
-    (assoc db :graph new-graph)))
+      (.setItem js/localStorage local-storage-key (.stringify js/JSON js-graph)))
+    (-> db
+      (assoc :graph new-graph)
+      (assoc-in [:ui :layout] layout))))
 
 
 ;; ===== Entity handlers =====
@@ -215,19 +220,41 @@
 ;; ===== Meta handlers =====
 
 (register-handler
-  :flow-runtime/set-node-positions
+  :flow-runtime-ui/set-node-positions
   (fn [db [_ positions]]
     (doseq [[key val] (js->clj positions)]
-      (let [t (get key 0)
-            k (keyword (apply str (rest key)))
+      (let [{:keys [id type]} (node-from-id key)
             update (fn [item]
                      (clj->js (-> item
                                 (assoc-in [:meta :ui :x] (get val "x"))
                                 (assoc-in [:meta :ui :y] (get val "y")))))]
-        (when (= t "e")
-          (when-let [e (get-in db [:graph :entities k])]
+        (when (= type :entity)
+          (when-let [e (get-in db [:graph :entities id])]
             (.addEntity (:runtime db) (update e))))
-        (when (= t "p")
-          (when-let [p (get-in db [:graph :processes k])]
+        (when (= type :process)
+          (when-let [p (get-in db [:graph :processes id])]
             (.addProcess (:runtime db) (update p))))))
     (update-runtime db)))
+
+
+(defn update-layout
+  [db layout]
+  (let [meta (get-in db [:graph :meta])]
+    (.setMeta (:runtime db) (clj->js (update-in meta [:ui] merge {:layout layout})))
+    (update-runtime db)))
+
+
+(register-handler
+  :flow-runtime-ui/open-node
+  (fn [db [_ nid]]
+    (let [node (node-from-id nid)
+          layout (get-in db [:ui :layout])
+          open? (some (fn [n]
+                        (println n)
+                        (and (= (:type n) (:type node))
+                             (= (:id n) (:id node))))
+                      layout)]
+      (println "opening node" open? node layout)
+      (if-not open?
+        (update-layout db (into [node] layout))
+        db))))

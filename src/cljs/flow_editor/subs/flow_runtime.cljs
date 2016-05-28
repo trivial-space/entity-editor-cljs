@@ -11,11 +11,6 @@
 
 ;; ===== Entity subscriptions =====
 
-(register-sub
- :flow-runtime/edited-entities
- (fn [db]
-   (reaction (vals (get-in @db [:graph :entities])))))
-
 
 (register-sub
   :flow-runtime/all-entities
@@ -30,12 +25,6 @@
 
 
 ;; ===== Process subscriptions =====
-
-(register-sub
- :flow-runtime/edited-processes
- (fn [db]
-   (reaction (vals (get-in @db [:graph :processes])))))
-
 
 (register-sub
  :flow-runtime/all-processes

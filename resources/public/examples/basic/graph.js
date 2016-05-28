@@ -3,7 +3,7 @@ export const graph =
     "entities": {
         "mouse-position": {
             "id": "mouse-position",
-            "value": null,
+            "value": { "x": 0, "y": 0 },
             "meta": {
                 "ui": {
                     "y": -254,
@@ -191,5 +191,14 @@ export const graph =
             "meta": {}
         }
     },
-    "meta": {}
+    "meta": {
+        "ui": {
+            "layout": [
+                {
+                    "id": "base-color",
+                    "type": "entity"
+                }
+            ]
+        }
+    }
 }

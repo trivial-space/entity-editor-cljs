@@ -2,14 +2,9 @@
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
             [flow-editor.views.value-types.core :refer [value-types]]
-            [re-com.core :refer [title
-                                 horizontal-bar-tabs
-                                 label
-                                 md-icon-button
-                                 button
-                                 v-box
-                                 h-box
-                                 box
+            [re-com.core :refer [title horizontal-bar-tabs
+                                 label md-icon-button button
+                                 v-box h-box box gap
                                  single-dropdown
                                  h-split]]))
 
@@ -17,10 +12,17 @@
 (defn header
   [entity]
   [h-box
-   :children [[box
+   :children [[:div
+               {:style {:background-color "#2B7CE9"
+                        :width "19px"
+                        :height "19px"
+                        :display "inline-block"}}]
+              [gap :size "10px"]
+              [box
                :size "auto"
                :child [title
-                       :label (str "ID: " (:id entity))
+                       :label (:id entity)
+                       :margin-top "0.3em"
                        :level :level3]]
               [md-icon-button
                :md-icon-name "zmdi-delete"

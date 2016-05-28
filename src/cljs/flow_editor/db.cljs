@@ -22,7 +22,8 @@
      {:new-node-position nil
       :context-menu nil}
    :ui
-     {:modal nil
+     {:layout []
+      :modal nil
       :minimized? false
       :fullscreen? false
       :main-frame-dimensions

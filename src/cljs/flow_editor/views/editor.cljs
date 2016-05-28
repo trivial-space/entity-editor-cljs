@@ -74,40 +74,24 @@
                    :on-click #(dispatch [:ui/minimized-enter])])]]))
 
 
-(defn entity-list []
-  (let [entities (subscribe [:flow-runtime/edited-entities])]
+(defn node-list []
+  (let [nodes (subscribe [:ui/layout])
+        graph (subscribe [:flow-runtime/graph])]
     (fn []
-      [v-box
-       :class "section-container entity-section"
-       :children [[title
-                   :label "Entities"
-                   :level :level2
-                   :margin-top "0.1em"]
-                  [scroller
-                   :class "item-list entity-item-list"
-                   :min-width "400px"
-                   :child [v-box
-                           :gap "5px"
-                           :children [(for [entity @entities]
-                                        ^{:key (str "entity-" (:id entity))} [entity-component entity])]]]]])))
-
-
-(defn process-list []
-  (let [processes (subscribe [:flow-runtime/edited-processes])]
-    (fn []
-      [v-box
-       :class "section-container process-section"
-       :children [[title
-                   :label "Processes"
-                   :level :level2
-                   :margin-top "0.1em"]
-                  [scroller
-                   :class "item-list process-item-list"
-                   :min-width "520px"
-                   :child [v-box
-                           :gap "5px"
-                           :children [(for [process @processes]
-                                        ^{:key (str "process-" (:id process))} [process-component process])]]]]])))
+      (let [processes (:processes @graph)
+            entities (:entities @graph)]
+        [scroller
+         :class "item-list process-item-list"
+         :min-width "520px"
+         :child [v-box
+                 :size "auto"
+                 :gap "5px"
+                 :children [(for [node @nodes]
+                              (if (= (:type node) "entity")
+                                (when-let [e (get entities (keyword (:id node)))]
+                                  ^{:key (str "entity-" (:id e))} [entity-component e])
+                                (when-let [p (get processes (keyword (:id node)))]
+                                  ^{:key (str "process-" (:id p))} [process-component p])))]]]))))
 
 
 (defn resize-drag [e]
@@ -144,17 +128,8 @@
                        :child [h-box
                                :size "auto"
                                :gap "10px"
-                               :children [[v-box
-                                           :min-width "500px"
-                                           :size "auto"
-                                           :children [[title
-                                                       :label "Graph"
-                                                       :level :level2
-                                                       :margin-top "0.1em"]
-                                                      [graph-component]]]
-
-                                          [entity-list]
-                                          [process-list]]]]
+                               :children [[graph-component]
+                                          [node-list]]]]
                       (when-not @fullscreen?
                         [:div
                          {:class-name "resize-drag"

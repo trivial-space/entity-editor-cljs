@@ -37,3 +37,9 @@
   :ui/fullscreen?
   (fn [db]
     (reaction (get-in @db [:ui :fullscreen?]))))
+
+
+(register-sub
+  :ui/layout
+  (fn [db]
+    (reaction (get-in @db [:ui :layout]))))

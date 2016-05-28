@@ -1,6 +1,7 @@
 import flow from "tvs-flow"
 import {graph} from "./graph"
 
+console.log(graph)
 
 const localStorageKey = "__basic-example";
 const runtime = flow.create()
@@ -13,3 +14,6 @@ if (localGraph) {
 }
 
 flow_editor.core.init(runtime, localStorageKey);
+
+window.runtime = runtime
+window.graph = graph
