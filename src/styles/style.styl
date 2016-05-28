@@ -2,6 +2,19 @@
 @import url("http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300")
 
 
+$box
+  background-color rgba(#f5f5f5, 0.8)
+  border-top 1px solid rgba(white, 0.8)
+  box-shadow 0 2px 5px rgba(0, 0, 0, 0.4)
+  border-radius 4px
+
+$sink
+  padding: 5px
+  box-shadow 0 1px 2px rgba(0, 0, 0, 0.2) inset
+  border-radius 4px
+  border-bottom 1px solid white
+  border-top 1px solid rgba(0, 0, 0, 0.2)
+
 #tvs-flow-editor
 
   @import "vendor/bootstrap"
@@ -18,26 +31,24 @@
   letter-spacing 0.002em
   -webkit-tap-highlight-color rgba(0, 0, 0, 0)
 
+  @extend $box
   position fixed
   top 5%
   left 5%
   margin 0
-  padding 10px
+  padding 5px
   width: 940px
   height: 800px
   max-width: calc(100% - 20px)
   max-height: calc(100% - 20px)
   box-sizing: border-box
-
-  background-color rgba(#f5f5f5, 0.8)
-  border-top 1px solid rgba(white, 0.8)
   box-shadow 0 10px 20px rgba(0, 0, 0, 0.4)
-  border-radius 4px
 
 
   .level2
   .level1
     text-shadow: 0 1px 1px rgba(white, 0.8)
+
 
   .main-header
     user-select: none
@@ -45,8 +56,12 @@
     &:not(.fullscreen)
       cursor: grab
 
+
   .main-content
+    @extend $sink
+    background-color rgba(#ccc, 0.6)
     user-select: none
+
 
   .resize-drag
     position: absolute
@@ -58,40 +73,50 @@
     cursor: nwse-resize
     background: linear-gradient(to bottom right, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.2) 51%)
 
+
   .entity-component
   .process-component
+    @extend $box
     margin 5px 0
     padding 10px
-    background-color rgba(#f5f5f5, 0.8)
-    border-top 1px solid white
-    box-shadow 0 2px 5px rgba(0, 0, 0, 0.4)
-    border-radius 4px
 
     pre
       margin 0
 
-  .graph-container
+
   .vis-network
     display flex
     flex-flow inherit
     flex 1 1 auto
     width 100%
     height 100%
-    margin 5px 0
     background-color rgba(#fff, 0.8)
     border-top 1px solid rgba(0, 0, 0, 0.3)
     border-bottom 1px solid white
     box-shadow 0 1px 5px rgba(0, 0, 0, 0.4) inset
     border-radius 4px
 
+    .vis-network-tooltip
+      @extend $box
+      position absolute
+      display: block
+      padding: 0 5px
+
+
+  .graph-container
+    position relative
+    z-index 100
+
+
+  .context-menu
+    @extend $box
+    position: absolute
+    padding: 5px 5px 10px
+
 
   .item-list
-    margin: 5px 0
-    padding: 5px
-    box-shadow 0 1px 2px rgba(0, 0, 0, 0.2) inset
-    border-radius 4px
-    border-bottom 1px solid white
-    border-top 1px solid rgba(0, 0, 0, 0.2)
+    @extend $sink
+
 
   .CodeMirror
     height auto

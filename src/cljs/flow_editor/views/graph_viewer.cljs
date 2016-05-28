@@ -3,7 +3,7 @@
   (:require [cljsjs.vis]
             [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
-            [re-com.core :refer [box]]))
+            [re-com.core :refer [box title h-box v-box button md-icon-button]]))
 
 
 (def default-group "__default")
@@ -102,17 +102,20 @@
                        (let [pid (p-node-id (:process a))
                              eid (e-node-id (:entity a))
                              ports (get-in graph [:processes (keyword (:process a)) :ports])
-                             acc? (and (not (:port a))
-                                       (some #(= % (get types "ACCUMULATOR")) (vals ports)))]
-                         (println acc?)
-                         (if (or acc? (:port a))
+                             acc (and (not (:port a))
+                                      (->> ports
+                                        (filter (fn [[k v]] (= v (get types "ACCUMULATOR"))))
+                                        (keys)
+                                        (first)))]
+                         (if (or acc (:port a))
                            (let [port (get ports (keyword (:port a)))
-                                 edge {:from eid :to pid}]
+                                 edge {:from eid :to pid}] ;;:title (str "port: " (:port a))}]
                              (if (= port (get types "COLD"))
                                (assoc edge :dashes true)
-                               (if acc?
+                               (if acc
                                  (assoc edge :arrows {:middle true :from true :to true}
                                              :color {:inherit "to"})
+                                             ;;:title (str "port: " (name acc)))
                                  edge)))
                            {:from pid :to eid})))))]
 
@@ -147,6 +150,31 @@
          (dispatch [:flow-runtime/set-node-positions (.getPositions net)]))))
 
 
+(defn add-node-menu
+  [pos]
+  [v-box
+   :gap "5px"
+   :children [[h-box
+               :gap "auto"
+               :children [[title
+                           :label "Add a new node"
+                           :margin-top "0.3em"
+                           :level :level3]
+                          [md-icon-button
+                           :md-icon-name "zmdi-close"
+                           :on-click (fn [] (dispatch [:graph-ui/close-context-menu])
+                                            (dispatch [:graph-ui/set-new-node-position nil]))]]]
+              [h-box
+               :gap "10px"
+               :children [[button
+                           :label "Entity"
+                           :on-click (fn [] (dispatch [:graph-ui/close-context-menu])
+                                            (dispatch [:ui/open-modal :modals/add-entity]))]
+                          [button
+                           :label "Process"
+                           :on-click (fn [] (dispatch [:graph-ui/close-context-menu])
+                                            (dispatch [:ui/open-modal :modals/add-process]))]]]]])
+
 
 (defn graph-inner []
   (let [network (atom nil)
@@ -173,9 +201,11 @@
                                 (reset! network new-network)
                                 (render comp new-network)))
 
-       :component-did-update #(render % @network)
-       :display-name "gmap-inner"})))
+       :component-did-update #(render % @network)})))
 
+
+(def context-menus
+  {:context/add-node add-node-menu})
 
 
 (defn graph-component []
@@ -184,5 +214,16 @@
         size (subscribe [:ui/main-frame-dimensions])
         height (reaction (:height @size))]
     (fn []
-      [graph-inner {:graph @graph
-                    :size @height}])))
+      [v-box
+       :size "auto"
+       :class "graph-container"
+       :children [[graph-inner {:graph @graph
+                                :size @height}]
+                  (when-let [ctx @context-menu]
+                    (let [top (:y (:pos ctx))
+                          left (:x (:pos ctx))]
+                      [:div
+                       {:class "context-menu"
+                        :style {:top top
+                                :left left}}
+                       [(context-menus (:type ctx))]]))]])))

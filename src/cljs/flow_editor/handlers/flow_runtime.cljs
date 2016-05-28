@@ -18,10 +18,15 @@
 
 (register-handler
   :flow-runtime/add-entity
-  (fn [db [_ entity-id]]
-    (.addEntity (:runtime db) #js {:id entity-id})
-    (dispatch [:ui/close-modal])
-    (update-runtime db)))
+  (fn [db [_ eid]]
+    (let [pos (get-in db [:graph-ui :new-node-position])
+          e (if pos
+              (clj->js {:id eid :meta {:ui pos}})
+              #js {:id eid})]
+      (.addEntity (:runtime db) e)
+      (dispatch [:ui/close-modal])
+      (dispatch [:graph-ui/set-new-node-position nil])
+      (update-runtime db))))
 
 
 (register-handler
@@ -77,10 +82,15 @@
 
 (register-handler
   :flow-runtime/add-process
-  (fn [db [_ process-id]]
-    (.addProcess (:runtime db) #js {:id process-id :code default-process-code})
-    (dispatch [:ui/close-modal])
-    (update-runtime db)))
+  (fn [db [_ pid]]
+    (let [pos (get-in db [:graph-ui :new-node-position])
+          p (if pos
+              (clj->js {:id pid :code default-process-code :meta {:ui pos}})
+              #js {:id pid :code default-process-code})]
+      (.addProcess (:runtime db) p)
+      (dispatch [:ui/close-modal])
+      (dispatch [:graph-ui/set-new-node-position nil])
+      (update-runtime db))))
 
 
 (register-handler

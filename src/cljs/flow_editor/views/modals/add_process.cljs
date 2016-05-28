@@ -27,4 +27,5 @@
                                        :on-click #(dispatch [:flow-runtime/add-process @process-id])]
                                       [button
                                        :label "Cancel"
-                                       :on-click #(dispatch [:ui/close-modal])]]]]]])))
+                                       :on-click (fn [] (dispatch [:ui/close-modal])
+                                                        (dispatch [:graph-ui/set-new-node-position nil]))]]]]]])))

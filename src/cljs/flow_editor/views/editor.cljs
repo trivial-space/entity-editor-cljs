@@ -16,8 +16,6 @@
    :child [md-icon-button
            :md-icon-name "zmdi-fullscreen"
            :size :larger
-           :style {:margin-top "-5px"
-                   :margin-left "-5px"}
            :on-click #(dispatch [:ui/minimized-exit])]])
 
 
@@ -81,16 +79,10 @@
     (fn []
       [v-box
        :class "section-container entity-section"
-       :children [[h-box
-                   :children [[box
-                               :size "auto"
-                               :child [title
-                                       :label "Entities"
-                                       :level :level2
-                                       :margin-top "0.1em"]]
-                              [button
-                               :label "add"
-                               :on-click #(dispatch [:ui/open-modal :modals/add-entity])]]]
+       :children [[title
+                   :label "Entities"
+                   :level :level2
+                   :margin-top "0.1em"]
                   [scroller
                    :class "item-list entity-item-list"
                    :min-width "400px"
@@ -105,16 +97,10 @@
     (fn []
       [v-box
        :class "section-container process-section"
-       :children [[h-box
-                   :children [[box
-                               :size "auto"
-                               :child [title
-                                       :label "Processes"
-                                       :level :level2
-                                       :margin-top "0.1em"]]
-                              [button
-                               :label "add"
-                               :on-click #(dispatch [:ui/open-modal :modals/add-process])]]]
+       :children [[title
+                   :label "Processes"
+                   :level :level2
+                   :margin-top "0.1em"]
                   [scroller
                    :class "item-list process-item-list"
                    :min-width "520px"
