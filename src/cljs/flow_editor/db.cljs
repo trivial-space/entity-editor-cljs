@@ -18,6 +18,9 @@
    :runtime nil
    :graph nil
    :entity-values {}
+   :graph-ui
+     {:new-node-position nil
+      :context-menu nil}
    :ui
      {:modal nil
       :minimized? false

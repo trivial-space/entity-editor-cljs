@@ -2,6 +2,7 @@
   (:require-macros [reagent.ratom :refer [reaction]])
   (:require [re-frame.core :refer [register-sub]]
             [flow-editor.subs.flow-runtime]
+            [flow-editor.subs.graph-ui]
             [flow-editor.subs.ui]))
 
 

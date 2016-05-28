@@ -2,6 +2,7 @@
     (:require [re-frame.core :refer [dispatch register-handler]]
               [flow-editor.db :as db]
               [flow-editor.handlers.ui]
+              [flow-editor.handlers.graph-ui]
               [flow-editor.handlers.flow-runtime :as flow-handler]))
 
 

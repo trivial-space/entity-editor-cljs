@@ -124,7 +124,15 @@
   (.setOptions net graph-options)
   (.on net "oncontext"
        (fn [e]
-         (println "context!!")
+         (let [evt (js->clj e :keywordize-keys true)
+               nodes (:nodes evt)
+               edges (:edges evt)]
+           (when (and (= 0 (count nodes))
+                      (= 0 (count edges)))
+             (dispatch [:graph-ui/set-new-node-position (get-in evt [:pointer :canvas])])
+             (dispatch [:graph-ui/open-context-menu :context/add-node
+                                                    (get-in evt [:pointer :DOM])])))
+
          (.preventDefault (aget e "event"))))
   (.on net "dragEnd"
        (fn [e]
@@ -172,6 +180,7 @@
 
 (defn graph-component []
   (let [graph (subscribe [:flow-runtime/graph])
+        context-menu (subscribe [:graph-ui/context-menu])
         size (subscribe [:ui/main-frame-dimensions])
         height (reaction (:height @size))]
     (fn []
