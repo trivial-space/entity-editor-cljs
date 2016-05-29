@@ -228,11 +228,11 @@
                      (clj->js (-> item
                                 (assoc-in [:meta :ui :x] (get val "x"))
                                 (assoc-in [:meta :ui :y] (get val "y")))))]
-        (when (= type :entity)
-          (when-let [e (get-in db [:graph :entities id])]
+        (when (= type "entity")
+          (when-let [e (get-in db [:graph :entities (keyword id)])]
             (.addEntity (:runtime db) (update e))))
-        (when (= type :process)
-          (when-let [p (get-in db [:graph :processes id])]
+        (when (= type "process")
+          (when-let [p (get-in db [:graph :processes (keyword id)])]
             (.addProcess (:runtime db) (update p))))))
     (update-runtime db)))
 
