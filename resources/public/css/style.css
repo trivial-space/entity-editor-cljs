@@ -13463,6 +13463,7 @@
   cursor: grab;
 }
 #tvs-flow-editor .main-content {
+  padding-right: 0;
   background-color: rgba(204,204,204,0.6);
   -webkit-user-select: none;
      -moz-user-select: none;

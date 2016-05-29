@@ -47,29 +47,28 @@
                  :attr {:on-mouse-down drag-handler}
                  :margin-top "0.1em"
                  :label (str "Flow editor")
-                 :level :level1]
+                 :level :level2]
                 [gap
                  :size "auto"
                  :class class
                  :attr {:on-mouse-down drag-handler}]
-                [button
-                 :label "export"
+                [md-icon-button
+                 :md-icon-name "zmdi-download"
+                 :emphasise? true
+                 :tooltip "export graph"
                  :on-click #(dispatch [:ui/open-modal :modals/export-graph])]
                 (if fullscreen?
                   [md-icon-button
                    :md-icon-name "zmdi-minus"
-                   :size :larger
                    :tooltip "exit fullscreen"
                    :on-click #(dispatch [:ui/fullscreen-exit])]
                   [md-icon-button
                    :md-icon-name "zmdi-plus"
-                   :size :larger
                    :tooltip "fullscreen"
                    :on-click #(dispatch [:ui/fullscreen-enter])])
                 (when-not fullscreen?
                   [md-icon-button
                    :md-icon-name "zmdi-close"
-                   :size :larger
                    :tooltip "minimize window"
                    :on-click #(dispatch [:ui/minimized-enter])])]]))
 
@@ -127,9 +126,10 @@
                        :v-scroll :off
                        :child [h-box
                                :size "auto"
-                               :gap "10px"
                                :children [[graph-component]
-                                          [node-list]]]]
+                                          [gap :size "10px"]
+                                          [node-list]
+                                          [gap :size "5px"]]]]
                       (when-not @fullscreen?
                         [:div
                          {:class-name "resize-drag"

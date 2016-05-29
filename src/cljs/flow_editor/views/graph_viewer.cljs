@@ -38,7 +38,9 @@
        :color {:border "#de7a13"
                :background "#f7d26e"
                :highlight {:border "#de7a13"
-                           :background "#f5fba8"}}}}
+                           :background "#f5fba8"}}
+       :size 15
+       :font {:size 12}}}
 
 
      :interaction {:multiselect true}
@@ -141,7 +143,7 @@
     (fn [e]
       (let [nodes (aget e "nodes")]
         (when (< 0 (aget nodes "length"))
-          (dispatch [:flow-runtime-ui/set-node-positions (.getPositions net)])))))
+          (dispatch [:flow-runtime-ui/set-node-positions (.getPositions net nodes)])))))
 
   (.on net "stabilized"
     (fn [stabilized-event]
