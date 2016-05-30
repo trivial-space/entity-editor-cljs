@@ -1,13 +1,33 @@
 export const graph =
 {
     "entities": {
-        "color": {
-            "id": "color",
-            "value": "0xff0000",
+        "tick": {
+            "id": "tick",
+            "value": null,
             "meta": {
                 "ui": {
-                    "y": -680,
-                    "x": -488
+                    "x": 114,
+                    "y": 209
+                }
+            }
+        },
+        "color": {
+            "id": "color",
+            "value": "0xff00ff",
+            "meta": {
+                "ui": {
+                    "y": -647,
+                    "x": -494
+                }
+            }
+        },
+        "rot-speed-x": {
+            "id": "rot-speed-x",
+            "value": 0.005,
+            "meta": {
+                "ui": {
+                    "x": -113,
+                    "y": 140
                 }
             }
         },
@@ -20,8 +40,8 @@ export const graph =
             ],
             "meta": {
                 "ui": {
-                    "y": -557,
-                    "x": -20
+                    "y": -640,
+                    "x": -126
                 }
             }
         },
@@ -53,8 +73,32 @@ export const graph =
             },
             "meta": {
                 "ui": {
-                    "y": -609,
-                    "x": 162
+                    "y": -697,
+                    "x": 88
+                }
+            }
+        },
+        "box-dimensions": {
+            "id": "box-dimensions",
+            "value": [
+                200,
+                200,
+                200
+            ],
+            "meta": {
+                "ui": {
+                    "x": -316,
+                    "y": -640
+                }
+            }
+        },
+        "rot-speed-y": {
+            "id": "rot-speed-y",
+            "value": 0.01,
+            "meta": {
+                "ui": {
+                    "x": -264,
+                    "y": 140
                 }
             }
         },
@@ -83,8 +127,8 @@ export const graph =
             "value": null,
             "meta": {
                 "ui": {
-                    "y": -307,
-                    "x": 158
+                    "y": -370,
+                    "x": 90
                 }
             }
         },
@@ -93,13 +137,25 @@ export const graph =
             "value": null,
             "meta": {
                 "ui": {
-                    "y": -119,
-                    "x": 159
+                    "y": -29,
+                    "x": 110
                 }
             }
         }
     },
     "processes": {
+        "animation-frame": {
+            "id": "animation-frame",
+            "ports": {},
+            "code": "function(ports, send) {\n\tvar i = 0;\n\tvar runing = true;\n\t\n\tfunction tick() {\n\t\tsend(i++);\n\t\tif (runing) {\n\t\t\trequestAnimationFrame(tick);\n\t\t}\n\t}\n\t\n\ttick();\n\t\n\treturn function() {\n\t\truning = false;\n\t};\n}",
+            "autostart": true,
+            "meta": {
+                "ui": {
+                    "x": 116,
+                    "y": 329
+                }
+            }
+        },
         "update-mesh": {
             "id": "update-mesh",
             "ports": {
@@ -111,8 +167,8 @@ export const graph =
             "autostart": null,
             "meta": {
                 "ui": {
-                    "y": -146,
-                    "x": -319
+                    "y": -141,
+                    "x": -250
                 }
             }
         },
@@ -125,22 +181,39 @@ export const graph =
             "autostart": true,
             "meta": {
                 "ui": {
-                    "y": -487,
-                    "x": -495
+                    "y": -431,
+                    "x": -493
                 }
             }
         },
         "create-scene": {
             "id": "create-scene",
             "ports": {
-                "mesh": "hot"
+                "mesh": "cold"
             },
             "code": "function(ports, send) {\n\tconsole.log(\"create-scene\")\n\t\n\tvar scene = new this.three.Scene()\n\tscene.add(ports.mesh)\n\tsend(scene)\n}",
+            "autostart": true,
+            "meta": {
+                "ui": {
+                    "y": -140,
+                    "x": 109
+                }
+            }
+        },
+        "rotate-mesh": {
+            "id": "rotate-mesh",
+            "ports": {
+                "rot_x": "hot",
+                "rot_y": "hot",
+                "tick": "hot",
+                "mesh": "accumulator"
+            },
+            "code": "function(ports, send) {\n\tports.mesh.rotation.x += ports.rot_x;\n\tports.mesh.rotation.y += ports.rot_y;\n\tsend(ports.mesh)\n}",
             "autostart": null,
             "meta": {
                 "ui": {
-                    "y": -230,
-                    "x": 13
+                    "x": -129,
+                    "y": -30
                 }
             }
         },
@@ -151,17 +224,18 @@ export const graph =
             "autostart": true,
             "meta": {
                 "ui": {
-                    "y": -459,
-                    "x": 403
+                    "y": -437,
+                    "x": 408
                 }
             }
         },
         "render": {
             "id": "render",
             "ports": {
-                "scene": "hot",
+                "scene": "cold",
                 "renderer": "cold",
-                "camera": "hot"
+                "camera": "cold",
+                "tick": "hot"
             },
             "code": "function(ports, send) {\n\tconsole.log(\"render\")\n\t\n\tports.renderer.render(ports.scene, ports.camera)\n}",
             "autostart": null,
@@ -179,20 +253,22 @@ export const graph =
             "autostart": true,
             "meta": {
                 "ui": {
-                    "y": -328,
-                    "x": -130
+                    "y": -250,
+                    "x": -128
                 }
             }
         },
         "create-geometry": {
             "id": "create-geometry",
-            "ports": {},
-            "code": "function(ports, send) {\n\tconsole.log(\"create-geometry\")\n\t\n\tsend(new this.three.BoxGeometry(200, 200, 200))\n}",
+            "ports": {
+                "dimensions": "hot"
+            },
+            "code": "function(ports, send) {\n\tconsole.log(\"create-geometry\")\n\t\n\tvar size = ports.dimensions;\n\tsend(new this.three.BoxGeometry(size[0], size[1], size[2]))\n}",
             "autostart": true,
             "meta": {
                 "ui": {
-                    "y": -485,
-                    "x": -317
+                    "y": -434,
+                    "x": -314
                 }
             }
         },
@@ -206,22 +282,22 @@ export const graph =
             "autostart": null,
             "meta": {
                 "ui": {
-                    "y": -395,
-                    "x": 275
+                    "y": -504,
+                    "x": 252
                 }
             }
         },
         "create-camera": {
             "id": "create-camera",
             "ports": {
-                "size": "cold"
+                "size": "hot"
             },
             "code": "function(ports, send) {\n\tconsole.log(\"create-camera\")\n\t\n\tsend(new this.three.PerspectiveCamera(\n\t\t75, ports.size.width / ports.size.height, 1, 1000\n\t))\n}",
             "autostart": true,
             "meta": {
                 "ui": {
-                    "y": -470,
-                    "x": 157
+                    "y": -486,
+                    "x": 91
                 }
             }
         },
@@ -229,15 +305,14 @@ export const graph =
             "id": "update-camera",
             "ports": {
                 "camera": "accumulator",
-                "position": "hot",
-                "size": "hot"
+                "position": "hot"
             },
-            "code": "function(ports, send) {\n\tconsole.log(\"update-camera\")\n\t\n\tvar cam = ports.camera,\n\t\t\tpos = ports.position\n\t\n\tcam.position.x = pos[0]\n\tcam.position.y = pos[1]\n\tcam.position.z = pos[2]\n\tcam.aspect = ports.size.width / ports.size.height\n\t\n\tsend(cam)\n}",
+            "code": "function(ports, send) {\n\tconsole.log(\"update-camera\")\n\t\n\tvar cam = ports.camera,\n\t\t\tpos = ports.position\n\t\n\tcam.position.x = pos[0]\n\tcam.position.y = pos[1]\n\tcam.position.z = pos[2]\n\t\n\tsend(cam)\n}",
             "autostart": null,
             "meta": {
                 "ui": {
-                    "y": -390,
-                    "x": 24
+                    "y": -370,
+                    "x": -37
                 }
             }
         }
@@ -248,6 +323,13 @@ export const graph =
             "entity": "size",
             "process": "create-camera",
             "port": "size",
+            "meta": {}
+        },
+        "rot-speed-y->rotate-mesh::rot_y": {
+            "id": "rot-speed-y->rotate-mesh::rot_y",
+            "entity": "rot-speed-y",
+            "process": "rotate-mesh",
+            "port": "rot_y",
             "meta": {}
         },
         "create-material->material": {
@@ -262,13 +344,6 @@ export const graph =
             "entity": "scene",
             "process": "render",
             "port": "scene",
-            "meta": {}
-        },
-        "size->update-camera::size": {
-            "id": "size->update-camera::size",
-            "entity": "size",
-            "process": "update-camera",
-            "port": "size",
             "meta": {}
         },
         "update-mesh->mesh": {
@@ -292,6 +367,27 @@ export const graph =
             "port": null,
             "meta": {}
         },
+        "tick->rotate-mesh::tick": {
+            "id": "tick->rotate-mesh::tick",
+            "entity": "tick",
+            "process": "rotate-mesh",
+            "port": "tick",
+            "meta": {}
+        },
+        "animation-frame->tick": {
+            "id": "animation-frame->tick",
+            "entity": "tick",
+            "process": "animation-frame",
+            "port": null,
+            "meta": {}
+        },
+        "rot-speed-x->rotate-mesh::rot_x": {
+            "id": "rot-speed-x->rotate-mesh::rot_x",
+            "entity": "rot-speed-x",
+            "process": "rotate-mesh",
+            "port": "rot_x",
+            "meta": {}
+        },
         "geometry->update-mesh::geometry": {
             "id": "geometry->update-mesh::geometry",
             "entity": "geometry",
@@ -313,6 +409,13 @@ export const graph =
             "port": null,
             "meta": {}
         },
+        "tick->render::tick": {
+            "id": "tick->render::tick",
+            "entity": "tick",
+            "process": "render",
+            "port": "tick",
+            "meta": {}
+        },
         "create-camera->camera": {
             "id": "create-camera->camera",
             "entity": "camera",
@@ -332,6 +435,13 @@ export const graph =
             "entity": "renderer",
             "process": "render",
             "port": "renderer",
+            "meta": {}
+        },
+        "rotate-mesh->mesh": {
+            "id": "rotate-mesh->mesh",
+            "entity": "mesh",
+            "process": "rotate-mesh",
+            "port": null,
             "meta": {}
         },
         "camera-position->update-camera::position": {
@@ -369,6 +479,13 @@ export const graph =
             "port": "camera",
             "meta": {}
         },
+        "box-dimensions->create-geometry::dimensions": {
+            "id": "box-dimensions->create-geometry::dimensions",
+            "entity": "box-dimensions",
+            "process": "create-geometry",
+            "port": "dimensions",
+            "meta": {}
+        },
         "renderer->update-size::renderer": {
             "id": "renderer->update-size::renderer",
             "entity": "renderer",
@@ -384,5 +501,9 @@ export const graph =
             "meta": {}
         }
     },
-    "meta": {}
+    "meta": {
+        "ui": {
+            "layout": []
+        }
+    }
 }

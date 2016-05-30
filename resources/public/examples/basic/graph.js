@@ -3,7 +3,10 @@ export const graph =
     "entities": {
         "mouse-position": {
             "id": "mouse-position",
-            "value": { "x": 0, "y": 0 },
+            "value": {
+                "x": 0,
+                "y": 0
+            },
             "meta": {
                 "ui": {
                     "y": -254,
@@ -50,8 +53,8 @@ export const graph =
             ],
             "meta": {
                 "ui": {
-                    "y": 57,
-                    "x": 201
+                    "y": 58,
+                    "x": 200
                 }
             }
         }
@@ -60,12 +63,12 @@ export const graph =
         "mouse-move-collector": {
             "id": "mouse-move-collector",
             "ports": {},
-            "code": "function(ports, send) {\n\n\tfunction onMouseMove(e) {\n\t\tsend({x: e.clientX, y: e.clientY});\n\t};\n\n\twindow.addEventListener(\"mousemove\", onMouseMove);\n\n\treturn function stop() {\n\t\twindow.removeEventListener(\"mousemove\", onMouseMove);\n\t}\n}",
+            "code": "function(ports, send) {\n\t\n\tfunction onMouseMove(e) {\n\t\tsend({x: e.clientX, y: e.clientY});\n\t};\n\n\twindow.addEventListener(\"mousemove\", onMouseMove);\n\n\treturn function stop() {\n\t\twindow.removeEventListener(\"mousemove\", onMouseMove);\n\t}\n}",
             "autostart": true,
             "meta": {
                 "ui": {
                     "y": -422,
-                    "x": -115
+                    "x": -111
                 }
             }
         },
@@ -195,7 +198,7 @@ export const graph =
         "ui": {
             "layout": [
                 {
-                    "id": "base-color",
+                    "id": "mouse-position",
                     "type": "entity"
                 }
             ]
