@@ -4,16 +4,9 @@
             [clojure.set :refer [union]]
             [flow-editor.views.utils.codemirror :refer [cm]]
             [re-com.core :refer [input-text
-                                 md-icon-button
-                                 md-circle-icon-button
-                                 single-dropdown
-                                 title
-                                 label
-                                 button
-                                 gap
-                                 v-box
-                                 h-box
-                                 box]]))
+                                 md-icon-button button md-circle-icon-button
+                                 single-dropdown title label
+                                 gap v-box h-box box line]]))
 
 
 (defn header
@@ -66,7 +59,14 @@
                     [md-icon-button
                      :md-icon-name "zmdi-delete"
                      :tooltip "delete this process"
-                     :on-click #(dispatch [:flow-runtime/remove-process id])]]]))))
+                     :on-click #(dispatch [:flow-runtime/remove-process id])]
+                    [gap :size "10px"]
+                    [line]
+                    [gap :size "10px"]
+                    [md-icon-button
+                     :md-icon-name "zmdi-close"
+                     :on-click #(dispatch [:flow-runtime-ui/close-node
+                                            {:id id :type "process"}])]]]))))
 
 
 (defn port-row

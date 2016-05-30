@@ -250,11 +250,19 @@
     (let [node (node-from-id nid)
           layout (get-in db [:ui :layout])
           open? (some (fn [n]
-                        (println n)
                         (and (= (:type n) (:type node))
                              (= (:id n) (:id node))))
                       layout)]
-      (println "opening node" open? node layout)
       (if-not open?
         (update-layout db (into [node] layout))
         db))))
+
+
+(register-handler
+  :flow-runtime-ui/close-node
+  (fn [db [_ node]]
+    (let [layout (->> (get-in db [:ui :layout])
+                   (remove (fn [n]
+                             (and (= (:type n) (:type node))
+                                  (= (:id n) (:id node))))))]
+      (update-layout db layout))))

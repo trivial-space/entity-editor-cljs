@@ -4,13 +4,13 @@
             [flow-editor.views.value-types.core :refer [value-types]]
             [re-com.core :refer [title horizontal-bar-tabs
                                  label md-icon-button button
-                                 v-box h-box box gap
+                                 v-box h-box box gap line
                                  single-dropdown
                                  h-split]]))
 
 
 (defn header
-  [entity]
+  [eid]
   [h-box
    :children [[:div
                {:style {:background-color "#2B7CE9"
@@ -21,12 +21,20 @@
               [box
                :size "auto"
                :child [title
-                       :label (:id entity)
+                       :label eid
                        :margin-top "0.3em"
                        :level :level3]]
               [md-icon-button
                :md-icon-name "zmdi-delete"
-               :on-click #(dispatch [:flow-runtime/remove-entity (:id entity)])]]])
+               :tooltip "delete this entity"
+               :on-click #(dispatch [:flow-runtime/remove-entity eid])]
+              [gap :size "10px"]
+              [line]
+              [gap :size "10px"]
+              [md-icon-button
+               :md-icon-name "zmdi-close"
+               :on-click #(dispatch [:flow-runtime-ui/close-node
+                                      {:id eid :type "entity"}])]]])
 
 
 (def value-tabs
@@ -85,7 +93,7 @@
       [v-box
        :class "entity-component"
        :gap "5px"
-       :children [[header entity]
+       :children [[header (:id entity)]
                   [h-box
                    :gap "10px"
                    :children [[horizontal-bar-tabs
