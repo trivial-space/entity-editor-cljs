@@ -40,7 +40,7 @@
                :highlight {:border "#de7a13"
                            :background "#f5fba8"}}
        :size 15
-       :font {:size 12}}}
+       :font {:size 0}}}
 
 
      :interaction {:multiselect true}
@@ -73,7 +73,8 @@
                                     node (adjust-pos e node)]
                                 (if (:value e)
                                   (assoc node :borderWidth 5
-                                              :borderWidthSelected 5)
+                                              :borderWidthSelected 5
+                                              :size 20)
                                   node)))))
 
         process-nodes (->> (:processes graph)
@@ -84,7 +85,8 @@
                                      node (adjust-pos p node)]
                                  (if (:autostart p)
                                    (assoc node :borderWidth 5
-                                               :borderWidthSelected 5)
+                                               :borderWidthSelected 5
+                                               :size 13)
                                    node)))))
 
         nodes (concat entity-nodes process-nodes)
@@ -188,8 +190,7 @@
                        graph (:graph (r/props comp))
                        vis-data (get-vis-graph graph @types)]
                    (.setSize net (aget dom-rect "width") (aget dom-rect "height"))
-                   (.setData net (clj->js vis-data))
-                   (.fit net)))]
+                   (.setData net (clj->js vis-data))))]
 
     (r/create-class
       {:reagent-render (fn []
@@ -202,7 +203,8 @@
                                     new-network (js/vis.Network. node)]
                                 (init-vis new-network)
                                 (reset! network new-network)
-                                (render comp new-network)))
+                                (render comp new-network)
+                                (.fit new-network)))
 
        :component-did-update #(render % @network)})))
 
