@@ -6,28 +6,28 @@ export const graph =
             "value": null,
             "meta": {
                 "ui": {
-                    "x": 114,
-                    "y": 209
+                    "x": 204,
+                    "y": 226
                 }
             }
         },
         "color": {
             "id": "color",
-            "value": "0xff00ff",
+            "value": "0xff0000",
             "meta": {
                 "ui": {
-                    "y": -647,
-                    "x": -494
+                    "y": -547,
+                    "x": -537
                 }
             }
         },
         "rot-speed-x": {
             "id": "rot-speed-x",
-            "value": 0.005,
+            "value": 0.01,
             "meta": {
                 "ui": {
-                    "x": -113,
-                    "y": 140
+                    "x": -146,
+                    "y": 312
                 }
             }
         },
@@ -40,8 +40,8 @@ export const graph =
             ],
             "meta": {
                 "ui": {
-                    "y": -640,
-                    "x": -126
+                    "y": -549,
+                    "x": -92
                 }
             }
         },
@@ -50,8 +50,8 @@ export const graph =
             "value": null,
             "meta": {
                 "ui": {
-                    "y": -324,
-                    "x": -315
+                    "y": -246,
+                    "x": -357
                 }
             }
         },
@@ -73,7 +73,7 @@ export const graph =
             },
             "meta": {
                 "ui": {
-                    "y": -697,
+                    "y": -690,
                     "x": 88
                 }
             }
@@ -87,18 +87,18 @@ export const graph =
             ],
             "meta": {
                 "ui": {
-                    "x": -316,
-                    "y": -640
+                    "x": -358,
+                    "y": -549
                 }
             }
         },
         "rot-speed-y": {
             "id": "rot-speed-y",
-            "value": 0.01,
+            "value": 0.02,
             "meta": {
                 "ui": {
-                    "x": -264,
-                    "y": 140
+                    "x": -290,
+                    "y": 316
                 }
             }
         },
@@ -107,8 +107,8 @@ export const graph =
             "value": null,
             "meta": {
                 "ui": {
-                    "y": -142,
-                    "x": -126
+                    "y": 3,
+                    "x": -152
                 }
             }
         },
@@ -117,8 +117,8 @@ export const graph =
             "value": null,
             "meta": {
                 "ui": {
-                    "y": -327,
-                    "x": -494
+                    "y": -249,
+                    "x": -536
                 }
             }
         },
@@ -127,8 +127,8 @@ export const graph =
             "value": null,
             "meta": {
                 "ui": {
-                    "y": -370,
-                    "x": 90
+                    "y": -360,
+                    "x": 93
                 }
             }
         },
@@ -137,8 +137,8 @@ export const graph =
             "value": null,
             "meta": {
                 "ui": {
-                    "y": -29,
-                    "x": 110
+                    "y": -119,
+                    "x": 96
                 }
             }
         }
@@ -151,8 +151,8 @@ export const graph =
             "autostart": true,
             "meta": {
                 "ui": {
-                    "x": 116,
-                    "y": 329
+                    "x": 208,
+                    "y": 344
                 }
             }
         },
@@ -167,8 +167,8 @@ export const graph =
             "autostart": null,
             "meta": {
                 "ui": {
-                    "y": -141,
-                    "x": -250
+                    "y": 1,
+                    "x": -276
                 }
             }
         },
@@ -181,8 +181,8 @@ export const graph =
             "autostart": true,
             "meta": {
                 "ui": {
-                    "y": -431,
-                    "x": -493
+                    "y": -362,
+                    "x": -535
                 }
             }
         },
@@ -195,16 +195,16 @@ export const graph =
             "autostart": true,
             "meta": {
                 "ui": {
-                    "y": -140,
-                    "x": 109
+                    "y": -2,
+                    "x": 97
                 }
             }
         },
         "rotate-mesh": {
             "id": "rotate-mesh",
             "ports": {
-                "rot_x": "hot",
-                "rot_y": "hot",
+                "rot_x": "cold",
+                "rot_y": "cold",
                 "tick": "hot",
                 "mesh": "accumulator"
             },
@@ -212,8 +212,8 @@ export const graph =
             "autostart": null,
             "meta": {
                 "ui": {
-                    "x": -129,
-                    "y": -30
+                    "x": -149,
+                    "y": 124
                 }
             }
         },
@@ -241,8 +241,8 @@ export const graph =
             "autostart": null,
             "meta": {
                 "ui": {
-                    "y": -117,
-                    "x": 412
+                    "y": -119,
+                    "x": 413
                 }
             }
         },
@@ -253,8 +253,8 @@ export const graph =
             "autostart": true,
             "meta": {
                 "ui": {
-                    "y": -250,
-                    "x": -128
+                    "y": -108,
+                    "x": -154
                 }
             }
         },
@@ -267,8 +267,8 @@ export const graph =
             "autostart": true,
             "meta": {
                 "ui": {
-                    "y": -434,
-                    "x": -314
+                    "y": -362,
+                    "x": -357
                 }
             }
         },
@@ -282,8 +282,8 @@ export const graph =
             "autostart": null,
             "meta": {
                 "ui": {
-                    "y": -504,
-                    "x": 252
+                    "y": -497,
+                    "x": 253
                 }
             }
         },
@@ -292,11 +292,11 @@ export const graph =
             "ports": {
                 "size": "hot"
             },
-            "code": "function(ports, send) {\n\tconsole.log(\"create-camera\")\n\t\n\tsend(new this.three.PerspectiveCamera(\n\t\t75, ports.size.width / ports.size.height, 1, 1000\n\t))\n}",
+            "code": "function(ports, send) {\n\tconsole.log(\"create-camera\")\n\t\n\tsend(new this.three.PerspectiveCamera(\n\t\t75, ports.size.width / ports.size.height, 1, 2000\n\t))\n}",
             "autostart": true,
             "meta": {
                 "ui": {
-                    "y": -486,
+                    "y": -479,
                     "x": 91
                 }
             }
@@ -311,7 +311,7 @@ export const graph =
             "autostart": null,
             "meta": {
                 "ui": {
-                    "y": -370,
+                    "y": -363,
                     "x": -37
                 }
             }
@@ -503,7 +503,16 @@ export const graph =
     },
     "meta": {
         "ui": {
-            "layout": []
+            "layout": [
+                {
+                    "id": "tick",
+                    "type": "entity"
+                },
+                {
+                    "id": "animation-frame",
+                    "type": "process"
+                }
+            ]
         }
     }
 }
