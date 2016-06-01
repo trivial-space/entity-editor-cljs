@@ -151,23 +151,26 @@
 
 
 (defn process-component [process]
-  (let [code-changes (atom (:code process))
+  (let [code-changes (r/atom (:code process))
         id (:id process)]
     (fn [process]
-       [v-box
-        :class "process-component"
-        :gap "5px"
-        :children [[header process]
-                   [ports-editor (:ports process) id]
-                   [label :label "procedure"]
-                   [cm (:code process) {:mode "javascript"} code-changes]
-                   [h-box
-                    :gap "10px"
-                    :children [[button
-                                :label "update"
-                                :on-click #(dispatch [:flow-runtime/update-process-code id @code-changes])]
-                               [gap :size "auto"]
-                               [label
-                                :label "output"
-                                :style {:margin-top "8px"}]
-                               [output-port id]]]]])))
+      (let [code-changed? (not= @code-changes (:code process))]
+        [v-box
+         :class "process-component"
+         :gap "5px"
+         :children [[header process]
+                    [ports-editor (:ports process) id]
+                    [label :label "procedure"]
+                    [cm (:code process) {:mode "javascript"} code-changes]
+                    [h-box
+                     :gap "10px"
+                     :children [[button
+                                 :label "update"
+                                 :class (when code-changed? "btn-primary")
+                                 :disabled? (not code-changed?)
+                                 :on-click #(dispatch [:flow-runtime/update-process-code id @code-changes])]
+                                [gap :size "auto"]
+                                [label
+                                 :label "output"
+                                 :style {:margin-top "8px"}]
+                                [output-port id]]]]]))))

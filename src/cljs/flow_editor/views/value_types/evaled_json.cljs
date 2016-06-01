@@ -27,13 +27,18 @@
 
 (defn initial-value-editor
   [eid value]
-  (let [changes (atom (json value))]
-    [v-box
-     :children [[cm @changes {:mode "javascript"} changes]
-                [button
-                 :label "update"
-                 :on-click #(dispatch [:flow-runtime/edit-entity-value
-                                       eid (eval @changes)])]]]))
+  (let [changes (r/atom (json value))]
+    (fn [eid value]
+      (let [changed? (not= @changes (json value))]
+        [v-box
+         :gap "5px"
+         :children [[cm (json value) {:mode "javascript"} changes]
+                    [button
+                     :label "update"
+                     :class (when changed? "btn-primary")
+                     :disabled? (not changed?)
+                     :on-click #(dispatch [:flow-runtime/edit-entity-value
+                                           eid (eval @changes)])]]]))))
 
 
 (defn current-value-editor
@@ -44,11 +49,13 @@
         (let [changes (atom (json (:value current-value)))]
           (dispatch [:flow-runtime/unwatch-entity eid])
           [v-box
+           :gap "5px"
            :children [[cm @changes {:mode "javascript"} changes]
                       [h-box
                        :gap "10px"
                        :children [[button
                                    :label "set"
+                                   :class "btn-primary"
                                    :on-click #(do (dispatch [:flow-runtime/set-current-value
                                                              eid (eval @changes)])
                                                   (reset! editing false))]
@@ -57,6 +64,7 @@
                                    :on-click #(reset! editing false)]]]]])
         (do (dispatch [:flow-runtime/watch-entity eid])
             [v-box
+             :gap "5px"
              :children [[:pre (json (:value current-value))]
                         [button
                          :label "edit"
