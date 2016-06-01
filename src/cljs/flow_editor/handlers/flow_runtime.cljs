@@ -266,3 +266,45 @@
                              (and (= (:type n) (:type node))
                                   (= (:id n) (:id node))))))]
       (update-layout db layout))))
+
+
+(register-handler
+  :flow-runtime/rename-process
+  (fn [db [_ pid new-id]]
+    (let [p (get-in db [:graph :processes (keyword pid)]);
+          arcs (->> (get-in db [:graph :arcs])
+                  (vals)
+                  (filter #(= pid (:process %))))
+          layout (->> (get-in db [:ui :layout])
+                   (mapv (fn [node]
+                           (if (= (:id node) pid)
+                             (merge node {:id new-id})
+                             node))))
+
+          r (:runtime db)]
+      (.removeProcess r pid)
+      (.addProcess r (clj->js (merge p {:id new-id})))
+      (doseq [arc arcs]
+        (.addArc r (clj->js (merge arc {:process new-id}))))
+      (update-layout db layout))))
+
+
+(register-handler
+  :flow-runtime/rename-entity
+  (fn [db [_ eid new-id]]
+    (let [e (get-in db [:graph :entities (keyword eid)]);
+          arcs (->> (get-in db [:graph :arcs])
+                  (vals)
+                  (filter #(= eid (:entity %))))
+          layout (->> (get-in db [:ui :layout])
+                   (mapv (fn [node]
+                           (if (= (:id node) eid)
+                             (merge node {:id new-id})
+                             node))))
+
+          r (:runtime db)]
+      (.removeEntity r eid)
+      (.addEntity r (clj->js (merge e {:id new-id})))
+      (doseq [arc arcs]
+        (.addArc r (clj->js (merge arc {:entity new-id}))))
+      (update-layout db layout))))

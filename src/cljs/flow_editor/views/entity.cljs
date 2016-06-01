@@ -5,36 +5,66 @@
             [re-com.core :refer [title horizontal-bar-tabs
                                  label md-icon-button button
                                  v-box h-box box gap line
-                                 single-dropdown
+                                 single-dropdown input-text
                                  h-split]]))
 
 
 (defn header
   [eid]
-  [h-box
-   :children [[:div
-               {:style {:background-color "#2B7CE9"
-                        :width "19px"
-                        :height "19px"
-                        :display "inline-block"}}]
-              [gap :size "10px"]
-              [box
-               :size "auto"
-               :child [title
+  (let [editing-id? (r/atom false)]
+    (fn [eid]
+      (let [new-id (atom eid)]
+        [h-box
+         :children [[:div
+                     {:style {:background-color "#2B7CE9"
+                              :width "19px"
+                              :height "19px"
+                              :display "inline-block"}}]
+                    [gap :size "10px"]
+                    (if @editing-id?
+                      [input-text
+                       :model eid
+                       :width "200px"
+                       :change-on-blur? false
+                       :on-change #(reset! new-id %)]
+                      [title
                        :label eid
                        :margin-top "0.3em"
-                       :level :level3]]
-              [md-icon-button
-               :md-icon-name "zmdi-delete"
-               :tooltip "delete this entity"
-               :on-click #(dispatch [:flow-runtime/remove-entity eid])]
-              [gap :size "10px"]
-              [line]
-              [gap :size "10px"]
-              [md-icon-button
-               :md-icon-name "zmdi-close"
-               :on-click #(dispatch [:flow-runtime-ui/close-node
-                                      {:id eid :type "entity"}])]]])
+                       :level :level3])
+                    (when @editing-id?
+                      [md-icon-button
+                       :md-icon-name "zmdi-close"
+                       :size :smaller
+                       :tooltip "cancel"
+                       :on-click #(reset! editing-id? false)])
+                    (when @editing-id?
+                      [md-icon-button
+                       :md-icon-name "zmdi-check"
+                       :size :smaller
+                       :tooltip "apply"
+                       :on-click (fn []
+                                   (dispatch [:flow-runtime/rename-entity eid @new-id])
+                                   (reset! editing-id? false))])
+                    [gap :size "10px"]
+                    (when (not @editing-id?)
+                      [md-icon-button
+                       :md-icon-name "zmdi-edit"
+                       :size :smaller
+                       :style {:opacity "0.3"}
+                       :tooltip "rename"
+                       :on-click #(reset! editing-id? true)])
+                    [gap :size "auto"]
+                    [md-icon-button
+                     :md-icon-name "zmdi-delete"
+                     :tooltip "delete this entity"
+                     :on-click #(dispatch [:flow-runtime/remove-entity eid])]
+                    [gap :size "10px"]
+                    [line]
+                    [gap :size "10px"]
+                    [md-icon-button
+                     :md-icon-name "zmdi-close"
+                     :on-click #(dispatch [:flow-runtime-ui/close-node
+                                            {:id eid :type "entity"}])]]]))))
 
 
 (def value-tabs

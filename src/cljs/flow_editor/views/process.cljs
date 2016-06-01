@@ -11,9 +11,11 @@
 
 (defn header
   [process]
-  (let [port-types (subscribe [:flow-runtime/port-types])]
+  (let [port-types (subscribe [:flow-runtime/port-types])
+        editing-id? (r/atom false)]
     (fn [process]
       (let [id (:id process)
+            new-id (atom id)
             acc-type (get @port-types "ACCUMULATOR")
             autostart? (:autostart process)
             accumulator? (->> (:ports process)
@@ -27,12 +29,39 @@
                               :border-radius "10px"
                               :display "inline-block"}}]
                     [gap :size "10px"]
-                    [box
-                     :size "auto"
-                     :child [title
-                             :label id
-                             :margin-top "0.3em"
-                             :level :level3]]
+                    (if @editing-id?
+                      [input-text
+                       :model id
+                       :width "200px"
+                       :change-on-blur? false
+                       :on-change #(reset! new-id %)]
+                      [title
+                       :label id
+                       :margin-top "0.3em"
+                       :level :level3])
+                    (when @editing-id?
+                      [md-icon-button
+                       :md-icon-name "zmdi-close"
+                       :size :smaller
+                       :tooltip "cancel"
+                       :on-click #(reset! editing-id? false)])
+                    (when @editing-id?
+                      [md-icon-button
+                       :md-icon-name "zmdi-check"
+                       :size :smaller
+                       :tooltip "apply"
+                       :on-click (fn []
+                                   (dispatch [:flow-runtime/rename-process id @new-id])
+                                   (reset! editing-id? false))])
+                    [gap :size "10px"]
+                    (when (not @editing-id?)
+                      [md-icon-button
+                       :md-icon-name "zmdi-edit"
+                       :size :smaller
+                       :style {:opacity "0.3"}
+                       :tooltip "rename"
+                       :on-click #(reset! editing-id? true)])
+                    [gap :size "auto"]
                     (if accumulator?
                       [md-icon-button
                        :md-icon-name "zmdi-brightness-5"
