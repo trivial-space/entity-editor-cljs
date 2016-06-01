@@ -12690,6 +12690,7 @@
 }
 #tvs-flow-editor .time-entry {
   -webkit-box-flex: 0;
+  -webkit-flex: none;
       -ms-flex: none;
           flex: none;
   padding-left: 0.3em;
@@ -12703,6 +12704,7 @@
 }
 #tvs-flow-editor .time-icon {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   padding: 0 0.3em;
@@ -12853,6 +12855,7 @@
 }
 #tvs-flow-editor .rc-div-table {
   -webkit-box-flex: 0;
+  -webkit-flex: none;
       -ms-flex: none;
           flex: none;
   width: auto;
@@ -12925,6 +12928,7 @@
   letter-spacing: 0.002em;
   font-variant: small-caps;
   -webkit-box-flex: 0;
+  -webkit-flex: none;
       -ms-flex: none;
           flex: none;
 }
@@ -12936,11 +12940,13 @@
 }
 #tvs-flow-editor .display-flex {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 #tvs-flow-editor .display-inline-flex {
   display: -webkit-inline-box;
+  display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
 }
@@ -13493,29 +13499,39 @@
 }
 #tvs-flow-editor .vis-network {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-flow: inherit;
-      flex-flow: inherit;
+  -webkit-flex-flow: inherit;
+      -ms-flex-flow: inherit;
+          flex-flow: inherit;
   -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
   width: 100%;
   height: 100%;
+}
+#tvs-flow-editor .vis-network .vis-network-tooltip {
+  position: absolute;
+  display: block;
+  padding: 0 5px;
+  font-size: 0.85em;
+}
+#tvs-flow-editor .graph-container {
+  position: relative;
+  z-index: 100;
   background-color: rgba(255,255,255,0.8);
   border: 1px solid rgba(0,0,0,0.25);
   border-bottom: 1px solid #fff;
   box-shadow: 0 1px 5px rgba(0,0,0,0.4) inset;
   border-radius: 4px;
 }
-#tvs-flow-editor .vis-network .vis-network-tooltip {
+#tvs-flow-editor .graph-mode-selector {
   position: absolute;
-  display: block;
-  padding: 0 5px;
-}
-#tvs-flow-editor .graph-container {
-  position: relative;
-  z-index: 100;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
 }
 #tvs-flow-editor .context-menu {
   position: absolute;

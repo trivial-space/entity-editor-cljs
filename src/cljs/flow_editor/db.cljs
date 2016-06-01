@@ -20,7 +20,8 @@
    :entity-values {}
    :graph-ui
      {:new-node-position nil
-      :context-menu nil}
+      :context-menu nil
+      :mode nil}
    :ui
      {:layout []
       :modal nil

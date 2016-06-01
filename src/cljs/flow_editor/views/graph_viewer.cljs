@@ -4,54 +4,59 @@
             [flow-editor.utils.graph-ui :refer [p-node-id e-node-id]]
             [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
-            [re-com.core :refer [box title h-box v-box button md-icon-button]]))
+            [re-com.core :refer [box single-dropdown title h-box v-box button md-icon-button]]))
 
 
-(def default-group "__default")
+(defn get-graph-options
+  [{:keys [mode physics]}]
+  (let [opts
+        {:layout {:randomSeed 3}
+         :edges {:arrows "to"
+                 :smooth false
+                 :color {:inherit "from"}
+                 :shadow {:x 2}
+                 :width 2}
+         :nodes {:shadow {:x 0}
+                 :borderWidthSelected 1
+                 :font {:size 20
+                        :strokeColor "white"
+                        :strokeWidth 2}
+                 :size 23}
+         :groups
+         {:useDefaultGroups false
+          :entities
+          {:shape "square"
+           :color {:border "#2B7CE9"
+                   :background "#97C2FC"
+                   :highlight {:border "#2B7CE9"
+                               :background "#b8fafe"}}}
+          :processes
+          {:shape "dot"
+           :color {:border "#de7a13"
+                   :background "#f7d26e"
+                   :highlight {:border "#de7a13"
+                               :background "#f5fba8"}}}}
+           ;;:size 15
+           ;;:font {:size 0}}}
 
 
-(def graph-options
-  (clj->js
-    {:layout {:randomSeed 3}
-              ;;:hierarchical {:sortMethod "hubsize"}}
-     :edges {:arrows "to"
-             :smooth false
-             :color {:inherit "from"}
-             :shadow {:x 2}
-             :width 2}
-     :nodes {:shadow {:x 0}
-             :borderWidthSelected 1
-             :font {:size 20
-                    :strokeColor "white"
-                    :strokeWidth 2}
-             :size 23}
-     :groups
-     {:useDefaultGroups false
-      :entities
-      {:shape "square"
-       :color {:border "#2B7CE9"
-               :background "#97C2FC"
-               :highlight {:border "#2B7CE9"
-                           :background "#b8fafe"}}}
-      :processes
-      {:shape "dot"
-       :color {:border "#de7a13"
-               :background "#f7d26e"
-               :highlight {:border "#de7a13"
-                           :background "#f5fba8"}}
-       :size 15
-       :font {:size 0}}}
-
-
-     :interaction {:multiselect true}
-     :physics {:enabled true
-               :forceAtlas2Based {:avoidOverlap 0.4
-                                  :gravitationalConstant -70
-                                  :springConstant 0.05}
-               :barnesHut {:avoidOverlap 0.2
-                           :gravitationalConstant -3000}
-               :solver "forceAtlas2Based"
-               :stabilization {:iterations 2000}}}))
+         :interaction {:multiselect true
+                       :tooltipDelay 500}
+         :physics {:enabled false
+                   :stabilization {:iterations 2000}}}
+        opts (if (= mode :entities)
+               (-> opts
+                 (assoc-in [:groups :processes :size] 15)
+                 (assoc-in [:groups :processes :font :size] 0))
+               (if (= mode :processes)
+                 (-> opts
+                   (assoc-in [:groups :entities :size] 15)
+                   (assoc-in [:groups :entities :font :size] 0))
+                 opts))
+        opts (if physics
+               (assoc-in opts [:physics :enabled] true)
+               opts)]
+    (clj->js opts)))
 
 
 (defn get-vis-graph
@@ -73,8 +78,7 @@
                                     node (adjust-pos e node)]
                                 (if (:value e)
                                   (assoc node :borderWidth 5
-                                              :borderWidthSelected 5
-                                              :size 20)
+                                              :borderWidthSelected 5)
                                   node)))))
 
         process-nodes (->> (:processes graph)
@@ -85,8 +89,7 @@
                                      node (adjust-pos p node)]
                                  (if (:autostart p)
                                    (assoc node :borderWidth 5
-                                               :borderWidthSelected 5
-                                               :size 13)
+                                               :borderWidthSelected 5)
                                    node)))))
 
         nodes (concat entity-nodes process-nodes)
@@ -106,20 +109,21 @@
                            (let [port (get ports (keyword (:port a)))
                                  edge {:from eid :to pid}] ;;:title (str "port: " (:port a))}]
                              (if (= port (get types "COLD"))
-                               (assoc edge :dashes true)
+                               (assoc edge :dashes true
+                                           :title "COLD")
                                (if acc
                                  (assoc edge :arrows {:middle true :from true :to true}
-                                             :color {:inherit "to"})
-                                             ;;:title (str "port: " (name acc)))
-                                 edge)))
+                                             :color {:inherit "to"}
+                                             :title "ACCUMULATOR")
+                                 (assoc edge :title "HOT"))))
                            {:from pid :to eid})))))]
 
     {:nodes nodes :edges edges}))
 
 
 (defn init-vis
-  [net]
-  (.setOptions net graph-options)
+  [net mode]
+  (.setOptions net (get-graph-options {:physics true :mode mode}))
 
   (.on net "doubleClick"
     (fn [e]
@@ -150,8 +154,6 @@
   (.on net "stabilized"
     (fn [stabilized-event]
       (println stabilized-event)
-      (aset graph-options "physics" false)
-      (.setOptions net graph-options)
       (dispatch [:flow-runtime-ui/set-node-positions (.getPositions net)]))))
 
 
@@ -201,12 +203,14 @@
        :component-did-mount (fn [comp]
                               (let [node (r/dom-node comp)
                                     new-network (js/vis.Network. node)]
-                                (init-vis new-network)
+                                (init-vis new-network (:mode (r/props comp)))
                                 (reset! network new-network)
                                 (render comp new-network)
                                 (.fit new-network)))
 
-       :component-did-update #(render % @network)})))
+       :component-did-update (fn [comp]
+                               (.setOptions @network (get-graph-options {:mode (:mode (r/props comp))}))
+                               (render comp @network))})))
 
 
 (def context-menus
@@ -217,14 +221,25 @@
   (let [graph (subscribe [:flow-runtime/graph])
         context-menu (subscribe [:graph-ui/context-menu])
         size (subscribe [:ui/main-frame-dimensions])
-        height (reaction (:height @size))]
+        height (reaction (:height @size))
+        mode (subscribe [:graph-ui/graph-mode])]
     (fn []
       [v-box
        :size "auto"
        :min-width "600px"
        :class "graph-container"
-       :children [[graph-inner {:graph @graph
-                                :size @height}]
+       :children [[single-dropdown
+                   :class "graph-mode-selector"
+                   :model @mode
+                   :width "110px"
+                   :choices [{:id nil :label "Basic"}
+                             {:id :entities :label "Entities"}
+                             {:id :processes :label "Processes"}]
+                   :placeholder "Basic"
+                   :on-change #(dispatch [:graph-ui/set-mode %])]
+                  [graph-inner {:graph @graph
+                                :size @height
+                                :mode @mode}]
                   (when-let [ctx @context-menu]
                     (let [top (:y (:pos ctx))
                           left (:x (:pos ctx))]
