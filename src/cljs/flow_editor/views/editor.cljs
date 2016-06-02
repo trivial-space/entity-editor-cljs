@@ -108,6 +108,17 @@
       #(events/unlisten js/window EventType.MOUSEMOVE on-move))))
 
 
+(defn graph-drag [e]
+  (let [old-pos (atom (.-clientX e))
+        on-move (fn [e]
+                  (let [new-pos (.-clientX e)]
+                    (dispatch [:ui/update-graph-width (- new-pos @old-pos)])
+                    (reset! old-pos new-pos)))]
+    (events/listen js/window EventType.MOUSEMOVE on-move)
+    (events/listen js/window EventType.MOUSEUP
+      #(events/unlisten js/window EventType.MOUSEMOVE on-move))))
+
+
 (defn editor []
   (let [modal-key (subscribe [:ui/modal])
         minimized? (subscribe [:ui/minimized?])
@@ -127,7 +138,10 @@
                        :child [h-box
                                :size "auto"
                                :children [[graph-component]
-                                          [gap :size "10px"]
+                                          [gap
+                                           :size "10px"
+                                           :class "graph-resizer"
+                                           :attr {:on-mouse-down graph-drag}]
                                           [node-list]
                                           [gap :size "5px"]]]]
                       (when-not @fullscreen?

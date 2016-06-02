@@ -95,3 +95,10 @@
         (assoc-in [:ui :main-frame-dimensions :current] old)
         (assoc-in [:ui :main-frame-dimensions :old] nil)
         (assoc-in [:ui :minimized?] false)))))
+
+
+(register-handler
+  :ui/update-graph-width
+  (fn [db [_ delta]]
+    (assoc-in db [:ui :graph-width]
+      (+ (get-in db [:ui :graph-width]) delta))))

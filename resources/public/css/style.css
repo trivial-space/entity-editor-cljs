@@ -13488,6 +13488,10 @@
   background: -webkit-linear-gradient(top left, rgba(0,0,0,0) 50%, rgba(0,0,0,0.2) 51%);
   background: linear-gradient(to bottom right, rgba(0,0,0,0) 50%, rgba(0,0,0,0.2) 51%);
 }
+#tvs-flow-editor .graph-resizer {
+  cursor: -webkit-grab;
+  cursor: grab;
+}
 #tvs-flow-editor .entity-component,
 #tvs-flow-editor .process-component {
   margin: 5px 0;

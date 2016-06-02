@@ -27,6 +27,7 @@
       :modal nil
       :minimized? false
       :fullscreen? false
+      :graph-width 600
       :main-frame-dimensions
        {:current {:width 0
                   :height 0

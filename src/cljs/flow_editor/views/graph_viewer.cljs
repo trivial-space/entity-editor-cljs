@@ -220,13 +220,13 @@
 (defn graph-component []
   (let [graph (subscribe [:flow-runtime/graph])
         context-menu (subscribe [:graph-ui/context-menu])
-        size (subscribe [:ui/main-frame-dimensions])
-        height (reaction (:height @size))
+        window-size (subscribe [:ui/main-frame-dimensions])
+        height (reaction (:height @window-size))
+        width (subscribe [:ui/graph-width])
         mode (subscribe [:graph-ui/graph-mode])]
     (fn []
       [v-box
-       :size "auto"
-       :min-width "600px"
+       :width (str @width "px")
        :class "graph-container"
        :children [[single-dropdown
                    :class "graph-mode-selector"
@@ -238,7 +238,8 @@
                    :placeholder "Basic"
                    :on-change #(dispatch [:graph-ui/set-mode %])]
                   [graph-inner {:graph @graph
-                                :size @height
+                                :size {:height @height
+                                       :width @width}
                                 :mode @mode}]
                   (when-let [ctx @context-menu]
                     (let [top (:y (:pos ctx))

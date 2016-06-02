@@ -43,3 +43,9 @@
   :ui/layout
   (fn [db]
     (reaction (get-in @db [:ui :layout]))))
+
+
+(register-sub
+  :ui/graph-width
+  (fn [db]
+    (reaction (get-in @db [:ui :graph-width]))))
