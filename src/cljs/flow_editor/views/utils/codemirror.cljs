@@ -9,6 +9,8 @@
             [cljsjs.codemirror.addon.edit.matchtags]
             [cljsjs.codemirror.addon.edit.trailingspace]
             [cljsjs.codemirror.addon.display.autorefresh]
+            [cljsjs.codemirror.addon.hint.show-hint]
+            [custom-codemirror.javascript-hint]
             [re-frame.core :refer [subscribe]]
             [reagent.core :as r]))
 
@@ -21,6 +23,7 @@
   (let [cm (atom nil)
         update (fn [comp]
                  (let [props (r/props comp)]
+                   (.setOption @cm "hintOptions" (clj->js {:additionalContext (:hint-ctx props)}))
                    (.setValue @cm (:val props))))]
 
     (r/create-class
@@ -42,10 +45,11 @@
 
 
 
-(defn cm [val opts changes]
+(defn cm [val opts changes hint-ctx]
   (let [defaults (subscribe [:ui/code-mirror-defaults])
         options (merge @defaults opts)]
-    (fn [v o changes]
-      [cm-inner {:val v
-                 :opts options
-                 :changes changes}])))
+    (fn [v o changes hint-ctx]
+        [cm-inner {:val v
+                   :opts options
+                   :changes changes
+                   :hint-ctx hint-ctx}])))

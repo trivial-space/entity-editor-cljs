@@ -181,16 +181,31 @@
 
 (defn process-component [process]
   (let [code-changes (r/atom (:code process))
-        id (:id process)]
+        id (:id process)
+        port-types (subscribe [:flow-runtime/port-types])
+        runtime (subscribe [:flow-runtime/runtime])
+        connections (subscribe [:flow-runtime/process-port-connection id])
+        cm-options {:mode {:name "javascript"
+                           :globalVars true}}]
     (fn [process]
-      (let [code-changed? (not= @code-changes (:code process))]
+      (let [code-changed? (not= @code-changes (:code process))
+            port-vals (->> (:ports process)
+                        (map (fn [[port type]]
+                               (let [arc (if (= type (get @port-types "ACCUMULATOR"))
+                                           (filter (fn [arc] (not (:port arc))) @connections)
+                                           (filter (fn [arc] (= (:port arc) (name port))) @connections))
+                                     val (when arc (.get @runtime (:entity (first arc))))]
+                                  [port val])))
+                        (into {}))
+            additionalCtx {"this" (.getContext @runtime)
+                           "ports" port-vals}]
         [v-box
          :class "process-component"
          :gap "5px"
          :children [[header process]
                     [ports-editor (:ports process) id]
                     [label :label "procedure"]
-                    [cm (:code process) {:mode "javascript"} code-changes]
+                    [cm (:code process) cm-options code-changes additionalCtx]
                     [h-box
                      :gap "10px"
                      :children [[button

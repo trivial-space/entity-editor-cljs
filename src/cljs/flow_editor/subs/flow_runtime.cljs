@@ -9,8 +9,13 @@
     (reaction (:graph @db))))
 
 
-;; ===== Entity subscriptions =====
+(register-sub
+  :flow-runtime/runtime
+  (fn [db]
+    (reaction (:runtime @db))))
 
+
+;; ===== Entity subscriptions =====
 
 (register-sub
   :flow-runtime/all-entities

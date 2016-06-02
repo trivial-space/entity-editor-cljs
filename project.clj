@@ -24,6 +24,10 @@
                         :source-paths ["src/cljs"]
                         :figwheel {:on-jsload "flow-editor.core/mount-root"}
                         :compiler {:main flow-editor.core
+                                   :foreign-libs
+                                    [{:file "resources/jslibs/javascript-hint.js"
+                                      :provides ["custom-codemirror.javascript-hint"]
+                                      :requires ["cljsjs.codemirror"]}]
                                    :output-to "resources/public/js/compiled/app.js"
                                    :output-dir "resources/public/js/compiled/out"
                                    :asset-path "/js/compiled/out"
@@ -32,6 +36,10 @@
                        {:id "test"
                         :source-paths ["src/cljs" "test/cljs"]
                         :compiler {:output-to "resources/public/js/compiled/test.js"
+                                   :foreign-libs
+                                    [{:file "resources/jslibs/javascript-hint.js"
+                                      :provides ["custom-codemirror.javascript-hint"]
+                                      :requires ["cljsjs.codemirror"]}]
                                    :main flow-editor.runner
                                    :optimizations :none}}
 
@@ -39,6 +47,10 @@
                         :source-paths ["src/cljs"]
                         :compiler {:main flow-editor.core
                                    :output-to "resources/public/js/dist/app.js"
+                                   :foreign-libs
+                                    [{:file "resources/jslibs/javascript-hint.js"
+                                      :provides ["custom-codemirror.javascript-hint"]
+                                      :requires ["cljsjs.codemirror"]}]
                                    :optimizations :advanced
                                    :closure-defines {goog.DEBUG false}
                                    :externs ["resources/externs/tvs-flow-externs.js"

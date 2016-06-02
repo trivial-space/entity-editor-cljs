@@ -14,7 +14,8 @@
       :indentWithTabs true
       :autoCloseBrackets true
       :showTrailingSpace true
-      :autoRefresh true}
+      :autoRefresh true
+      :extraKeys {"Ctrl-Space" "autocomplete"}}
    :runtime nil
    :graph nil
    :entity-values {}
