@@ -74,25 +74,30 @@
 
 (defn initial-value-editor
   [eid value type mode]
-  (dispatch [:flow-runtime/unwatch-entity eid])
-  (if value
-    [v-box
-     :gap "10px"
-     :children [[(-> value-types type :initial-value-editor) eid value]
-                [h-box
-                 :gap "10px"
-                 :children [[button
-                             :label "reset current value"
-                             :on-click #(do (dispatch [:flow-runtime/set-current-value
-                                                       eid value])
-                                            (reset! mode ::current))]
-                            [button
-                             :label "remove initial value"
-                             :on-click #(dispatch [:flow-runtime/edit-entity-value
-                                                    eid nil])]]]]]
-    [button
-     :label "add initial value"
-     :on-click #(dispatch [:flow-runtime/edit-entity-value eid "initial value"])]))
+  (let [initial-value? (r/atom (not= value nil))]
+    (fn [eid value type mode]
+      (println value)
+      (dispatch [:flow-runtime/unwatch-entity eid])
+      (if @initial-value?
+        [v-box
+         :gap "10px"
+         :children [[(-> value-types type :initial-value-editor) eid value]
+                    [h-box
+                     :gap "10px"
+                     :children [[button
+                                 :label "reset current value"
+                                 :on-click #(do (dispatch [:flow-runtime/set-current-value
+                                                           eid value])
+                                                (reset! mode ::current))]
+                                [button
+                                 :label "remove initial value"
+                                 :on-click #(do (dispatch [:flow-runtime/edit-entity-value
+                                                           eid nil])
+                                                (reset! initial-value? false))]]]]]
+        [button
+         :label "add initial value"
+         :on-click #(reset! initial-value? true)]))));
+
 
 
 (defn current-value-editor
