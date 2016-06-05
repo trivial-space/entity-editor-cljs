@@ -2,15 +2,15 @@ import flow from "tvs-flow"
 import {graph} from "./graph"
 import mat4 from 'gl-matrix/src/gl-matrix/mat4'
 import plane from 'tvs-libs/geometry/plane'
-import render from 'tvs-renderer'
+import * as renderer from 'tvs-renderer'
 
-console.log(render)
+console.log(renderer)
 
 const context = {
-  renderer: render.Renderer,
-  mat4: mat4,
+  renderer,
+  mat4,
   geometries: {
-    plane: plane
+    plane
   }
 }
 
