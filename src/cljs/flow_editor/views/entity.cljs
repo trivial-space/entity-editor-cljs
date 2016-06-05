@@ -76,7 +76,6 @@
   [eid value type mode]
   (let [initial-value? (r/atom (not= value nil))]
     (fn [eid value type mode]
-      (println value)
       (dispatch [:flow-runtime/unwatch-entity eid])
       (if @initial-value?
         [v-box

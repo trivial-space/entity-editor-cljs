@@ -8,6 +8,8 @@
 
 (defn setup
   [el]
+  (set! (.-style.width el) "70%")
+  (set! (.-style.height el) "70%")
   (let [window-w (.-innerWidth js/window)
         window-h (.-innerHeight js/window)
         r (.getBoundingClientRect el)

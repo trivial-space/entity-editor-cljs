@@ -81,7 +81,8 @@
             entities (:entities @graph)]
         [scroller
          :class "item-list process-item-list"
-         :min-width "520px"
+         :min-width "570px"
+         :h-scroll :off
          :child [v-box
                  :size "auto"
                  :gap "5px"

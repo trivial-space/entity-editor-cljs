@@ -77,7 +77,6 @@
 (register-handler
   :flow-runtime/edit-entity-value
   (fn [db [_ eid value]]
-    (println "updating initial value" eid value)
     (let [e (get-in db [:graph :entities (keyword eid)])]
       (->> (merge e {:value value})
         (clj->js)

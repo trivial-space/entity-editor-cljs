@@ -24,5 +24,4 @@
 (register-handler
   :graph-ui/set-mode
   (fn [db [_ mode]]
-    (println "setting mode" mode)
     (assoc-in db [:graph-ui :mode] mode)))
