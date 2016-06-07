@@ -55,6 +55,11 @@
                        :on-click #(reset! editing-id? true)])
                     [gap :size "auto"]
                     [md-icon-button
+                     :md-icon-name "zmdi-search"
+                     :tooltip "inspect in console"
+                     :on-click #(dispatch [:flow-runtime/log-entity eid])]
+                    [gap :size "5px"]
+                    [md-icon-button
                      :md-icon-name "zmdi-delete"
                      :tooltip "delete this entity"
                      :on-click #(dispatch [:flow-runtime/remove-entity eid])]

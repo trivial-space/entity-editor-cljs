@@ -1,6 +1,6 @@
 (ns flow-editor.handlers.flow-runtime
   (:require [re-frame.core :refer [register-handler dispatch]]
-            [flow-editor.utils.graph-ui :refer [node-from-id]]))
+            [flow-editor.utils.graph-ui :refer [node-from-id p-node-id e-node-id]]))
 
 
 (def default-process-code
@@ -39,6 +39,7 @@
       (.addEntity (:runtime db) e)
       (dispatch [:ui/close-modal])
       (dispatch [:graph-ui/set-new-node-position nil])
+      (dispatch [:flow-runtime-ui/open-node (e-node-id eid)])
       (update-runtime db))))
 
 
@@ -112,6 +113,13 @@
       (update-layout db layout))))
 
 
+(register-handler
+  :flow-runtime/log-entity
+  (fn [db [_ eid]]
+    (.log js/console (.get (:runtime db) eid))
+    db))
+
+
 ;; ===== Process handlers =====
 
 (register-handler
@@ -124,6 +132,7 @@
       (.addProcess (:runtime db) p)
       (dispatch [:ui/close-modal])
       (dispatch [:graph-ui/set-new-node-position nil])
+      (dispatch [:flow-runtime-ui/open-node (p-node-id pid)])
       (update-runtime db))))
 
 
