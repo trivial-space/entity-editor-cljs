@@ -155,6 +155,16 @@
 
 
 (register-handler
+  :flow-runtime/set-process-async
+  (fn [db [_ pid async?]]
+    (let [p (get-in db [:graph :processes (keyword pid)])]
+      (->> (merge p {:async async?})
+        (clj->js)
+        (.addProcess (:runtime db))))
+    (update-runtime db)))
+
+
+(register-handler
   :flow-runtime/update-process-code
   (fn [db [_ pid code]]
     (let [p (get-in db [:graph :processes (keyword pid)])]
@@ -204,10 +214,17 @@
 (register-handler
  :flow-runtime/change-port-type
  (fn [db [_ pid port-name port-type]]
-   (let [p (get-in db [:graph :processes (keyword pid)])
+   (let [acc-type (-> (:runtime db)
+                    (aget "PORT_TYPES")
+                    (aget "ACCUMULATOR"))
+         p (get-in db [:graph :processes (keyword pid)])
          runtime (:runtime db)
          ports (-> (:ports p)
-                 (assoc (keyword port-name) port-type))]
+                 (assoc (keyword port-name) port-type))
+         p (if (= port-type acc-type)
+             (merge p {:async nil :autostart nil})
+             p)]
+     (println acc-type)
      (.addProcess runtime (clj->js (merge p {:ports ports})))
      (update-runtime db))))
 

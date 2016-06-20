@@ -18,6 +18,7 @@
             new-id (atom id)
             acc-type (get @port-types "ACCUMULATOR")
             autostart? (:autostart process)
+            async? (:async process)
             accumulator? (->> (:ports process)
                            (vals)
                            (some #(= % acc-type)))]
@@ -77,14 +78,30 @@
                          :md-icon-name "zmdi-brightness-5"
                          :tooltip "turn on autostart"
                          :on-click #(dispatch [:flow-runtime/set-process-autostart id true])]))
+                    (if accumulator?
+                      [md-icon-button
+                       :md-icon-name "zmdi-time"
+                       :disabled? true
+                       :tooltip "process with accumulator cannot be asynchronous"]
+                      (if async?
+                        [md-icon-button
+                         :md-icon-name "zmdi-time"
+                         :tooltip "turn off async"
+                         :style {:color "orange"}
+                         :on-click #(dispatch [:flow-runtime/set-process-async id nil])]
+                        [md-icon-button
+                         :md-icon-name "zmdi-time"
+                         :tooltip "turn on async"
+                         :on-click #(dispatch [:flow-runtime/set-process-async id true])]))
                     [md-icon-button
                      :md-icon-name "zmdi-play"
                      :tooltip "start"
                      :on-click #(dispatch [:flow-runtime/start-process id])]
-                    [md-icon-button
-                     :md-icon-name "zmdi-stop"
-                     :tooltip "stop"
-                     :on-click #(dispatch [:flow-runtime/stop-process id])]
+                    (when async?
+                      [md-icon-button
+                       :md-icon-name "zmdi-stop"
+                       :tooltip "stop"
+                       :on-click #(dispatch [:flow-runtime/stop-process id])])
                     [md-icon-button
                      :md-icon-name "zmdi-delete"
                      :tooltip "delete this process"
