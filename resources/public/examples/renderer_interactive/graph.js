@@ -3,7 +3,10 @@ export const graph =
     "entities": {
         "new-particle-pos": {
             "id": "new-particle-pos",
-            "value": null,
+            "value": {
+                "x": 0,
+                "y": 0
+            },
             "json": null,
             "meta": {
                 "ui": {
@@ -131,7 +134,7 @@ export const graph =
                 "fovy": 1.05,
                 "near": 0.1,
                 "far": 1000,
-                "aspect": 1.6
+                "aspect": 1.3333333333333333
             },
             "json": null,
             "meta": {
@@ -183,20 +186,40 @@ export const graph =
             "value": {
                 "geometry": "geometry",
                 "shader": "shader",
-                "uniforms": {}
+                "uniforms": {
+                    "time": 194798,
+                    "projection": {
+                        "0": 1.294844627380371,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 1.7264595031738281,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0,
+                        "10": -1.0002000331878662,
+                        "11": -1,
+                        "12": 0,
+                        "13": 0,
+                        "14": -0.20002000033855438,
+                        "15": 0
+                    }
+                }
             },
             "json": null,
             "meta": {
                 "ui": {
-                    "x": 478,
-                    "y": -60
+                    "x": 501,
+                    "y": -63
                 }
             }
         },
         "shader": {
             "id": "shader",
             "value": {
-                "vert": "uniform mat4 projection; uniform int time; attribute vec3 position; attribute int age; void main() { gl_Position = projection * vec4(position.xy, (time - age) / -100.0, 1.0); gl_PointSize = min(0, 40 - ((time - age) / 100);}",
+                "vert": "uniform mat4 projection; uniform float time; attribute vec3 position; attribute float age; void main() { gl_Position = projection * vec4(position.xy, (time - age) / -100.0, 1.0); gl_PointSize = min(0.0, 40.0 - ((time - age) / 100.0));}",
                 "frag": "void main() { gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0); }",
                 "attribs": {
                     "position": "f 3",
@@ -282,8 +305,8 @@ export const graph =
             "async": null,
             "meta": {
                 "ui": {
-                    "x": 346.24983277591974,
-                    "y": -62.65784385451504
+                    "x": 346,
+                    "y": -62
                 }
             }
         },
@@ -356,7 +379,7 @@ export const graph =
                 "time": "hot",
                 "obj": "accumulator"
             },
-            "code": "function(ports) {\n\n}",
+            "code": "function(ports) {\n\tvar uniforms = ports.obj.uniforms\n\tuniforms.time = ports.time\n\tuniforms.projection = ports.projection\n\treturn ports.obj\n}",
             "autostart": null,
             "async": null,
             "meta": {
@@ -408,8 +431,8 @@ export const graph =
             "async": true,
             "meta": {
                 "ui": {
-                    "x": -376,
-                    "y": 452
+                    "x": -379,
+                    "y": 382
                 }
             }
         },
@@ -486,8 +509,8 @@ export const graph =
             "async": null,
             "meta": {
                 "ui": {
-                    "y": -192,
-                    "x": 236
+                    "y": -215,
+                    "x": 243
                 }
             }
         },
@@ -516,7 +539,7 @@ export const graph =
             "async": null,
             "meta": {
                 "ui": {
-                    "x": 425,
+                    "x": 450,
                     "y": 414
                 }
             }
@@ -592,11 +615,11 @@ export const graph =
             },
             "code": "function(ports) {\n\tvar i = ports.i * 3\n\tports.particles[i] = ports.pos.x\n\tports.particles[i + 1] = ports.pos.y\n\treturn ports.particles\n}",
             "autostart": null,
-            "async": true,
+            "async": null,
             "meta": {
                 "ui": {
-                    "x": -24,
-                    "y": 419
+                    "x": -26,
+                    "y": 414
                 }
             }
         },
@@ -1003,7 +1026,12 @@ export const graph =
     },
     "meta": {
         "ui": {
-            "layout": []
+            "layout": [
+                {
+                    "id": "shader",
+                    "type": "entity"
+                }
+            ]
         }
     }
 }

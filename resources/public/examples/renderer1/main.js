@@ -22,10 +22,14 @@ runtime.setContext(context)
 //runtime.setDebug(true)
 window.runtime = runtime
 
+try {
 if (localGraph) {
   runtime.addGraph(JSON.parse(localGraph))
 } else {
   runtime.addGraph(graph)
+}
+} catch (e) {
+  console.warn(e)
 }
 
 flow_editor.core.init(runtime, localStorageKey)

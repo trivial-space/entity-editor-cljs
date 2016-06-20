@@ -145,17 +145,17 @@ export const graph =
                 "shader": "plane-shader",
                 "uniforms": {
                     "transform": {
-                        "0": 0.49396711587905884,
-                        "1": -0.2569488286972046,
-                        "2": 0.8306456804275513,
+                        "0": -0.0649290680885315,
+                        "1": 0.29489603638648987,
+                        "2": -0.9533201456069946,
                         "3": 0,
                         "4": 0,
                         "5": 0.9553365111351013,
                         "6": 0.29552021622657776,
                         "7": 0,
-                        "8": -0.8694823980331421,
-                        "9": -0.1459771990776062,
-                        "10": 0.4719040095806122,
+                        "8": 0.9978907108306885,
+                        "9": 0.019188527017831802,
+                        "10": -0.06203141063451767,
                         "11": 0,
                         "12": 0,
                         "13": 0,
@@ -387,15 +387,15 @@ export const graph =
         "attach-canvas": {
             "id": "attach-canvas",
             "ports": {
-                "render_ctx": "hot"
+                "canvas": "hot"
             },
-            "code": "function(ports, send) {\n\t\n\tvar canvas = ports.render_ctx.gl.canvas\n\tcanvas.style.border = \"1px solid gray\"\n\t\n\tdocument.body.appendChild(canvas)\n\t\n\tsend(canvas)\n\t\n\treturn function() {\n\t\tdocument.body.removeChild(canvas)\n\t}\n}",
+            "code": "function(ports, send) {\n\tvar canvas = ports.canvas\n\tcanvas.style.border = \"1px solid gray\"\n\t\n\tdocument.body.appendChild(canvas)\n\t\n\treturn function() {\n\t\tdocument.body.removeChild(canvas)\n\t}\n}",
             "autostart": null,
             "async": true,
             "meta": {
                 "ui": {
-                    "y": 53,
-                    "x": 560
+                    "x": 735,
+                    "y": -105
                 }
             }
         },
@@ -413,13 +413,28 @@ export const graph =
                     "x": 0
                 }
             }
+        },
+        "get-canvas": {
+            "id": "get-canvas",
+            "ports": {
+                "render_ctx": "hot"
+            },
+            "code": "function(ports, send) {\n\treturn ports.render_ctx.gl.canvas\n}",
+            "autostart": null,
+            "async": null,
+            "meta": {
+                "ui": {
+                    "y": 53,
+                    "x": 560
+                }
+            }
         }
     },
     "arcs": {
         "attach-canvas->canvas": {
             "id": "attach-canvas->canvas",
             "entity": "canvas",
-            "process": "attach-canvas",
+            "process": "get-canvas",
             "port": null,
             "meta": {}
         },
@@ -479,6 +494,13 @@ export const graph =
             "port": null,
             "meta": {}
         },
+        "canvas->attach-canvas::canvas": {
+            "id": "canvas->attach-canvas::canvas",
+            "entity": "canvas",
+            "process": "attach-canvas",
+            "port": "canvas",
+            "meta": {}
+        },
         "update-plane->plane-object": {
             "id": "update-plane->plane-object",
             "entity": "plane-object",
@@ -503,7 +525,7 @@ export const graph =
         "render-context->attach-canvas::render_ctx": {
             "id": "render-context->attach-canvas::render_ctx",
             "entity": "render-context",
-            "process": "attach-canvas",
+            "process": "get-canvas",
             "port": "render_ctx",
             "meta": {}
         },
