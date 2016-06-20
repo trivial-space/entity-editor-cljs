@@ -99,7 +99,8 @@
                 (map (fn [a]
                        (let [pid (p-node-id (:process a))
                              eid (e-node-id (:entity a))
-                             ports (get-in graph [:processes (keyword (:process a)) :ports])
+                             p (get-in graph [:processes (keyword (:process a))])
+                             ports (:ports p)
                              acc (and (not (:port a))
                                       (->> ports
                                         (filter (fn [[k v]] (= v (get types "ACCUMULATOR"))))
@@ -116,7 +117,14 @@
                                              :color {:inherit "to"}
                                              :title "ACCUMULATOR")
                                  (assoc edge :title "HOT"))))
-                           {:from pid :to eid})))))]
+                           (let [async (:async p)
+                                 edge {:from pid :to eid}]
+                             (if async
+                               (assoc edge :dashes [1, 10]
+                                           :width 3)
+                               edge)))))))]
+
+
 
     {:nodes nodes :edges edges}))
 

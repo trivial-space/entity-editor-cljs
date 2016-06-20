@@ -4,7 +4,7 @@
 
 
 (def default-process-code
-  "function(ports, send) {\n\n}")
+  "function(ports) {\n\n}")
 
 
 (defn update-runtime [db]
