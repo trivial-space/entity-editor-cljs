@@ -26,6 +26,7 @@ export const graph =
         "mouse-move-collector": {
             "id": "mouse-move-collector",
             "autostart": true,
+            "async": true,
             "ports": {},
             "code": "function(ports, send) {\n\tfunction onMouseMove(e) {\n      send({x: e.clientX, y: e.clientY});\n    };\n  \n  window.addEventListener(\"mousemove\", onMouseMove);\n  \n  return function stop() {\n  \twindow.removeEventListener(\"mousemove\", onMouseMove);\n  }\n}",
             "meta": {}
@@ -38,11 +39,13 @@ export const graph =
             },
             "code": "function(ports, send) {\n\tsend({\n      x: ports.position.x / ports.size.width,\n      y: ports.position.y / ports.size.height,\n    });\n}",
             "autostart": null,
+            "async": true,
             "meta": {}
         },
         "window-size-collector": {
             "id": "window-size-collector",
             "autostart": true,
+            "async": true,
             "ports": {},
             "code": "function(ports, send) {\n\tfunction onResize(e) {\n      send({width: window.innerWidth, height: window.innerHeight});\n    };\n  onResize();\n  \n  window.addEventListener(\"resize\", onResize);\n  \n  return function stop() {\n  \twindow.removeEventListener(\"resize\", onResize);\n  }\n}",
             "meta": {}
@@ -54,6 +57,7 @@ export const graph =
             },
             "code": "function(ports, send) {\n  function to_8_bit(ratio) {\n     return Math.floor(Math.min(ratio, 1) * 255)\n  }\n\tsend([to_8_bit(ports.ratio.y), to_8_bit(ports.ratio.x), 155]);\n}",
             "autostart": null,
+            "async": true,
             "meta": {}
         },
         "background-color": {
@@ -63,6 +67,7 @@ export const graph =
             },
             "code": "function(ports, send) {\n  var c = ports.color;\n  document.body.style.backgroundColor = \"rgb(\" \n    + c[0] + \", \"\n    + c[1] + \", \"\n    + c[2] + \")\"\n}",
             "autostart": null,
+            "async": true,
             "meta": {}
         }
     },

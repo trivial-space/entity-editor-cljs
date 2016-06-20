@@ -4,6 +4,7 @@ export const graph =
         "new-particle-pos": {
             "id": "new-particle-pos",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": -283,
@@ -14,6 +15,7 @@ export const graph =
         "ages": {
             "id": "ages",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": 320,
@@ -24,6 +26,7 @@ export const graph =
         "transform": {
             "id": "transform",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": 729,
@@ -34,6 +37,7 @@ export const graph =
         "time": {
             "id": "time",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": 858,
@@ -44,6 +48,7 @@ export const graph =
         "mouse-position": {
             "id": "mouse-position",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": -296,
@@ -54,6 +59,7 @@ export const graph =
         "geometry": {
             "id": "geometry",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": 214,
@@ -64,6 +70,7 @@ export const graph =
         "canvas": {
             "id": "canvas",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -190,
@@ -74,6 +81,7 @@ export const graph =
         "particle-count": {
             "id": "particle-count",
             "value": 200,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": 213,
@@ -84,6 +92,7 @@ export const graph =
         "render-context": {
             "id": "render-context",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -67,
@@ -94,6 +103,7 @@ export const graph =
         "particle-index": {
             "id": "particle-index",
             "value": 0,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": 228,
@@ -107,6 +117,7 @@ export const graph =
                 "width": 800,
                 "height": 600
             },
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -501,
@@ -122,6 +133,7 @@ export const graph =
                 "far": 1000,
                 "aspect": 1.6
             },
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -377,
@@ -136,6 +148,7 @@ export const graph =
                     "object"
                 ]
             },
+            "json": null,
             "meta": {
                 "ui": {
                     "y": 61,
@@ -146,6 +159,7 @@ export const graph =
         "starttime": {
             "id": "starttime",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": 726,
@@ -156,6 +170,7 @@ export const graph =
         "particles": {
             "id": "particles",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": 103,
@@ -170,6 +185,7 @@ export const graph =
                 "shader": "shader",
                 "uniforms": {}
             },
+            "json": null,
             "meta": {
                 "ui": {
                     "x": 478,
@@ -191,6 +207,7 @@ export const graph =
                     "time": "f"
                 }
             },
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -64,
@@ -201,6 +218,7 @@ export const graph =
         "projection": {
             "id": "projection",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -265,
@@ -211,6 +229,7 @@ export const graph =
         "mouse-dragging": {
             "id": "mouse-dragging",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": -457,
@@ -226,8 +245,9 @@ export const graph =
                 "ctx": "accumulator",
                 "layer": "hot"
             },
-            "code": "function(ports, send) {\n\tthis.renderer.updateLayer(ports.ctx, \"main-layer\", ports.layer)\n\tsend(ports.ctx)\n}",
+            "code": "function(ports) {\n\treturn this.renderer.updateLayer(ports.ctx, \"main-layer\", ports.layer)\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": 79,
@@ -241,8 +261,9 @@ export const graph =
                 "canvas": "accumulator",
                 "size": "hot"
             },
-            "code": "function(ports, send) {\n\tvar canvas = ports.canvas,\n\t\t\twidth = ports.size.width,\n\t\t\theight = ports.size.height\n\t\n\tcanvas.style.width = width + \"px\"\n\tcanvas.style.height = height + \"px\"\n\tsend(canvas)\n}",
+            "code": "function(ports) {\n\tvar canvas = ports.canvas,\n\t\t\twidth = ports.size.width,\n\t\t\theight = ports.size.height\n\t\n\tcanvas.style.width = width + \"px\"\n\tcanvas.style.height = height + \"px\"\n\treturn canvas\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -314,
@@ -256,8 +277,9 @@ export const graph =
                 "ctx": "accumulator",
                 "obj": "cold"
             },
-            "code": "function(ports, send) {\n\tthis.renderer.updateObject(ports.ctx, 'object', ports.obj)\n\tsend(ports.ctx)\n}",
+            "code": "function(ports) {\n\treturn this.renderer.updateObject(ports.ctx, 'object', ports.obj)\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": 346.24983277591974,
@@ -271,8 +293,9 @@ export const graph =
                 "ctx": "accumulator",
                 "shader": "hot"
             },
-            "code": "function(ports, send) {\n\tthis.renderer.updateShader(ports.ctx, \"shader\", ports.shader)\n\tsend(ports.ctx)\n}",
+            "code": "function(ports) {\n\treturn this.renderer.updateShader(ports.ctx, \"shader\", ports.shader)\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": 82,
@@ -285,8 +308,9 @@ export const graph =
             "ports": {
                 "count": "cold"
             },
-            "code": "function(ports, send) {\n\tsend(new Uint32Array(ports.count))\n}",
+            "code": "function(ports) {\n\treturn new Uint32Array(ports.count)\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": 312,
@@ -300,8 +324,9 @@ export const graph =
                 "ctx": "accumulator",
                 "geometry": "hot"
             },
-            "code": "function(ports, send) {\n\tthis.renderer.updateGeometry(ports.ctx, 'geometry', ports.geometry)\n\tthis.send(ports.ctx)\n}",
+            "code": "function(ports) {\n\treturn this.renderer.updateGeometry(ports.ctx, 'geometry', ports.geometry)\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": 233,
@@ -316,6 +341,7 @@ export const graph =
             },
             "code": "function(ports, send) {\n\tvar runing = true\n\t\n\tfunction tick() {\n\t\tsend(Date.now() - ports.starttime);\n\t\tif (runing) {\n\t\t\trequestAnimationFrame(tick)\n\t\t}\n\t}\n\t\n\tsetTimeout(tick, 200)\n\t\n\treturn function() {\n\t\truning = false\n\t}\n}\n",
             "autostart": null,
+            "async": true,
             "meta": {
                 "ui": {
                     "x": 854,
@@ -330,8 +356,9 @@ export const graph =
                 "time": "hot",
                 "obj": "accumulator"
             },
-            "code": "function(ports, send) {\n\n}",
+            "code": "function(ports) {\n\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": 644,
@@ -344,8 +371,9 @@ export const graph =
             "ports": {
                 "canvas": "hot"
             },
-            "code": "function(ports, send) {\n\t\n\tfunction listenerDown(e) {\n\t\tsend(true)\n\t}\n\t\n\tfunction listenerUp(e) {\n\t\tsend(false)\n\t}\n\t\n\tfunction context(e) {\n\t\te.preventDefault()\n\t}\n\t\n\tports.canvas.addEventListener('mousedown', listenerDown)\n\tports.canvas.addEventListener('mouseup', listenerUp)\n\tports.canvas.addEventListener('contextmenu', context)\n\t\n\treturn function() {\n\t\tports.canvas.removeEventListener('mousedown', listenerDown)\n\t\tports.canvas.removeEventListener('mouseup', listenerUp)\n\t\tports.canvas.removeEventListener('contextmenu', context)\n\t}\n}",
+            "code": "function(ports, send) {\n\tvar canvas = ports.canvas\n\t\n\tfunction listenerDown(e) {\n\t\tsend(true)\n\t}\n\t\n\tfunction listenerUp(e) {\n\t\tsend(false)\n\t}\n\t\n\tfunction context(e) {\n\t\te.preventDefault()\n\t}\n\t\n\tcanvas.addEventListener('mousedown', listenerDown)\n\tcanvas.addEventListener('mouseup', listenerUp)\n\tcanvas.addEventListener('contextmenu', context)\n\t\n\treturn function() {\n\t\tcanvas.removeEventListener('mousedown', listenerDown)\n\t\tcanvas.removeEventListener('mouseup', listenerUp)\n\t\tcanvas.removeEventListener('contextmenu', context)\n\t}\n}",
             "autostart": null,
+            "async": true,
             "meta": {
                 "ui": {
                     "x": -462,
@@ -359,8 +387,9 @@ export const graph =
                 "ctx": "cold",
                 "tick": "hot"
             },
-            "code": "function(ports, send) {\n\tthis.renderer.renderLayers(ports.ctx, [\"main-layer\"])\n}",
+            "code": "function(ports) {\n\tthis.renderer.renderLayers(ports.ctx, [\"main-layer\"])\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": 344,
@@ -376,6 +405,7 @@ export const graph =
             },
             "code": "function(ports, send) {\n\tif (ports.dragging) {\n\t\tsend(ports.pos)\n\t}\n}",
             "autostart": null,
+            "async": true,
             "meta": {
                 "ui": {
                     "x": -376,
@@ -388,8 +418,9 @@ export const graph =
             "ports": {
                 "settings": "hot"
             },
-            "code": "function(ports, send) {\n\tvar m = this.mat4.create(),\n\t\t\tconf = ports.settings\n\t\n\tthis.mat4.perspective(m, conf.fovy, conf.aspect, conf.near, conf.far)\n\t\n\tsend(m)\n}",
+            "code": "function(ports) {\n\tvar m = this.mat4.create(),\n\t\t\tconf = ports.settings\n\t\n\tthis.mat4.perspective(m, conf.fovy, conf.aspect, conf.near, conf.far)\n\t\n\treturn m\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -379,
@@ -402,8 +433,9 @@ export const graph =
             "ports": {
                 "count": "hot"
             },
-            "code": "function(ports, send) {\n\tsend(new Float32Array(ports.count * 3))\n}",
+            "code": "function(ports) {\n\treturn new Float32Array(ports.count * 3)\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": 101,
@@ -416,8 +448,9 @@ export const graph =
             "ports": {
                 "canvas": "hot"
             },
-            "code": "function(ports, send) {\n\t\n\tfunction listener(e) {\n\t\tvar box = ports.canvas.getBoundingClientRect()\n\t\tsend({\n\t\t\tx: e.clientX - box.left,\n\t\t\ty: e.clientY - box.top\n\t\t})\n\t}\n\t\n\tports.canvas.addEventListener('mousemove', listener)\n\t\n\treturn function() {\n\t\tports.canvas.removeEventListener('mousemove', listener)\n\t}\n}\n",
+            "code": "function(ports, send) {\n\tvar canvas = ports.canvas\n\t\n\tfunction listener(e) {\n\t\tvar box = canvas.getBoundingClientRect()\n\t\tsend({\n\t\t\tx: e.clientX - box.left,\n\t\t\ty: e.clientY - box.top\n\t\t})\n\t}\n\t\n\tcanvas.addEventListener('mousemove', listener)\n\t\n\treturn function() {\n\t\tcanvas.removeEventListener('mousemove', listener)\n\t}\n}\n",
             "autostart": null,
+            "async": true,
             "meta": {
                 "ui": {
                     "x": -296,
@@ -432,8 +465,9 @@ export const graph =
                 "count": "hot",
                 "i": "accumulator"
             },
-            "code": "function(ports, send) {\n\tsend((ports.i + 1) % ports.count)\n}",
+            "code": "function(ports) {\n\treturn (ports.i + 1) % ports.count\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": 221,
@@ -447,8 +481,9 @@ export const graph =
                 "ctx": "accumulator",
                 "size": "hot"
             },
-            "code": "function(ports, send) {\n\tthis.renderer.updateSize(ports.ctx, ports.size.width, ports.size.height)\n\tsend(ports.ctx)\n}",
+            "code": "function(ports) {\n\treturn this.renderer.updateSize(ports.ctx, ports.size.width, ports.size.height)\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -192,
@@ -459,8 +494,9 @@ export const graph =
         "get-starttime": {
             "id": "get-starttime",
             "ports": {},
-            "code": "function(ports, send) {\n\tsend(Date.now())\n}",
+            "code": "function(ports) {\n\treturn Date.now()\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": 726,
@@ -475,8 +511,9 @@ export const graph =
                 "ages": "accumulator",
                 "starttime": "cold"
             },
-            "code": "function(ports, send) {\n\tports.ages[ports.i] = Date.now() - ports.starttime\n\tsend(ports.ages)\n}",
+            "code": "function(ports) {\n\tports.ages[ports.i] = Date.now() - ports.starttime\n\treturn ports.ages\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": 425,
@@ -491,8 +528,9 @@ export const graph =
                 "ages": "hot",
                 "count": "hot"
             },
-            "code": "function(ports, send) {\n\tsend({\n\t\tattribs: {\n\t\t\tposition: {\n\t\t\t\tbuffer: ports.positions,\n\t\t\t\tstoreType: \"DYNAMIC\"\n\t\t\t},\n\t\t\tage: {\n\t\t\t\tbuffer: ports.ages,\n\t\t\t\tstoreType: \"DYNAMIC\"\n\t\t\t}\n\t\t},\n\t\titemCount: ports.count,\n\t\tdrawType: \"POINTS\"\n\t})\n}",
+            "code": "function(ports) {\n\treturn {\n\t\tattribs: {\n\t\t\tposition: {\n\t\t\t\tbuffer: ports.positions,\n\t\t\t\tstoreType: \"DYNAMIC\"\n\t\t\t},\n\t\t\tage: {\n\t\t\t\tbuffer: ports.ages,\n\t\t\t\tstoreType: \"DYNAMIC\"\n\t\t\t}\n\t\t},\n\t\titemCount: ports.count,\n\t\tdrawType: \"POINTS\"\n\t}\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": 213,
@@ -503,8 +541,9 @@ export const graph =
         "create-transform": {
             "id": "create-transform",
             "ports": {},
-            "code": "function(ports, send) {\n  send(this.mat4.create())\n}",
-            "autostart": null,
+            "code": "function(ports) {\n  return this.mat4.create()\n}",
+            "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": 826,
@@ -518,8 +557,9 @@ export const graph =
                 "settings": "accumulator",
                 "size": "hot"
             },
-            "code": "function(ports, send) {\n\tvar settings = ports.settings\n\t\n\tsettings.aspect = ports.size.width / ports.size.height\n\t\n\tsend(settings);\n}",
+            "code": "function(ports) {\n\tvar settings = ports.settings\n\t\n\tsettings.aspect = ports.size.width / ports.size.height\n\t\n\treturn settings;\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -503,
@@ -533,8 +573,9 @@ export const graph =
                 "canvas": "hot",
                 "obj": "cold"
             },
-            "code": "function(ports, send) {\n\tvar ctx = this.renderer.create(ports.canvas)\n\tthis.renderer.updateObject(ctx, 'object', ports.obj)\n\tsend(ctx)\n}",
+            "code": "function(ports) {\n\tvar ctx = this.renderer.create(ports.canvas)\n\tthis.renderer.updateObject(ctx, 'object', ports.obj)\n\treturn ctx\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -189,
@@ -549,8 +590,9 @@ export const graph =
                 "pos": "cold",
                 "particles": "accumulator"
             },
-            "code": "function(ports, send) {\n\tvar i = ports.i * 3\n\tports.particles[i] = ports.pos.x\n\tports.particles[i + 1] = ports.pos.y\n\tsend(ports.particles)\n}",
+            "code": "function(ports) {\n\tvar i = ports.i * 3\n\tports.particles[i] = ports.pos.x\n\tports.particles[i + 1] = ports.pos.y\n\treturn ports.particles\n}",
             "autostart": null,
+            "async": true,
             "meta": {
                 "ui": {
                     "x": -24,
@@ -561,8 +603,9 @@ export const graph =
         "get-canvas": {
             "id": "get-canvas",
             "ports": {},
-            "code": "function(ports, send) {\n\tsend(document.getElementById('canvas'))\n}",
+            "code": "function(ports) {\n\treturn document.getElementById('canvas')\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": -139,
@@ -960,7 +1003,7 @@ export const graph =
     },
     "meta": {
         "ui": {
-            "layout": [ ]
+            "layout": []
         }
     }
 }

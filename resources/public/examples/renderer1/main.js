@@ -19,6 +19,8 @@ const runtime = flow.create()
 const localGraph = localStorage.getItem(localStorageKey)
 
 runtime.setContext(context)
+//runtime.setDebug(true)
+window.runtime = runtime
 
 if (localGraph) {
   runtime.addGraph(JSON.parse(localGraph))

@@ -15,11 +15,17 @@ const runtime = flow.create()
 const localGraph = localStorage.getItem(localStorageKey)
 
 runtime.setContext(context)
+runtime.setDebug(true)
+window.runtime = runtime
 
-if (localGraph) {
-  runtime.addGraph(JSON.parse(localGraph))
-} else {
-  runtime.addGraph(graph)
+try {
+  if (localGraph) {
+    runtime.addGraph(JSON.parse(localGraph))
+  } else {
+    runtime.addGraph(graph)
+  }
+} catch (e) {
+  console.log(e)
 }
 
 flow_editor.core.init(runtime, localStorageKey)

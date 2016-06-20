@@ -4,6 +4,7 @@ export const graph =
         "tick": {
             "id": "tick",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": -369,
@@ -19,6 +20,7 @@ export const graph =
                 "far": 1000,
                 "aspect": 1.6
             },
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -543,
@@ -29,6 +31,7 @@ export const graph =
         "canvas": {
             "id": "canvas",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -109,
@@ -39,6 +42,7 @@ export const graph =
         "rotation-speed": {
             "id": "rotation-speed",
             "value": 0.02,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": -488.84908417641043,
@@ -53,6 +57,7 @@ export const graph =
                 0,
                 -15
             ],
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -545,
@@ -63,6 +68,7 @@ export const graph =
         "plane-geometry": {
             "id": "plane-geometry",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": 243,
@@ -73,6 +79,7 @@ export const graph =
         "render-context": {
             "id": "render-context",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": 244,
@@ -83,6 +90,7 @@ export const graph =
         "plane-transform": {
             "id": "plane-transform",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -280,
@@ -96,6 +104,7 @@ export const graph =
                 "width": 800,
                 "height": 500
             },
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -494,
@@ -106,6 +115,7 @@ export const graph =
         "camera": {
             "id": "camera",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -287,
@@ -120,6 +130,7 @@ export const graph =
                     "plane-object"
                 ]
             },
+            "json": null,
             "meta": {
                 "ui": {
                     "y": 415,
@@ -134,17 +145,17 @@ export const graph =
                 "shader": "plane-shader",
                 "uniforms": {
                     "transform": {
-                        "0": 0.6206568479537964,
-                        "1": 0.23171186447143555,
-                        "2": -0.7490600347518921,
+                        "0": 0.49396711587905884,
+                        "1": -0.2569488286972046,
+                        "2": 0.8306456804275513,
                         "3": 0,
                         "4": 0,
                         "5": 0.9553365111351013,
                         "6": 0.29552021622657776,
                         "7": 0,
-                        "8": 0.7840854525566101,
-                        "9": -0.18341660499572754,
-                        "10": 0.5929291844367981,
+                        "8": -0.8694823980331421,
+                        "9": -0.1459771990776062,
+                        "10": 0.4719040095806122,
                         "11": 0,
                         "12": 0,
                         "13": 0,
@@ -171,6 +182,7 @@ export const graph =
                     }
                 }
             },
+            "json": null,
             "meta": {
                 "ui": {
                     "y": 37,
@@ -191,6 +203,7 @@ export const graph =
                     "camera": "m 4"
                 }
             },
+            "json": null,
             "meta": {
                 "ui": {
                     "y": 34,
@@ -206,8 +219,9 @@ export const graph =
                 "canvas": "accumulator",
                 "size": "hot"
             },
-            "code": "function(ports, send) {\n\tvar canvas = ports.canvas,\n\t\t\twidth = ports.size.width,\n\t\t\theight = ports.size.height\n\t\n\tcanvas.style.width = width + \"px\"\n\tcanvas.style.height = height + \"px\"\n\tsend(canvas)\n}",
+            "code": "function(ports) {\n\tvar canvas = ports.canvas,\n\t\t\twidth = ports.size.width,\n\t\t\theight = ports.size.height\n\t\n\tcanvas.style.width = width + \"px\"\n\tcanvas.style.height = height + \"px\"\n\treturn canvas\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -306,
@@ -222,8 +236,9 @@ export const graph =
                 "camera": "hot",
                 "transform": "hot"
             },
-            "code": "function(ports, send) {\n\tvar plane = ports.plane\n\t\n\tplane.uniforms.transform = ports.transform\n\tplane.uniforms.camera = ports.camera\n\t\n\tsend(plane)\n}",
+            "code": "function(ports) {\n\tvar plane = ports.plane\n\t\n\tplane.uniforms.transform = ports.transform\n\tplane.uniforms.camera = ports.camera\n\t\n\treturn plane\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -103,
@@ -234,8 +249,9 @@ export const graph =
         "animate": {
             "id": "animate",
             "ports": {},
-            "code": "function(ports, send) {\n\tvar runing = true\n\t\n\tfunction tick() {\n\t\tsend();\n\t\tif (runing) {\n\t\t\trequestAnimationFrame(tick)\n\t\t}\n\t}\n\t\n\tsetTimeout(tick, 200)\n\t\n\treturn function() {\n\t\truning = false\n\t}\n}\n",
+            "code": "function(ports, send) {\n\tvar runing = true\n\t\n\tfunction tick() {\n\t\tsend();\n\t\tif (runing) {\n\t\t\trequestAnimationFrame(tick)\n\t\t}\n\t}\n\t\n\ttick()\n\t\n\treturn function() {\n\t\truning = false\n\t}\n}\n",
             "autostart": true,
+            "async": true,
             "meta": {
                 "ui": {
                     "x": -195,
@@ -249,8 +265,9 @@ export const graph =
                 "settings": "accumulator",
                 "size": "hot"
             },
-            "code": "function(ports, send) {\n\tvar settings = ports.settings\n\t\n\tsettings.aspect = ports.size.width / ports.size.height\n\t\n\tsend(settings);\n}",
+            "code": "function(ports) {\n\tvar settings = ports.settings\n\t\n\tsettings.aspect = ports.size.width / ports.size.height\n\t\n\treturn settings\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -493,
@@ -264,8 +281,9 @@ export const graph =
                 "ctx": "cold",
                 "tick": "hot"
             },
-            "code": "function(ports, send) {\n\tthis.renderer.renderLayers(ports.ctx, [\"main-layer\"])\n}",
+            "code": "function(ports) {\n\tthis.renderer.renderLayers(ports.ctx, [\"main-layer\"])\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": 344,
@@ -276,8 +294,9 @@ export const graph =
         "create-plane-geometry": {
             "id": "create-plane-geometry",
             "ports": {},
-            "code": "function(ports, send) {\n\tvar g = this.geometries.plane(10, 10)\n\t//g.drawType = \"LINE_LOOP\"\n \tsend(g)\n}",
+            "code": "function(ports) {\n\tvar g = this.geometries.plane(10, 10)\n\t//g.drawType = \"LINE_LOOP\"\n \treturn g\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": 135,
@@ -291,8 +310,9 @@ export const graph =
                 "ctx": "hot",
                 "size": "hot"
             },
-            "code": "function(ports, send) {\n\tthis.renderer.updateSize(ports.ctx, ports.size.width, ports.size.height)\n}",
+            "code": "function(ports) {\n\tthis.renderer.updateSize(ports.ctx, ports.size.width, ports.size.height)\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -119,
@@ -305,8 +325,9 @@ export const graph =
             "ports": {
                 "pos": "hot"
             },
-            "code": "function(ports, send) {\n\tvar m = this.mat4.create()\n\tthis.mat4.fromTranslation(m, ports.pos)\n\tthis.mat4.rotateX(m, m, 0.3)\n\tthis.mat4.rotateY(m, m, 0.2)\n\tsend(m)\n}",
+            "code": "function(ports) {\n\tvar m = this.mat4.create()\n\tthis.mat4.fromTranslation(m, ports.pos)\n\tthis.mat4.rotateX(m, m, 0.3)\n\tthis.mat4.rotateY(m, m, 0.2)\n\treturn m\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -398,
@@ -323,8 +344,9 @@ export const graph =
                 "plane_shader": "hot",
                 "main_layer": "hot"
             },
-            "code": "function(ports, send) {\n\tvar ctx = ports.ctx\n\t\n\tthis.renderer.updateGeometry(ctx, \"plane-geometry\", ports.plane_geometry)\n\tthis.renderer.updateObject(ctx, \"plane-object\", ports.plane_object)\n\tthis.renderer.updateShader(ctx, \"plane-shader\", ports.plane_shader)\n\tthis.renderer.updateLayer(ctx, \"main-layer\", ports.main_layer)\n\n\tsend(ctx)\n}",
+            "code": "function(ports) {\n\tvar ctx = ports.ctx\n\t\n\tthis.renderer.updateGeometry(ctx, \"plane-geometry\", ports.plane_geometry)\n\tthis.renderer.updateObject(ctx, \"plane-object\", ports.plane_object)\n\tthis.renderer.updateShader(ctx, \"plane-shader\", ports.plane_shader)\n\tthis.renderer.updateLayer(ctx, \"main-layer\", ports.main_layer)\n\n\treturn ctx\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": 245,
@@ -335,8 +357,9 @@ export const graph =
         "create-render-context": {
             "id": "create-render-context",
             "ports": {},
-            "code": "function(ports, send) {\n\tsend(this.renderer.create())\n}",
+            "code": "function(ports) {\n\treturn this.renderer.create()\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": 370,
@@ -351,8 +374,9 @@ export const graph =
                 "mat": "accumulator",
                 "tick": "hot"
             },
-            "code": "function(ports, send) {\n\tthis.mat4.rotateY(ports.mat, ports.mat, ports.speed)\n\tsend(ports.mat)\n}",
+            "code": "function(ports) {\n\tthis.mat4.rotateY(ports.mat, ports.mat, ports.speed)\n\treturn ports.mat\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": -392.79347826086956,
@@ -367,6 +391,7 @@ export const graph =
             },
             "code": "function(ports, send) {\n\t\n\tvar canvas = ports.render_ctx.gl.canvas\n\tcanvas.style.border = \"1px solid gray\"\n\t\n\tdocument.body.appendChild(canvas)\n\t\n\tsend(canvas)\n\t\n\treturn function() {\n\t\tdocument.body.removeChild(canvas)\n\t}\n}",
             "autostart": null,
+            "async": true,
             "meta": {
                 "ui": {
                     "y": 53,
@@ -379,8 +404,9 @@ export const graph =
             "ports": {
                 "settings": "hot"
             },
-            "code": "function(ports, send) {\n\tvar m = this.mat4.create(),\n\t\t\tconf = ports.settings\n\t\n\tthis.mat4.perspective(m, conf.fovy, conf.aspect, conf.near, conf.far)\n\t\n\tsend(m)\n}",
+            "code": "function(ports) {\n\tvar m = this.mat4.create(),\n\t\t\tconf = ports.settings\n\t\n\tthis.mat4.perspective(m, conf.fovy, conf.aspect, conf.near, conf.far)\n\t\n\treturn m\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -400,

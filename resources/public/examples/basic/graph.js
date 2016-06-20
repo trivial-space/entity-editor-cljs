@@ -7,6 +7,7 @@ export const graph =
                 "x": 0,
                 "y": 0
             },
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -254,
@@ -17,6 +18,7 @@ export const graph =
         "window-size": {
             "id": "window-size",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -251,
@@ -27,6 +29,7 @@ export const graph =
         "position-ratio": {
             "id": "position-ratio",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": 58,
@@ -37,6 +40,7 @@ export const graph =
         "color": {
             "id": "color",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": 376,
@@ -51,6 +55,7 @@ export const graph =
                 58,
                 155
             ],
+            "json": null,
             "meta": {
                 "ui": {
                     "y": 58,
@@ -65,6 +70,7 @@ export const graph =
             "ports": {},
             "code": "function(ports, send) {\n\t\n\tfunction onMouseMove(e) {\n\t\tsend({x: e.clientX, y: e.clientY});\n\t};\n\n\twindow.addEventListener(\"mousemove\", onMouseMove);\n\n\treturn function stop() {\n\t\twindow.removeEventListener(\"mousemove\", onMouseMove);\n\t}\n}",
             "autostart": true,
+            "async": true,
             "meta": {
                 "ui": {
                     "y": -422,
@@ -78,8 +84,9 @@ export const graph =
                 "position": "hot",
                 "size": "hot"
             },
-            "code": "function(ports, send) {\n\n\tsend({\n\t\tx: ports.position.x / ports.size.width,\n\t\ty: ports.position.y / ports.size.height,\n\t});\n}",
+            "code": "function(ports) {\n\treturn {\n\t\tx: ports.position.x / ports.size.width,\n\t\ty: ports.position.y / ports.size.height,\n\t}\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -105,
@@ -92,6 +99,7 @@ export const graph =
             "ports": {},
             "code": "function(ports, send) {\n\n\tfunction onResize(e) {\n\t\tsend({width: window.innerWidth, height: window.innerHeight});\n\t};\n\n\tonResize();\n\n\twindow.addEventListener(\"resize\", onResize);\n\n\treturn function stop() {\n\t\twindow.removeEventListener(\"resize\", onResize);\n\t}\n}",
             "autostart": true,
+            "async": true,
             "meta": {
                 "ui": {
                     "y": -424,
@@ -105,8 +113,9 @@ export const graph =
                 "ratio": "hot",
                 "base_color": "hot"
             },
-            "code": "function(ports, send) {\n\n\tvar base = ports.base_color,\n\t\t\trY = ports.ratio.y,\n\t\t  rX = ports.ratio.x;\n\n\tsend([\n\t\tMath.floor(base[0] * rY), \n\t\tMath.floor(base[1] * rX), \n\t\tMath.floor(base[2] * rY * rX)\n\t]);\n}",
+            "code": "function(ports) {\n\n\tvar base = ports.base_color,\n\t\t\trY = ports.ratio.y,\n\t\t  rX = ports.ratio.x\n\n\treturn [\n\t\tMath.floor(base[0] * rY), \n\t\tMath.floor(base[1] * rX), \n\t\tMath.floor(base[2] * rY * rX)\n\t]\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": 227,
@@ -119,8 +128,9 @@ export const graph =
             "ports": {
                 "color": "hot"
             },
-            "code": "function(ports, send) {\n\n\tvar c = ports.color;\n\n\tdocument.body.style.backgroundColor = \"rgb(\" \n\t\t+ c[0] + \", \"\n\t\t+ c[1] + \", \"\n\t\t+ c[2] + \")\";\n}",
+            "code": "function(ports) {\n\n\tvar c = ports.color;\n\n\tdocument.body.style.backgroundColor = \"rgb(\" \n\t\t+ c[0] + \", \"\n\t\t+ c[1] + \", \"\n\t\t+ c[2] + \")\"\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": 521,
@@ -196,12 +206,7 @@ export const graph =
     },
     "meta": {
         "ui": {
-            "layout": [
-                {
-                    "id": "mouse-position",
-                    "type": "entity"
-                }
-            ]
+            "layout": []
         }
     }
 }

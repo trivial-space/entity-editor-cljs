@@ -4,6 +4,7 @@ export const graph =
         "tick": {
             "id": "tick",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": 204,
@@ -14,6 +15,7 @@ export const graph =
         "color": {
             "id": "color",
             "value": "0xff0000",
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -547,
@@ -24,6 +26,7 @@ export const graph =
         "rot-speed-x": {
             "id": "rot-speed-x",
             "value": 0.01,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": -146,
@@ -38,6 +41,7 @@ export const graph =
                 0,
                 700
             ],
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -549,
@@ -48,6 +52,7 @@ export const graph =
         "geometry": {
             "id": "geometry",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -246,
@@ -58,6 +63,7 @@ export const graph =
         "renderer": {
             "id": "renderer",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -321,
@@ -71,6 +77,7 @@ export const graph =
                 "width": 800,
                 "height": 500
             },
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -690,
@@ -85,6 +92,7 @@ export const graph =
                 200,
                 200
             ],
+            "json": null,
             "meta": {
                 "ui": {
                     "x": -358,
@@ -95,6 +103,7 @@ export const graph =
         "rot-speed-y": {
             "id": "rot-speed-y",
             "value": 0.02,
+            "json": null,
             "meta": {
                 "ui": {
                     "x": -290,
@@ -105,6 +114,7 @@ export const graph =
         "mesh": {
             "id": "mesh",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": 3,
@@ -115,6 +125,7 @@ export const graph =
         "material": {
             "id": "material",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -249,
@@ -125,6 +136,7 @@ export const graph =
         "camera": {
             "id": "camera",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -360,
@@ -135,6 +147,7 @@ export const graph =
         "scene": {
             "id": "scene",
             "value": null,
+            "json": null,
             "meta": {
                 "ui": {
                     "y": -119,
@@ -147,8 +160,9 @@ export const graph =
         "animation-frame": {
             "id": "animation-frame",
             "ports": {},
-            "code": "function(ports, send) {\n\tvar i = 0;\n\tvar runing = true;\n\t\n\tfunction tick() {\n\t\tsend(i++);\n\t\tif (runing) {\n\t\t\trequestAnimationFrame(tick);\n\t\t}\n\t}\n\t\n\ttick();\n\t\n\treturn function() {\n\t\truning = false;\n\t};\n}",
+            "code": "function(ports, send) {\n\tvar runing = true\n\t\n\tfunction tick() {\n\t\tsend()\n\t\tif (runing) {\n\t\t\trequestAnimationFrame(tick)\n\t\t}\n\t}\n\t\n\ttick()\n\t\n\treturn function() {\n\t\truning = false\n\t}\n}",
             "autostart": true,
+            "async": true,
             "meta": {
                 "ui": {
                     "x": 208,
@@ -163,8 +177,9 @@ export const graph =
                 "material": "hot",
                 "geometry": "hot"
             },
-            "code": "function(ports, send) {\n\tconsole.log(\"update-mesh\")\n\t\n\tvar mesh = ports.mesh,\n\t\t\tmat = ports.material\n\t\t\t\n\tmesh.material = mat\n\tmesh.geometry = ports.geometry\n\tsend(mesh)\n}",
+            "code": "function(ports) {\n\tvar mesh = ports.mesh,\n\t\t\tmat = ports.material\n\t\t\t\n\tmesh.material = mat\n\tmesh.geometry = ports.geometry\n\treturn mesh\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": 1,
@@ -177,8 +192,9 @@ export const graph =
             "ports": {
                 "color": "hot"
             },
-            "code": "function(ports, send) {\n\tconsole.log(\"create-material\")\n\t\n\tsend(new this.three.MeshBasicMaterial({\n        color: parseInt(ports.color),\n        wireframe: true\n    }))\n}",
+            "code": "function(ports) {\n\treturn new this.three.MeshBasicMaterial({\n\t\tcolor: parseInt(ports.color),\n\t\twireframe: true\n\t})\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -362,
@@ -191,8 +207,9 @@ export const graph =
             "ports": {
                 "mesh": "cold"
             },
-            "code": "function(ports, send) {\n\tconsole.log(\"create-scene\")\n\t\n\tvar scene = new this.three.Scene()\n\tscene.add(ports.mesh)\n\tsend(scene)\n}",
+            "code": "function(ports) {\n\tvar scene = new this.three.Scene()\n\tscene.add(ports.mesh)\n\treturn scene\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -2,
@@ -208,8 +225,9 @@ export const graph =
                 "tick": "hot",
                 "mesh": "accumulator"
             },
-            "code": "function(ports, send) {\n\tports.mesh.rotation.x += ports.rot_x;\n\tports.mesh.rotation.y += ports.rot_y;\n\tsend(ports.mesh)\n}",
+            "code": "function(ports) {\n\tports.mesh.rotation.x += ports.rot_x\n\tports.mesh.rotation.y += ports.rot_y\n\treturn ports.mesh\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "x": -149,
@@ -220,7 +238,7 @@ export const graph =
         "create-renderer": {
             "id": "create-renderer",
             "ports": {},
-            "code": "function(ports, send) {\n\tconsole.log(\"create-renderer\")\n\t\n\tvar renderer = new this.three.WebGLRenderer()\n\t\n\tdocument.body.appendChild(renderer.domElement)\n\t\n\tsend(renderer)\n}",
+            "code": "function(ports) {\n\tvar renderer = new this.three.WebGLRenderer()\n\t\n\tdocument.body.appendChild(renderer.domElement)\n\t\n\treturn renderer\n}",
             "autostart": true,
             "meta": {
                 "ui": {
@@ -237,8 +255,9 @@ export const graph =
                 "camera": "cold",
                 "tick": "hot"
             },
-            "code": "function(ports, send) {\n\tconsole.log(\"render\")\n\t\n\tports.renderer.render(ports.scene, ports.camera)\n}",
+            "code": "function(ports) {\n\tports.renderer.render(ports.scene, ports.camera)\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -119,
@@ -249,8 +268,9 @@ export const graph =
         "create-mesh": {
             "id": "create-mesh",
             "ports": {},
-            "code": "function(ports, send) {\n\tconsole.log(\"create-mesh\")\n\t\n\tsend(new this.three.Mesh())\n}",
+            "code": "function(ports) {\n\treturn new this.three.Mesh()\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -108,
@@ -263,8 +283,9 @@ export const graph =
             "ports": {
                 "dimensions": "hot"
             },
-            "code": "function(ports, send) {\n\tconsole.log(\"create-geometry\")\n\t\n\tvar size = ports.dimensions;\n\tsend(new this.three.BoxGeometry(size[0], size[1], size[2]))\n}",
+            "code": "function(ports) {\n\tvar size = ports.dimensions;\n\treturn new this.three.BoxGeometry(size[0], size[1], size[2])\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -362,
@@ -278,8 +299,9 @@ export const graph =
                 "renderer": "hot",
                 "size": "hot"
             },
-            "code": "function(ports, send) {\n\tconsole.log(\"update-size\")\n\t\n\tports.renderer.setSize(ports.size.width, ports.size.height)\n}",
+            "code": "function(ports) {\n\tports.renderer.setSize(ports.size.width, ports.size.height)\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -497,
@@ -292,8 +314,9 @@ export const graph =
             "ports": {
                 "size": "hot"
             },
-            "code": "function(ports, send) {\n\tconsole.log(\"create-camera\")\n\t\n\tsend(new this.three.PerspectiveCamera(\n\t\t75, ports.size.width / ports.size.height, 1, 2000\n\t))\n}",
+            "code": "function(ports) {\n\treturn new this.three.PerspectiveCamera(\n\t\t75, ports.size.width / ports.size.height, 1, 2000\n\t)\n}",
             "autostart": true,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -479,
@@ -307,8 +330,9 @@ export const graph =
                 "camera": "accumulator",
                 "position": "hot"
             },
-            "code": "function(ports, send) {\n\tconsole.log(\"update-camera\")\n\t\n\tvar cam = ports.camera,\n\t\t\tpos = ports.position\n\t\n\tcam.position.x = pos[0]\n\tcam.position.y = pos[1]\n\tcam.position.z = pos[2]\n\t\n\tsend(cam)\n}",
+            "code": "function(ports) {\n\tvar cam = ports.camera,\n\t\t\tpos = ports.position\n\t\n\tcam.position.x = pos[0]\n\tcam.position.y = pos[1]\n\tcam.position.z = pos[2]\n\t\n\treturn cam\n}",
             "autostart": null,
+            "async": null,
             "meta": {
                 "ui": {
                     "y": -363,
@@ -503,16 +527,7 @@ export const graph =
     },
     "meta": {
         "ui": {
-            "layout": [
-                {
-                    "id": "tick",
-                    "type": "entity"
-                },
-                {
-                    "id": "animation-frame",
-                    "type": "process"
-                }
-            ]
+            "layout": []
         }
     }
 }
