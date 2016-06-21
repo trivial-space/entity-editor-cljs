@@ -8,7 +8,10 @@
   []
   (let [graph (subscribe [:graph])]
     (fn []
-      (let [graph-code (r/atom (.stringify js/JSON (clj->js @graph) nil "    "))]
+      (let [replacer (fn [k v] (if (nil? v)
+                                 js/undefined
+                                 v))
+            graph-code (r/atom (.stringify js/JSON (clj->js @graph) replacer "    "))]
         [modal-panel
          :child [v-box
                  :children [[title
