@@ -25,7 +25,7 @@
   (.stringify js/JSON obj nil "\t"))
 
 
-(defn current-value-editor
+(defn value-editor
   [eid current-value]
   (let [editing (r/atom false)]
     (fn [eid current-value]

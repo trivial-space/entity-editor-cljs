@@ -2,7 +2,7 @@
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
             [flow-editor.views.utils.codemirror :refer [cm]]
-            [flow-editor.views.value-types.core :refer [value-types]]
+            [flow-editor.views.value-types.core :refer [value-editors]]
             [re-com.core :refer [title horizontal-bar-tabs
                                  label md-icon-button button
                                  v-box h-box box gap line
@@ -94,7 +94,7 @@
       (let [changed? (not= @changes json)]
         [v-box
          :gap "5px"
-         :children [[cm json {:mode "javascript"} changes]
+         :children [[cm (or json "") {:mode "javascript"} changes]
                     [button
                      :label "update"
                      :class (when changed? "btn-primary")
@@ -134,7 +134,7 @@
   [eid current-value type mode]
   [v-box
    :gap "10px"
-   :children [[(-> value-types type :current-value-editor) eid current-value]
+   :children [[(value-editors type) eid current-value]
               [button
                :label "set as initial value"
                :on-click #(do (dispatch [:flow-runtime/edit-entity-value
@@ -145,7 +145,7 @@
 (def value-type-choices
   (mapv
     (fn [[type-key _]] {:id type-key :label (name type-key)})
-    value-types))
+    value-editors))
 
 
 (defn entity-component
@@ -156,7 +156,6 @@
         value-type (r/atom :evaled-JSON)
         minified (r/atom false)]
     (fn [entity]
-      (dispatch [:flow-runtime/unwatch-entity id])
       [v-box
        :class "entity-component"
        :gap "5px"

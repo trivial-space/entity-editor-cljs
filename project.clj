@@ -27,6 +27,9 @@
                                    :foreign-libs
                                     [{:file "resources/jslibs/javascript-hint.js"
                                       :provides ["custom-codemirror.javascript-hint"]
+                                      :requires ["cljsjs.codemirror"]}
+                                     {:file "resources/jslibs/clike-glsl.js"
+                                      :provides ["custom-codemirror.modes.clike-glsl"]
                                       :requires ["cljsjs.codemirror"]}]
                                    :output-to "resources/public/js/compiled/app.js"
                                    :output-dir "resources/public/js/compiled/out"
@@ -39,6 +42,9 @@
                                    :foreign-libs
                                     [{:file "resources/jslibs/javascript-hint.js"
                                       :provides ["custom-codemirror.javascript-hint"]
+                                      :requires ["cljsjs.codemirror"]}
+                                     {:file "resources/jslibs/clike-glsl.js"
+                                      :provides ["custom-codemirror.modes.clike-glsl"]
                                       :requires ["cljsjs.codemirror"]}]
                                    :main flow-editor.runner
                                    :optimizations :none}}
@@ -50,6 +56,9 @@
                                    :foreign-libs
                                     [{:file "resources/jslibs/javascript-hint.js"
                                       :provides ["custom-codemirror.javascript-hint"]
+                                      :requires ["cljsjs.codemirror"]}
+                                     {:file "resources/jslibs/clike-glsl.js"
+                                      :provides ["custom-codemirror.modes.clike-glsl"]
                                       :requires ["cljsjs.codemirror"]}]
                                    :optimizations :advanced
                                    :closure-defines {goog.DEBUG false}
