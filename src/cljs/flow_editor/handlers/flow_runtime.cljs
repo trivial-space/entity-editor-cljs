@@ -10,6 +10,14 @@
 (defn update-runtime [db]
   (let [js-graph (.getGraph (:runtime db))
         new-graph (js->clj js-graph :keywordize-keys true)
+        new-graph (assoc new-graph :entities
+                    (->> (:entities new-graph)
+                      (map (fn [[k v]]
+                             (if (:value v)
+                               [k (merge v {:value nil
+                                            :json (.stringify js/JSON (clj->js (:value v)) nil "\t")})]
+                               [k v])))
+                      (into {})))
         layout (get-in new-graph [:meta :ui :layout] [])]
     (println "flow graph updated!")
     (when-let [local-storage-key (:local-storage-key db)]
@@ -80,6 +88,16 @@
   (fn [db [_ eid value]]
     (let [e (get-in db [:graph :entities (keyword eid)])]
       (->> (merge e {:value value})
+        (clj->js)
+        (.addEntity (:runtime db))))
+    (update-runtime db)))
+
+
+(register-handler
+  :flow-runtime/edit-entity-json
+  (fn [db [_ eid json]]
+    (let [e (get-in db [:graph :entities (keyword eid)])]
+      (->> (merge e {:json json})
         (clj->js)
         (.addEntity (:runtime db))))
     (update-runtime db)))
@@ -331,6 +349,8 @@
 (register-handler
   :flow-runtime-ui/close-node
   (fn [db [_ node]]
+    (when (= (:type node) "entity")
+      (dispatch [:flow-runtime/unwatch-entity (:id node)]))
     (let [layout (->> (get-in db [:ui :layout])
                    (remove (fn [n]
                              (and (= (:type n) (:type node))

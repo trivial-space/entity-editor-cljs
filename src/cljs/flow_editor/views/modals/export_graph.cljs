@@ -11,7 +11,15 @@
       (let [replacer (fn [k v] (if (nil? v)
                                  js/undefined
                                  v))
-            graph-code (r/atom (.stringify js/JSON (clj->js @graph) replacer "    "))]
+            graph (assoc @graph :entities
+                    (->> (:entities @graph)
+                      (map (fn [[k v]]
+                             (if (:json v)
+                               [k (merge v {:json nil
+                                            :value (.parse js/JSON (:json v))})]
+                               [k v])))
+                      (into {})))
+            graph-code (r/atom (.stringify js/JSON (clj->js graph) replacer "    "))]
         [modal-panel
          :child [v-box
                  :children [[title

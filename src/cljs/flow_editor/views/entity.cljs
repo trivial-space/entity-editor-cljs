@@ -1,6 +1,7 @@
 (ns flow-editor.views.entity
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
+            [flow-editor.views.utils.codemirror :refer [cm]]
             [flow-editor.views.value-types.core :refer [value-types]]
             [re-com.core :refer [title horizontal-bar-tabs
                                  label md-icon-button button
@@ -86,25 +87,41 @@
    {:id ::initial :label "Initial value"}])
 
 
+(defn json-value-editor
+  [eid json]
+  (let [changes (r/atom json)]
+    (fn [eid json]
+      (let [changed? (not= @changes json)]
+        [v-box
+         :gap "5px"
+         :children [[cm json {:mode "javascript"} changes]
+                    [button
+                     :label "update"
+                     :class (when changed? "btn-primary")
+                     :disabled? (not changed?)
+                     :on-click #(dispatch [:flow-runtime/edit-entity-json
+                                           eid @changes])]]]))))
+
+
 (defn initial-value-editor
-  [eid value type mode]
-  (let [initial-value? (r/atom (not= value nil))]
-    (fn [eid value type mode]
+  [eid json type mode]
+  (let [initial-value? (r/atom (not= json nil))]
+    (fn [eid json type mode]
       (dispatch [:flow-runtime/unwatch-entity eid])
       (if @initial-value?
         [v-box
          :gap "10px"
-         :children [[(-> value-types type :initial-value-editor) eid value]
+         :children [[json-value-editor eid json]
                     [h-box
                      :gap "10px"
                      :children [[button
                                  :label "reset current value"
                                  :on-click #(do (dispatch [:flow-runtime/set-current-value
-                                                           eid value])
+                                                           eid (.parse js/JSON json)])
                                                 (reset! mode ::current))]
                                 [button
                                  :label "remove initial value"
-                                 :on-click #(do (dispatch [:flow-runtime/edit-entity-value
+                                 :on-click #(do (dispatch [:flow-runtime/edit-entity-json
                                                            eid nil])
                                                 (reset! initial-value? false))]]]]]
         [button
@@ -139,6 +156,7 @@
         value-type (r/atom :evaled-JSON)
         minified (r/atom false)]
     (fn [entity]
+      (dispatch [:flow-runtime/unwatch-entity id])
       [v-box
        :class "entity-component"
        :gap "5px"
@@ -156,5 +174,5 @@
                                  :on-change #(reset! value-type %)]]])
                   (when-not @minified
                     (if (= @value-mode ::initial)
-                      [initial-value-editor id (clj->js (:value entity)) @value-type value-mode]
+                      [initial-value-editor id (:json entity) @value-type value-mode]
                       [current-value-editor id @value-ratom @value-type value-mode]))]])))

@@ -25,22 +25,6 @@
   (.stringify js/JSON obj nil "\t"))
 
 
-(defn initial-value-editor
-  [eid value]
-  (let [changes (r/atom (json value))]
-    (fn [eid value]
-      (let [changed? (not= @changes (json value))]
-        [v-box
-         :gap "5px"
-         :children [[cm (json value) {:mode "javascript"} changes]
-                    [button
-                     :label "update"
-                     :class (when changed? "btn-primary")
-                     :disabled? (not changed?)
-                     :on-click #(dispatch [:flow-runtime/edit-entity-value
-                                           eid (eval @changes)])]]]))))
-
-
 (defn current-value-editor
   [eid current-value]
   (let [editing (r/atom false)]

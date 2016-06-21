@@ -76,7 +76,7 @@
                                           :label eid
                                           :group "entities"}
                                     node (adjust-pos e node)]
-                                (if (:value e)
+                                (if (:json e)
                                   (assoc node :borderWidth 5
                                               :borderWidthSelected 5)
                                   node)))))
