@@ -7,7 +7,6 @@ export const graph =
                 "x": 0,
                 "y": 0
             },
-            "json": null,
             "meta": {
                 "ui": {
                     "x": -283,
@@ -17,8 +16,6 @@ export const graph =
         },
         "ages": {
             "id": "ages",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "x": 320,
@@ -26,10 +23,17 @@ export const graph =
                 }
             }
         },
+        "fufu": {
+            "id": "fufu",
+            "meta": {
+                "ui": {
+                    "y": -55,
+                    "x": 3
+                }
+            }
+        },
         "transform": {
             "id": "transform",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "x": 729,
@@ -37,10 +41,18 @@ export const graph =
                 }
             }
         },
+        "fragment": {
+            "id": "fragment",
+            "value": "void main() { \n\tgl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);\n}",
+            "meta": {
+                "ui": {
+                    "x": -89,
+                    "y": 223
+                }
+            }
+        },
         "time": {
             "id": "time",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "x": 858,
@@ -50,8 +62,6 @@ export const graph =
         },
         "mouse-position": {
             "id": "mouse-position",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "x": -296,
@@ -61,8 +71,6 @@ export const graph =
         },
         "geometry": {
             "id": "geometry",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "x": 214,
@@ -72,8 +80,6 @@ export const graph =
         },
         "canvas": {
             "id": "canvas",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "y": -190,
@@ -81,10 +87,19 @@ export const graph =
                 }
             }
         },
+        "vertex": {
+            "id": "vertex",
+            "value": "uniform mat4 projection; \nuniform float time;\nuniform vec2 size;\nattribute vec3 position;\nattribute float age; \n\nvoid main() { \n\t//gl_Position = projection * vec4(position.xy, (time - age) / -100.0, 1.0);\n\tgl_Position = vec4(\n\t\t(position.x / size.x) * 2.0 - 1.0, \n\t\t(position.y / -size.y) * 2.0 + 1.0,\n\t\t0.0, 1.0\n\t);\n\tgl_PointSize = 100.0 / pow(time - age + 1.0, 1.5);\n\t//gl_PointSize = max(5.0, 10.0 / (age + 1.0));\n\t//gl_PointSize = 20.0;\n}",
+            "meta": {
+                "ui": {
+                    "y": 67,
+                    "x": -114
+                }
+            }
+        },
         "particle-count": {
             "id": "particle-count",
-            "value": 200,
-            "json": null,
+            "value": 500,
             "meta": {
                 "ui": {
                     "x": 213,
@@ -94,8 +109,6 @@ export const graph =
         },
         "render-context": {
             "id": "render-context",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "y": -67,
@@ -106,7 +119,6 @@ export const graph =
         "particle-index": {
             "id": "particle-index",
             "value": 0,
-            "json": null,
             "meta": {
                 "ui": {
                     "x": 228,
@@ -120,11 +132,10 @@ export const graph =
                 "width": 800,
                 "height": 600
             },
-            "json": null,
             "meta": {
                 "ui": {
-                    "y": -501,
-                    "x": 54
+                    "y": -488,
+                    "x": 177
                 }
             }
         },
@@ -136,7 +147,6 @@ export const graph =
                 "far": 1000,
                 "aspect": 1.3333333333333333
             },
-            "json": null,
             "meta": {
                 "ui": {
                     "y": -377,
@@ -151,18 +161,15 @@ export const graph =
                     "object"
                 ]
             },
-            "json": null,
             "meta": {
                 "ui": {
-                    "y": 61,
-                    "x": -137
+                    "y": -62,
+                    "x": -119
                 }
             }
         },
         "starttime": {
             "id": "starttime",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "x": 726,
@@ -172,8 +179,6 @@ export const graph =
         },
         "particles": {
             "id": "particles",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "x": 103,
@@ -186,29 +191,8 @@ export const graph =
             "value": {
                 "geometry": "geometry",
                 "shader": "shader",
-                "uniforms": {
-                    "time": 194798,
-                    "projection": {
-                        "0": 1.294844627380371,
-                        "1": 0,
-                        "2": 0,
-                        "3": 0,
-                        "4": 0,
-                        "5": 1.7264595031738281,
-                        "6": 0,
-                        "7": 0,
-                        "8": 0,
-                        "9": 0,
-                        "10": -1.0002000331878662,
-                        "11": -1,
-                        "12": 0,
-                        "13": 0,
-                        "14": -0.20002000033855438,
-                        "15": 0
-                    }
-                }
+                "uniforms": {}
             },
-            "json": null,
             "meta": {
                 "ui": {
                     "x": 501,
@@ -216,32 +200,8 @@ export const graph =
                 }
             }
         },
-        "shader": {
-            "id": "shader",
-            "value": {
-                "vert": "uniform mat4 projection; uniform float time; attribute vec3 position; attribute float age; void main() { gl_Position = projection * vec4(position.xy, (time - age) / -100.0, 1.0); gl_PointSize = min(0.0, 40.0 - ((time - age) / 100.0));}",
-                "frag": "void main() { gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0); }",
-                "attribs": {
-                    "position": "f 3",
-                    "age": "f"
-                },
-                "uniforms": {
-                    "projection": "m 4",
-                    "time": "f"
-                }
-            },
-            "json": null,
-            "meta": {
-                "ui": {
-                    "y": -64,
-                    "x": -134
-                }
-            }
-        },
         "projection": {
             "id": "projection",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "y": -265,
@@ -251,8 +211,6 @@ export const graph =
         },
         "mouse-dragging": {
             "id": "mouse-dragging",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "x": -457,
@@ -269,12 +227,10 @@ export const graph =
                 "layer": "hot"
             },
             "code": "function(ports) {\n\treturn this.renderer.updateLayer(ports.ctx, \"main-layer\", ports.layer)\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
-                    "x": 79,
-                    "y": 57
+                    "x": 82,
+                    "y": -64
                 }
             }
         },
@@ -285,8 +241,6 @@ export const graph =
                 "size": "hot"
             },
             "code": "function(ports) {\n\tvar canvas = ports.canvas,\n\t\t\twidth = ports.size.width,\n\t\t\theight = ports.size.height\n\t\n\tcanvas.style.width = width + \"px\"\n\tcanvas.style.height = height + \"px\"\n\treturn canvas\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": -314,
@@ -301,8 +255,6 @@ export const graph =
                 "obj": "cold"
             },
             "code": "function(ports) {\n\treturn this.renderer.updateObject(ports.ctx, 'object', ports.obj)\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "x": 346,
@@ -314,26 +266,24 @@ export const graph =
             "id": "update-shader",
             "ports": {
                 "ctx": "accumulator",
-                "shader": "hot"
+                "vertex": "hot",
+                "fragment": "hot"
             },
-            "code": "function(ports) {\n\treturn this.renderer.updateShader(ports.ctx, \"shader\", ports.shader)\n}",
-            "autostart": null,
-            "async": null,
+            "code": "function(ports) {\n\tvar shader = {\n\t\tvert: ports.vertex,\n\t\tfrag: ports.fragment,\n\t\tattribs: {\n\t\t\tposition: \"f 3\",\n\t\t\tage: \"f\"\n\t\t},\n\t\tuniforms: {\n\t\t\tprojection: \"m 4\",\n\t\t\ttime: \"f\",\n\t\t\tsize: \"f 2\"\n\t\t}\n\t}\n\t\t\n\treturn this.renderer.updateShader(ports.ctx, \"shader\", shader)\n}",
             "meta": {
                 "ui": {
                     "x": 82,
-                    "y": -65
+                    "y": 64
                 }
             }
         },
         "create-p-ages": {
             "id": "create-p-ages",
             "ports": {
-                "count": "cold"
+                "count": "hot"
             },
-            "code": "function(ports) {\n\treturn new Uint32Array(ports.count)\n}",
+            "code": "function(ports) {\n\treturn new Float32Array(ports.count)\n}",
             "autostart": true,
-            "async": null,
             "meta": {
                 "ui": {
                     "x": 312,
@@ -348,8 +298,6 @@ export const graph =
                 "geometry": "hot"
             },
             "code": "function(ports) {\n\treturn this.renderer.updateGeometry(ports.ctx, 'geometry', ports.geometry)\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "x": 233,
@@ -363,7 +311,6 @@ export const graph =
                 "starttime": "hot"
             },
             "code": "function(ports, send) {\n\tvar runing = true\n\t\n\tfunction tick() {\n\t\tsend(Date.now() - ports.starttime);\n\t\tif (runing) {\n\t\t\trequestAnimationFrame(tick)\n\t\t}\n\t}\n\t\n\tsetTimeout(tick, 200)\n\t\n\treturn function() {\n\t\truning = false\n\t}\n}\n",
-            "autostart": null,
             "async": true,
             "meta": {
                 "ui": {
@@ -377,11 +324,10 @@ export const graph =
             "ports": {
                 "projection": "hot",
                 "time": "hot",
-                "obj": "accumulator"
+                "obj": "accumulator",
+                "size": "hot"
             },
-            "code": "function(ports) {\n\tvar uniforms = ports.obj.uniforms\n\tuniforms.time = ports.time\n\tuniforms.projection = ports.projection\n\treturn ports.obj\n}",
-            "autostart": null,
-            "async": null,
+            "code": "function(ports) {\n\tvar uniforms = ports.obj.uniforms\n\tuniforms.time = ports.time / 1000.0\n\tuniforms.projection = ports.projection\n\tuniforms.size = [ports.size.width, ports.size.height]\n\treturn ports.obj\n}",
             "meta": {
                 "ui": {
                     "x": 644,
@@ -395,7 +341,6 @@ export const graph =
                 "canvas": "hot"
             },
             "code": "function(ports, send) {\n\tvar canvas = ports.canvas\n\t\n\tfunction listenerDown(e) {\n\t\tsend(true)\n\t}\n\t\n\tfunction listenerUp(e) {\n\t\tsend(false)\n\t}\n\t\n\tfunction context(e) {\n\t\te.preventDefault()\n\t}\n\t\n\tcanvas.addEventListener('mousedown', listenerDown)\n\tcanvas.addEventListener('mouseup', listenerUp)\n\tcanvas.addEventListener('contextmenu', context)\n\t\n\treturn function() {\n\t\tcanvas.removeEventListener('mousedown', listenerDown)\n\t\tcanvas.removeEventListener('mouseup', listenerUp)\n\t\tcanvas.removeEventListener('contextmenu', context)\n\t}\n}",
-            "autostart": null,
             "async": true,
             "meta": {
                 "ui": {
@@ -411,8 +356,6 @@ export const graph =
                 "tick": "hot"
             },
             "code": "function(ports) {\n\tthis.renderer.renderLayers(ports.ctx, [\"main-layer\"])\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": 344,
@@ -427,7 +370,6 @@ export const graph =
                 "dragging": "hot"
             },
             "code": "function(ports, send) {\n\tif (ports.dragging) {\n\t\tsend(ports.pos)\n\t}\n}",
-            "autostart": null,
             "async": true,
             "meta": {
                 "ui": {
@@ -443,7 +385,6 @@ export const graph =
             },
             "code": "function(ports) {\n\tvar m = this.mat4.create(),\n\t\t\tconf = ports.settings\n\t\n\tthis.mat4.perspective(m, conf.fovy, conf.aspect, conf.near, conf.far)\n\t\n\treturn m\n}",
             "autostart": true,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": -379,
@@ -458,7 +399,6 @@ export const graph =
             },
             "code": "function(ports) {\n\treturn new Float32Array(ports.count * 3)\n}",
             "autostart": true,
-            "async": null,
             "meta": {
                 "ui": {
                     "x": 101,
@@ -472,7 +412,6 @@ export const graph =
                 "canvas": "hot"
             },
             "code": "function(ports, send) {\n\tvar canvas = ports.canvas\n\t\n\tfunction listener(e) {\n\t\tvar box = canvas.getBoundingClientRect()\n\t\tsend({\n\t\t\tx: e.clientX - box.left,\n\t\t\ty: e.clientY - box.top\n\t\t})\n\t}\n\t\n\tcanvas.addEventListener('mousemove', listener)\n\t\n\treturn function() {\n\t\tcanvas.removeEventListener('mousemove', listener)\n\t}\n}\n",
-            "autostart": null,
             "async": true,
             "meta": {
                 "ui": {
@@ -489,8 +428,6 @@ export const graph =
                 "i": "accumulator"
             },
             "code": "function(ports) {\n\treturn (ports.i + 1) % ports.count\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "x": 221,
@@ -505,8 +442,6 @@ export const graph =
                 "size": "hot"
             },
             "code": "function(ports) {\n\treturn this.renderer.updateSize(ports.ctx, ports.size.width, ports.size.height)\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": -215,
@@ -519,7 +454,6 @@ export const graph =
             "ports": {},
             "code": "function(ports) {\n\treturn Date.now()\n}",
             "autostart": true,
-            "async": null,
             "meta": {
                 "ui": {
                     "x": 726,
@@ -534,9 +468,7 @@ export const graph =
                 "ages": "accumulator",
                 "starttime": "cold"
             },
-            "code": "function(ports) {\n\tports.ages[ports.i] = Date.now() - ports.starttime\n\treturn ports.ages\n}",
-            "autostart": null,
-            "async": null,
+            "code": "function(ports) {\n\tports.ages[ports.i] = (Date.now() - ports.starttime) / 1000.0\n\treturn ports.ages\n}",
             "meta": {
                 "ui": {
                     "x": 450,
@@ -552,8 +484,6 @@ export const graph =
                 "count": "hot"
             },
             "code": "function(ports) {\n\treturn {\n\t\tattribs: {\n\t\t\tposition: {\n\t\t\t\tbuffer: ports.positions,\n\t\t\t\tstoreType: \"DYNAMIC\"\n\t\t\t},\n\t\t\tage: {\n\t\t\t\tbuffer: ports.ages,\n\t\t\t\tstoreType: \"DYNAMIC\"\n\t\t\t}\n\t\t},\n\t\titemCount: ports.count,\n\t\tdrawType: \"POINTS\"\n\t}\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "x": 213,
@@ -566,11 +496,10 @@ export const graph =
             "ports": {},
             "code": "function(ports) {\n  return this.mat4.create()\n}",
             "autostart": true,
-            "async": null,
             "meta": {
                 "ui": {
-                    "x": 826,
-                    "y": -193
+                    "x": 862,
+                    "y": -191
                 }
             }
         },
@@ -581,8 +510,6 @@ export const graph =
                 "size": "hot"
             },
             "code": "function(ports) {\n\tvar settings = ports.settings\n\t\n\tsettings.aspect = ports.size.width / ports.size.height\n\t\n\treturn settings;\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": -503,
@@ -597,8 +524,6 @@ export const graph =
                 "obj": "cold"
             },
             "code": "function(ports) {\n\tvar ctx = this.renderer.create(ports.canvas)\n\tthis.renderer.updateObject(ctx, 'object', ports.obj)\n\treturn ctx\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": -189,
@@ -614,8 +539,6 @@ export const graph =
                 "particles": "accumulator"
             },
             "code": "function(ports) {\n\tvar i = ports.i * 3\n\tports.particles[i] = ports.pos.x\n\tports.particles[i + 1] = ports.pos.y\n\treturn ports.particles\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "x": -26,
@@ -628,7 +551,6 @@ export const graph =
             "ports": {},
             "code": "function(ports) {\n\treturn document.getElementById('canvas')\n}",
             "autostart": true,
-            "async": null,
             "meta": {
                 "ui": {
                     "x": -139,
@@ -642,7 +564,6 @@ export const graph =
             "id": "update-age->ages",
             "entity": "ages",
             "process": "update-age",
-            "port": null,
             "meta": {}
         },
         "particle-count->createParticles::count": {
@@ -670,7 +591,6 @@ export const graph =
             "id": "update-renderer-size->render-context",
             "entity": "render-context",
             "process": "update-renderer-size",
-            "port": null,
             "meta": {}
         },
         "ages->create-geometry::ages": {
@@ -684,35 +604,30 @@ export const graph =
             "id": "get-starttime->starttime",
             "entity": "starttime",
             "process": "get-starttime",
-            "port": null,
             "meta": {}
         },
         "update-camera-settings->camera-settings": {
             "id": "update-camera-settings->camera-settings",
             "entity": "projection-settings",
             "process": "update-projection-settings",
-            "port": null,
             "meta": {}
         },
         "count-events->new-particle-pos": {
             "id": "count-events->new-particle-pos",
             "entity": "new-particle-pos",
             "process": "count-events",
-            "port": null,
             "meta": {}
         },
         "create-transform->transform": {
             "id": "create-transform->transform",
             "entity": "transform",
             "process": "create-transform",
-            "port": null,
             "meta": {}
         },
         "create-render-context->render-context": {
             "id": "create-render-context->render-context",
             "entity": "render-context",
             "process": "create-render-context",
-            "port": null,
             "meta": {}
         },
         "new-particle-pos->get-particle-index::pos": {
@@ -733,7 +648,6 @@ export const graph =
             "id": "canvas-mouse-press->mouse-dragging",
             "entity": "mouse-dragging",
             "process": "canvas-mouse-press",
-            "port": null,
             "meta": {}
         },
         "time->update-object::time": {
@@ -754,7 +668,6 @@ export const graph =
             "id": "canvas-mouse-move->mouse-position",
             "entity": "mouse-position",
             "process": "canvas-mouse-move",
-            "port": null,
             "meta": {}
         },
         "object->update-object::obj": {
@@ -768,7 +681,6 @@ export const graph =
             "id": "update-particle-position->particles",
             "entity": "particles",
             "process": "update-particle-position",
-            "port": null,
             "meta": {}
         },
         "mouse-dragging->count-events::dragging": {
@@ -782,7 +694,6 @@ export const graph =
             "id": "create-p-ages->ages",
             "entity": "ages",
             "process": "create-p-ages",
-            "port": null,
             "meta": {}
         },
         "mouse-position->count-events::pos": {
@@ -796,7 +707,13 @@ export const graph =
             "id": "createParticles->particles",
             "entity": "particles",
             "process": "createParticles",
-            "port": null,
+            "meta": {}
+        },
+        "canvas-size->manipulate-object::size": {
+            "id": "canvas-size->manipulate-object::size",
+            "entity": "canvas-size",
+            "process": "manipulate-object",
+            "port": "size",
             "meta": {}
         },
         "tick->render::tick": {
@@ -810,14 +727,12 @@ export const graph =
             "id": "create-camera->camera",
             "entity": "projection",
             "process": "create-projection",
-            "port": null,
             "meta": {}
         },
         "get-particle-index->particle-index": {
             "id": "get-particle-index->particle-index",
             "entity": "particle-index",
             "process": "get-particle-index",
-            "port": null,
             "meta": {}
         },
         "render-context->render::ctx": {
@@ -832,13 +747,6 @@ export const graph =
             "entity": "particle-count",
             "process": "create-geometry",
             "port": "count",
-            "meta": {}
-        },
-        "shader->update-shader::shader": {
-            "id": "shader->update-shader::shader",
-            "entity": "shader",
-            "process": "update-shader",
-            "port": "shader",
             "meta": {}
         },
         "particle-index->update-age::i": {
@@ -859,7 +767,6 @@ export const graph =
             "id": "update-object->object",
             "entity": "object",
             "process": "manipulate-object",
-            "port": null,
             "meta": {}
         },
         "main-layer->update-context::main_layer": {
@@ -873,14 +780,12 @@ export const graph =
             "id": "update-context->render-context",
             "entity": "render-context",
             "process": "update-context",
-            "port": null,
             "meta": {}
         },
         "update-object->render-context": {
             "id": "update-object->render-context",
             "entity": "render-context",
             "process": "update-object",
-            "port": null,
             "meta": {}
         },
         "canvas-size->update-camera-settings::size": {
@@ -901,14 +806,12 @@ export const graph =
             "id": "update-geometry->render-context",
             "entity": "render-context",
             "process": "update-geometry",
-            "port": null,
             "meta": {}
         },
         "update-shader->render-context": {
             "id": "update-shader->render-context",
             "entity": "render-context",
             "process": "update-shader",
-            "port": null,
             "meta": {}
         },
         "starttime->animate::starttime": {
@@ -936,14 +839,12 @@ export const graph =
             "id": "set-canvas-size->canvas",
             "entity": "canvas",
             "process": "set-canvas-size",
-            "port": null,
             "meta": {}
         },
         "get-canvas->canvas": {
             "id": "get-canvas->canvas",
             "entity": "canvas",
             "process": "get-canvas",
-            "port": null,
             "meta": {}
         },
         "starttime->update-age::starttime": {
@@ -974,11 +875,17 @@ export const graph =
             "port": "canvas",
             "meta": {}
         },
+        "vertex->update-shader::vertex": {
+            "id": "vertex->update-shader::vertex",
+            "entity": "vertex",
+            "process": "update-shader",
+            "port": "vertex",
+            "meta": {}
+        },
         "animate->tick": {
             "id": "animate->tick",
             "entity": "time",
             "process": "animate",
-            "port": null,
             "meta": {}
         },
         "new-particle-pos->update-particle-position::pos": {
@@ -993,6 +900,13 @@ export const graph =
             "entity": "projection-settings",
             "process": "create-projection",
             "port": "settings",
+            "meta": {}
+        },
+        "fragment->update-shader::fragment": {
+            "id": "fragment->update-shader::fragment",
+            "entity": "fragment",
+            "process": "update-shader",
+            "port": "fragment",
             "meta": {}
         },
         "main-layer->update-layer::layer": {
@@ -1013,25 +927,18 @@ export const graph =
             "id": "create-geometry->geometry",
             "entity": "geometry",
             "process": "create-geometry",
-            "port": null,
             "meta": {}
         },
         "update-layer->render-context": {
             "id": "update-layer->render-context",
             "entity": "render-context",
             "process": "update-layer",
-            "port": null,
             "meta": {}
         }
     },
     "meta": {
         "ui": {
-            "layout": [
-                {
-                    "id": "shader",
-                    "type": "entity"
-                }
-            ]
+            "layout": []
         }
     }
 }
