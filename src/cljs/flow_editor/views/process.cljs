@@ -10,10 +10,10 @@
 
 
 (defn header
-  [process]
+  [process minified]
   (let [port-types (subscribe [:flow-runtime/port-types])
         editing-id? (r/atom false)]
-    (fn [process]
+    (fn [process minified]
       (let [id (:id process)
             new-id (atom id)
             acc-type (get @port-types "ACCUMULATOR")
@@ -109,6 +109,15 @@
                     [gap :size "10px"]
                     [line]
                     [gap :size "10px"]
+                    (if @minified
+                      [md-icon-button
+                       :md-icon-name "zmdi-plus"
+                       :tooltip "reopen"
+                       :on-click #(reset! minified false)]
+                      [md-icon-button
+                       :md-icon-name "zmdi-minus"
+                       :tooltip "minimize"
+                       :on-click #(reset! minified true)])
                     [md-icon-button
                      :md-icon-name "zmdi-close"
                      :on-click #(dispatch [:flow-runtime-ui/close-node
@@ -198,6 +207,7 @@
 
 (defn process-component [process]
   (let [code-changes (r/atom (:code process))
+        minified (r/atom false)
         id (:id process)
         port-types (subscribe [:flow-runtime/port-types])
         runtime (subscribe [:flow-runtime/runtime])
@@ -219,19 +229,21 @@
         [v-box
          :class "process-component"
          :gap "5px"
-         :children [[header process]
-                    [ports-editor (:ports process) id]
-                    [label :label "procedure"]
-                    [cm (:code process) cm-options code-changes additionalCtx]
-                    [h-box
-                     :gap "10px"
-                     :children [[button
-                                 :label "update"
-                                 :class (when code-changed? "btn-primary")
-                                 :disabled? (not code-changed?)
-                                 :on-click #(dispatch [:flow-runtime/update-process-code id @code-changes])]
-                                [gap :size "auto"]
-                                [label
-                                 :label "output"
-                                 :style {:margin-top "8px"}]
-                                [output-port id]]]]]))))
+         :children (if @minified
+                     [[header process minified]]
+                     [[header process minified]
+                      [ports-editor (:ports process) id]
+                      [label :label "procedure"]
+                      [cm (:code process) cm-options code-changes additionalCtx]
+                      [h-box
+                       :gap "10px"
+                       :children [[button
+                                   :label "update"
+                                   :class (when code-changed? "btn-primary")
+                                   :disabled? (not code-changed?)
+                                   :on-click #(dispatch [:flow-runtime/update-process-code id @code-changes])]
+                                  [gap :size "auto"]
+                                  [label
+                                   :label "output"
+                                   :style {:margin-top "8px"}]
+                                  [output-port id]]]])]))))

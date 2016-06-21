@@ -10,9 +10,9 @@
 
 
 (defn header
-  [eid]
+  [eid minified]
   (let [editing-id? (r/atom false)]
-    (fn [eid]
+    (fn [eid minified]
       (let [new-id (atom eid)]
         [h-box
          :children [[:div
@@ -66,6 +66,15 @@
                     [gap :size "10px"]
                     [line]
                     [gap :size "10px"]
+                    (if @minified
+                      [md-icon-button
+                       :md-icon-name "zmdi-plus"
+                       :tooltip "reopen"
+                       :on-click #(reset! minified false)]
+                      [md-icon-button
+                       :md-icon-name "zmdi-minus"
+                       :tooltip "minimize"
+                       :on-click #(reset! minified true)])
                     [md-icon-button
                      :md-icon-name "zmdi-close"
                      :on-click #(dispatch [:flow-runtime-ui/close-node
@@ -73,8 +82,8 @@
 
 
 (def value-tabs
-  [{:id ::initial :label "Initial value"}
-   {:id ::current :label "Current value"}])
+  [{:id ::current :label "Current value"}
+   {:id ::initial :label "Initial value"}])
 
 
 (defn initial-value-editor
@@ -127,22 +136,25 @@
   (let [id (:id entity)
         value-ratom (subscribe [:flow-runtime/entity-value id])
         value-mode (r/atom (:id (first value-tabs)))
-        value-type (r/atom :evaled-JSON)]
+        value-type (r/atom :evaled-JSON)
+        minified (r/atom false)]
     (fn [entity]
       [v-box
        :class "entity-component"
        :gap "5px"
-       :children [[header (:id entity)]
-                  [h-box
-                   :gap "10px"
-                   :children [[horizontal-bar-tabs
-                               :tabs value-tabs
-                               :model value-mode
-                               :on-change #(reset! value-mode %)]
-                              [single-dropdown
-                               :choices value-type-choices
-                               :model value-type
-                               :on-change #(reset! value-type %)]]]
-                  (if (= @value-mode ::initial)
-                    [initial-value-editor id (clj->js (:value entity)) @value-type value-mode]
-                    [current-value-editor id @value-ratom @value-type value-mode])]])))
+       :children [[header (:id entity) minified]
+                  (when-not @minified
+                    [h-box
+                     :gap "10px"
+                     :children [[horizontal-bar-tabs
+                                 :tabs value-tabs
+                                 :model value-mode
+                                 :on-change #(reset! value-mode %)]
+                                [single-dropdown
+                                 :choices value-type-choices
+                                 :model value-type
+                                 :on-change #(reset! value-type %)]]])
+                  (when-not @minified
+                    (if (= @value-mode ::initial)
+                      [initial-value-editor id (clj->js (:value entity)) @value-type value-mode]
+                      [current-value-editor id @value-ratom @value-type value-mode]))]])))
