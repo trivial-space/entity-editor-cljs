@@ -205,7 +205,8 @@
          :on-change #(dispatch [:flow-runtime/connect-output pid %])]))))
 
 
-(defn process-component [process]
+(defn process-component
+  [process]
   (let [code-changes (r/atom (:code process))
         minified (r/atom false)
         id (:id process)
@@ -213,19 +214,19 @@
         runtime (subscribe [:flow-runtime/runtime])
         connections (subscribe [:flow-runtime/process-port-connection id])
         cm-options {:mode {:name "javascript"
-                           :globalVars true}}]
+                           :globalVars true}}
+        port-vals (->> (:ports process)
+                    (map (fn [[port type]]
+                           (let [arc (if (= type (get @port-types "ACCUMULATOR"))
+                                       (filter (fn [arc] (not (:port arc))) @connections)
+                                       (filter (fn [arc] (= (:port arc) (name port))) @connections))
+                                 val (when arc (.get @runtime (:entity (first arc))))]
+                              [port val])))
+                    (into {}))
+        additionalCtx {"this" (.getContext @runtime)
+                       "ports" port-vals}]
     (fn [process]
-      (let [code-changed? (not= @code-changes (:code process))
-            port-vals (->> (:ports process)
-                        (map (fn [[port type]]
-                               (let [arc (if (= type (get @port-types "ACCUMULATOR"))
-                                           (filter (fn [arc] (not (:port arc))) @connections)
-                                           (filter (fn [arc] (= (:port arc) (name port))) @connections))
-                                     val (when arc (.get @runtime (:entity (first arc))))]
-                                  [port val])))
-                        (into {}))
-            additionalCtx {"this" (.getContext @runtime)
-                           "ports" port-vals}]
+      (let [code-changed? (not= @code-changes (:code process))]
         [v-box
          :class "process-component"
          :gap "5px"
