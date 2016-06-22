@@ -79,7 +79,6 @@
   :flow-runtime/remove-entity
   (fn [db [_ entity-id]]
     (.removeEntity (:runtime db) entity-id)
-    (dispatch [:flow-runtime-ui/close-node {:id entity-id :type "entity"}]);
     (update-runtime db)))
 
 
@@ -158,7 +157,6 @@
   :flow-runtime/remove-process
   (fn [db [_ process-id]]
     (.removeProcess (:runtime db) process-id)
-    (dispatch [:flow-runtime-ui/close-node {:id process-id :type "process"}]);
     (update-runtime db)))
 
 
