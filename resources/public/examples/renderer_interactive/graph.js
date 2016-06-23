@@ -25,7 +25,7 @@ export const graph =
         },
         "fragment": {
             "id": "fragment",
-            "value": "void main() { \n\tgl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);\n}",
+            "value": "void main() { \n\tgl_FragColor = vec4(1.0, 0.2, 0.1, 1.0);\n}",
             "meta": {
                 "ui": {
                     "x": 584,
@@ -71,7 +71,7 @@ export const graph =
         },
         "vertex": {
             "id": "vertex",
-            "value": "uniform mat4 projection; \nuniform float time;\nuniform vec2 size;\nattribute vec3 position;\nattribute float age; \n\nvoid main() { \n\t//gl_Position = projection * vec4(position.xy, (time - age) / -100.0, 1.0);\n\tgl_Position = vec4(\n\t\t(position.x / size.x) * 2.0 - 1.0, \n\t\t(position.y / -size.y) * 2.0 + 1.0,\n\t\t0.0, 1.0\n\t);\n\tgl_PointSize = 100.0 / pow(time - age + 1.0, 1.5);\n\t//gl_PointSize = max(5.0, 10.0 / (age + 1.0));\n\t//gl_PointSize = 20.0;\n}",
+            "value": "attribute vec3 position;\nattribute float age; \nuniform float time;\nuniform vec2 size;\n\nvoid main() { \n\tgl_Position = vec4(\n\t\t(position.x / size.x) * 2.0 - 1.0, \n\t\t(position.y / -size.y) * 2.0 + 1.0,\n\t\t0.0, 1.0\n\t);\n\tgl_PointSize = 100.0 / pow(time - age + 1.0, 1.5);\n}",
             "meta": {
                 "ui": {
                     "y": -410,
