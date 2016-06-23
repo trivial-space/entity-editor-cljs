@@ -49,7 +49,9 @@
         (do (dispatch [:flow-runtime/watch-entity eid])
             [v-box
              :gap "5px"
-             :children [[:pre (json (:value current-value))]
+             :children [[:pre
+                         {:on-click #(reset! editing true)}
+                         (json (:value current-value))]
                         [button
                          :label "edit"
                          :on-click #(reset! editing true)]]])))))

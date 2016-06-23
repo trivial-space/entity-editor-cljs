@@ -19,7 +19,7 @@
                                             :value (.parse js/JSON (:json v))})]
                                [k v])))
                       (into {})))
-            graph-code (r/atom (.stringify js/JSON (clj->js graph) replacer "    "))]
+            graph-code (r/atom (.stringify js/JSON (clj->js graph) replacer "\t"))]
         [modal-panel
          :child [v-box
                  :children [[title
