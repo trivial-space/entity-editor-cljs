@@ -7,7 +7,6 @@ export const graph =
                 "x": 0,
                 "y": 0
             },
-            "json": null,
             "meta": {
                 "ui": {
                     "y": -254,
@@ -17,8 +16,10 @@ export const graph =
         },
         "window-size": {
             "id": "window-size",
-            "value": null,
-            "json": null,
+            "value": {
+                "width": 1,
+                "height": 1
+            },
             "meta": {
                 "ui": {
                     "y": -251,
@@ -28,8 +29,6 @@ export const graph =
         },
         "position-ratio": {
             "id": "position-ratio",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "y": 58,
@@ -39,8 +38,6 @@ export const graph =
         },
         "color": {
             "id": "color",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "y": 376,
@@ -55,7 +52,6 @@ export const graph =
                 58,
                 155
             ],
-            "json": null,
             "meta": {
                 "ui": {
                     "y": 58,
@@ -85,8 +81,6 @@ export const graph =
                 "size": "hot"
             },
             "code": "function(ports) {\n\treturn {\n\t\tx: ports.position.x / ports.size.width,\n\t\ty: ports.position.y / ports.size.height,\n\t}\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": -105,
@@ -114,8 +108,6 @@ export const graph =
                 "base_color": "hot"
             },
             "code": "function(ports) {\n\n\tvar base = ports.base_color,\n\t\t\trY = ports.ratio.y,\n\t\t  rX = ports.ratio.x\n\n\treturn [\n\t\tMath.floor(base[0] * rY), \n\t\tMath.floor(base[1] * rX), \n\t\tMath.floor(base[2] * rY * rX)\n\t]\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": 227,
@@ -129,8 +121,6 @@ export const graph =
                 "color": "hot"
             },
             "code": "function(ports) {\n\n\tvar c = ports.color;\n\n\tdocument.body.style.backgroundColor = \"rgb(\" \n\t\t+ c[0] + \", \"\n\t\t+ c[1] + \", \"\n\t\t+ c[2] + \")\"\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": 521,
@@ -144,7 +134,6 @@ export const graph =
             "id": "window-size-collector->window-size",
             "entity": "window-size",
             "process": "window-size-collector",
-            "port": null,
             "meta": {}
         },
         "window-size->to-ratio::size": {
@@ -158,21 +147,18 @@ export const graph =
             "id": "ratio-to-color->color",
             "entity": "color",
             "process": "ratio-to-color",
-            "port": null,
             "meta": {}
         },
         "to-ratio->position-ratio": {
             "id": "to-ratio->position-ratio",
             "entity": "position-ratio",
             "process": "to-ratio",
-            "port": null,
             "meta": {}
         },
         "mouse-move-collector->mouse-position": {
             "id": "mouse-move-collector->mouse-position",
             "entity": "mouse-position",
             "process": "mouse-move-collector",
-            "port": null,
             "meta": {}
         },
         "base-color->ratio-to-color::base_color": {

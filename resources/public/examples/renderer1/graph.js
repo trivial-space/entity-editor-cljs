@@ -3,8 +3,6 @@ export const graph =
     "entities": {
         "tick": {
             "id": "tick",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "x": -369,
@@ -20,7 +18,6 @@ export const graph =
                 "far": 1000,
                 "aspect": 1.6
             },
-            "json": null,
             "meta": {
                 "ui": {
                     "y": -543,
@@ -30,8 +27,6 @@ export const graph =
         },
         "canvas": {
             "id": "canvas",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "y": -109,
@@ -42,7 +37,6 @@ export const graph =
         "rotation-speed": {
             "id": "rotation-speed",
             "value": 0.02,
-            "json": null,
             "meta": {
                 "ui": {
                     "x": -488.84908417641043,
@@ -57,7 +51,6 @@ export const graph =
                 0,
                 -15
             ],
-            "json": null,
             "meta": {
                 "ui": {
                     "y": -545,
@@ -67,8 +60,6 @@ export const graph =
         },
         "plane-geometry": {
             "id": "plane-geometry",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "y": 243,
@@ -78,8 +69,6 @@ export const graph =
         },
         "render-context": {
             "id": "render-context",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "y": 244,
@@ -89,12 +78,10 @@ export const graph =
         },
         "plane-transform": {
             "id": "plane-transform",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
-                    "y": -280,
-                    "x": -266
+                    "y": -111,
+                    "x": -268
                 }
             }
         },
@@ -104,7 +91,6 @@ export const graph =
                 "width": 800,
                 "height": 500
             },
-            "json": null,
             "meta": {
                 "ui": {
                     "y": -494,
@@ -114,8 +100,6 @@ export const graph =
         },
         "camera": {
             "id": "camera",
-            "value": null,
-            "json": null,
             "meta": {
                 "ui": {
                     "y": -287,
@@ -130,7 +114,6 @@ export const graph =
                     "plane-object"
                 ]
             },
-            "json": null,
             "meta": {
                 "ui": {
                     "y": 415,
@@ -145,17 +128,17 @@ export const graph =
                 "shader": "plane-shader",
                 "uniforms": {
                     "transform": {
-                        "0": -0.0649290680885315,
-                        "1": 0.29489603638648987,
-                        "2": -0.9533201456069946,
+                        "0": 0.975897490978241,
+                        "1": 0.06449126452207565,
+                        "2": -0.20848272740840912,
                         "3": 0,
                         "4": 0,
                         "5": 0.9553365111351013,
                         "6": 0.29552021622657776,
                         "7": 0,
-                        "8": 0.9978907108306885,
-                        "9": 0.019188527017831802,
-                        "10": -0.06203141063451767,
+                        "8": 0.21822962164878845,
+                        "9": -0.2883974313735962,
+                        "10": 0.9323104619979858,
                         "11": 0,
                         "12": 0,
                         "13": 0,
@@ -182,7 +165,6 @@ export const graph =
                     }
                 }
             },
-            "json": null,
             "meta": {
                 "ui": {
                     "y": 37,
@@ -203,7 +185,6 @@ export const graph =
                     "camera": "m 4"
                 }
             },
-            "json": null,
             "meta": {
                 "ui": {
                     "y": 34,
@@ -220,8 +201,6 @@ export const graph =
                 "size": "hot"
             },
             "code": "function(ports) {\n\tvar canvas = ports.canvas,\n\t\t\twidth = ports.size.width,\n\t\t\theight = ports.size.height\n\t\n\tcanvas.style.width = width + \"px\"\n\tcanvas.style.height = height + \"px\"\n\treturn canvas\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": -306,
@@ -237,8 +216,6 @@ export const graph =
                 "transform": "hot"
             },
             "code": "function(ports) {\n\tvar plane = ports.plane\n\t\n\tplane.uniforms.transform = ports.transform\n\tplane.uniforms.camera = ports.camera\n\t\n\treturn plane\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": -103,
@@ -266,8 +243,6 @@ export const graph =
                 "size": "hot"
             },
             "code": "function(ports) {\n\tvar settings = ports.settings\n\t\n\tsettings.aspect = ports.size.width / ports.size.height\n\t\n\treturn settings\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": -493,
@@ -282,8 +257,6 @@ export const graph =
                 "tick": "hot"
             },
             "code": "function(ports) {\n\tthis.renderer.renderLayers(ports.ctx, [\"main-layer\"])\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": 344,
@@ -296,7 +269,6 @@ export const graph =
             "ports": {},
             "code": "function(ports) {\n\tvar g = this.geometries.plane(10, 10)\n\t//g.drawType = \"LINE_LOOP\"\n \treturn g\n}",
             "autostart": true,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": 135,
@@ -311,8 +283,6 @@ export const graph =
                 "size": "hot"
             },
             "code": "function(ports) {\n\tthis.renderer.updateSize(ports.ctx, ports.size.width, ports.size.height)\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": -119,
@@ -326,8 +296,6 @@ export const graph =
                 "pos": "hot"
             },
             "code": "function(ports) {\n\tvar m = this.mat4.create()\n\tthis.mat4.fromTranslation(m, ports.pos)\n\tthis.mat4.rotateX(m, m, 0.3)\n\tthis.mat4.rotateY(m, m, 0.2)\n\treturn m\n}",
-            "autostart": true,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": -398,
@@ -345,8 +313,6 @@ export const graph =
                 "main_layer": "hot"
             },
             "code": "function(ports) {\n\tvar ctx = ports.ctx\n\t\n\tthis.renderer.updateGeometry(ctx, \"plane-geometry\", ports.plane_geometry)\n\tthis.renderer.updateObject(ctx, \"plane-object\", ports.plane_object)\n\tthis.renderer.updateShader(ctx, \"plane-shader\", ports.plane_shader)\n\tthis.renderer.updateLayer(ctx, \"main-layer\", ports.main_layer)\n\n\treturn ctx\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": 245,
@@ -359,7 +325,6 @@ export const graph =
             "ports": {},
             "code": "function(ports) {\n\treturn this.renderer.create()\n}",
             "autostart": true,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": 370,
@@ -375,12 +340,10 @@ export const graph =
                 "tick": "hot"
             },
             "code": "function(ports) {\n\tthis.mat4.rotateY(ports.mat, ports.mat, ports.speed)\n\treturn ports.mat\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
-                    "x": -392.79347826086956,
-                    "y": -160.86253396739136
+                    "x": -450,
+                    "y": -137
                 }
             }
         },
@@ -390,7 +353,6 @@ export const graph =
                 "canvas": "hot"
             },
             "code": "function(ports, send) {\n\tvar canvas = ports.canvas\n\tcanvas.style.border = \"1px solid gray\"\n\t\n\tdocument.body.appendChild(canvas)\n\t\n\treturn function() {\n\t\tdocument.body.removeChild(canvas)\n\t}\n}",
-            "autostart": null,
             "async": true,
             "meta": {
                 "ui": {
@@ -405,8 +367,6 @@ export const graph =
                 "settings": "hot"
             },
             "code": "function(ports) {\n\tvar m = this.mat4.create(),\n\t\t\tconf = ports.settings\n\t\n\tthis.mat4.perspective(m, conf.fovy, conf.aspect, conf.near, conf.far)\n\t\n\treturn m\n}",
-            "autostart": true,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": -400,
@@ -420,8 +380,6 @@ export const graph =
                 "render_ctx": "hot"
             },
             "code": "function(ports, send) {\n\treturn ports.render_ctx.gl.canvas\n}",
-            "autostart": null,
-            "async": null,
             "meta": {
                 "ui": {
                     "y": 53,
@@ -435,7 +393,6 @@ export const graph =
             "id": "attach-canvas->canvas",
             "entity": "canvas",
             "process": "get-canvas",
-            "port": null,
             "meta": {}
         },
         "canvas-size->set-canvas-size::size": {
@@ -463,14 +420,12 @@ export const graph =
             "id": "update-camera-settings->camera-settings",
             "entity": "camera-settings",
             "process": "update-camera-settings",
-            "port": null,
             "meta": {}
         },
         "create-render-context->render-context": {
             "id": "create-render-context->render-context",
             "entity": "render-context",
             "process": "create-render-context",
-            "port": null,
             "meta": {}
         },
         "plane-object->update-context::plane_object": {
@@ -491,7 +446,6 @@ export const graph =
             "id": "update-rotation->plane-transform",
             "entity": "plane-transform",
             "process": "update-rotation",
-            "port": null,
             "meta": {}
         },
         "canvas->attach-canvas::canvas": {
@@ -505,7 +459,6 @@ export const graph =
             "id": "update-plane->plane-object",
             "entity": "plane-object",
             "process": "update-plane",
-            "port": null,
             "meta": {}
         },
         "tick->render::tick": {
@@ -519,7 +472,6 @@ export const graph =
             "id": "create-camera->camera",
             "entity": "camera",
             "process": "create-camera",
-            "port": null,
             "meta": {}
         },
         "render-context->attach-canvas::render_ctx": {
@@ -554,7 +506,6 @@ export const graph =
             "id": "update-context->render-context",
             "entity": "render-context",
             "process": "update-context",
-            "port": null,
             "meta": {}
         },
         "canvas-size->update-camera-settings::size": {
@@ -575,14 +526,12 @@ export const graph =
             "id": "set-canvas-size->canvas",
             "entity": "canvas",
             "process": "set-canvas-size",
-            "port": null,
             "meta": {}
         },
         "create-plane-matrix->plane-transform": {
             "id": "create-plane-matrix->plane-transform",
             "entity": "plane-transform",
             "process": "create-plane-matrix",
-            "port": null,
             "meta": {}
         },
         "plane-shader->update-context::plane_shader": {
@@ -610,14 +559,12 @@ export const graph =
             "id": "animate->tick",
             "entity": "tick",
             "process": "animate",
-            "port": null,
             "meta": {}
         },
         "create-plane-geometry->plane-geometry": {
             "id": "create-plane-geometry->plane-geometry",
             "entity": "plane-geometry",
             "process": "create-plane-geometry",
-            "port": null,
             "meta": {}
         },
         "camera-settings->create-camera::settings": {
@@ -637,7 +584,24 @@ export const graph =
     },
     "meta": {
         "ui": {
-            "layout": []
+            "layout": [
+                {
+                    "id": "create-camera",
+                    "type": "process"
+                },
+                {
+                    "id": "create-plane-matrix",
+                    "type": "process"
+                },
+                {
+                    "id": "animate",
+                    "type": "process"
+                },
+                {
+                    "id": "rotation-speed",
+                    "type": "entity"
+                }
+            ]
         }
     }
 }

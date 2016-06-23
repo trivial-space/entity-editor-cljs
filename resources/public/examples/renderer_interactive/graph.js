@@ -9,8 +9,8 @@ export const graph =
             },
             "meta": {
                 "ui": {
-                    "x": -283,
-                    "y": 557
+                    "x": -174,
+                    "y": 607
                 }
             }
         },
@@ -23,31 +23,13 @@ export const graph =
                 }
             }
         },
-        "fufu": {
-            "id": "fufu",
-            "meta": {
-                "ui": {
-                    "y": -55,
-                    "x": 3
-                }
-            }
-        },
-        "transform": {
-            "id": "transform",
-            "meta": {
-                "ui": {
-                    "x": 729,
-                    "y": -188
-                }
-            }
-        },
         "fragment": {
             "id": "fragment",
             "value": "void main() { \n\tgl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);\n}",
             "meta": {
                 "ui": {
-                    "x": -89,
-                    "y": 223
+                    "x": 584,
+                    "y": -264
                 }
             }
         },
@@ -55,8 +37,8 @@ export const graph =
             "id": "time",
             "meta": {
                 "ui": {
-                    "x": 858,
-                    "y": 345
+                    "x": 446,
+                    "y": 200
                 }
             }
         },
@@ -64,8 +46,8 @@ export const graph =
             "id": "mouse-position",
             "meta": {
                 "ui": {
-                    "x": -296,
-                    "y": 211
+                    "x": -315,
+                    "y": 434
                 }
             }
         },
@@ -73,8 +55,8 @@ export const graph =
             "id": "geometry",
             "meta": {
                 "ui": {
-                    "x": 214,
-                    "y": 194
+                    "x": 212,
+                    "y": 218
                 }
             }
         },
@@ -82,8 +64,8 @@ export const graph =
             "id": "canvas",
             "meta": {
                 "ui": {
-                    "y": -190,
-                    "x": -140
+                    "y": 105,
+                    "x": -391
                 }
             }
         },
@@ -92,8 +74,8 @@ export const graph =
             "value": "uniform mat4 projection; \nuniform float time;\nuniform vec2 size;\nattribute vec3 position;\nattribute float age; \n\nvoid main() { \n\t//gl_Position = projection * vec4(position.xy, (time - age) / -100.0, 1.0);\n\tgl_Position = vec4(\n\t\t(position.x / size.x) * 2.0 - 1.0, \n\t\t(position.y / -size.y) * 2.0 + 1.0,\n\t\t0.0, 1.0\n\t);\n\tgl_PointSize = 100.0 / pow(time - age + 1.0, 1.5);\n\t//gl_PointSize = max(5.0, 10.0 / (age + 1.0));\n\t//gl_PointSize = 20.0;\n}",
             "meta": {
                 "ui": {
-                    "y": 67,
-                    "x": -114
+                    "y": -410,
+                    "x": 419
                 }
             }
         },
@@ -134,23 +116,8 @@ export const graph =
             },
             "meta": {
                 "ui": {
-                    "y": -488,
-                    "x": 177
-                }
-            }
-        },
-        "projection-settings": {
-            "id": "projection-settings",
-            "value": {
-                "fovy": 1.05,
-                "near": 0.1,
-                "far": 1000,
-                "aspect": 1.3333333333333333
-            },
-            "meta": {
-                "ui": {
-                    "y": -377,
-                    "x": 381
+                    "y": 262,
+                    "x": -28
                 }
             }
         },
@@ -163,8 +130,8 @@ export const graph =
             },
             "meta": {
                 "ui": {
-                    "y": -62,
-                    "x": -119
+                    "y": -69,
+                    "x": 556
                 }
             }
         },
@@ -172,8 +139,8 @@ export const graph =
             "id": "starttime",
             "meta": {
                 "ui": {
-                    "x": 726,
-                    "y": 525
+                    "x": 643,
+                    "y": 415
                 }
             }
         },
@@ -195,17 +162,8 @@ export const graph =
             },
             "meta": {
                 "ui": {
-                    "x": 501,
-                    "y": -63
-                }
-            }
-        },
-        "projection": {
-            "id": "projection",
-            "meta": {
-                "ui": {
-                    "y": -265,
-                    "x": 553
+                    "x": -74,
+                    "y": -65
                 }
             }
         },
@@ -213,8 +171,8 @@ export const graph =
             "id": "mouse-dragging",
             "meta": {
                 "ui": {
-                    "x": -457,
-                    "y": 205
+                    "x": -479,
+                    "y": 435
                 }
             }
         }
@@ -229,8 +187,8 @@ export const graph =
             "code": "function(ports) {\n\treturn this.renderer.updateLayer(ports.ctx, \"main-layer\", ports.layer)\n}",
             "meta": {
                 "ui": {
-                    "x": 82,
-                    "y": -64
+                    "x": 393,
+                    "y": -67
                 }
             }
         },
@@ -243,8 +201,8 @@ export const graph =
             "code": "function(ports) {\n\tvar canvas = ports.canvas,\n\t\t\twidth = ports.size.width,\n\t\t\theight = ports.size.height\n\t\n\tcanvas.style.width = width + \"px\"\n\tcanvas.style.height = height + \"px\"\n\treturn canvas\n}",
             "meta": {
                 "ui": {
-                    "y": -314,
-                    "x": 24
+                    "y": 186,
+                    "x": -216
                 }
             }
         },
@@ -257,8 +215,8 @@ export const graph =
             "code": "function(ports) {\n\treturn this.renderer.updateObject(ports.ctx, 'object', ports.obj)\n}",
             "meta": {
                 "ui": {
-                    "x": 346,
-                    "y": -62
+                    "x": 86,
+                    "y": -68
                 }
             }
         },
@@ -269,11 +227,11 @@ export const graph =
                 "vertex": "hot",
                 "fragment": "hot"
             },
-            "code": "function(ports) {\n\tvar shader = {\n\t\tvert: ports.vertex,\n\t\tfrag: ports.fragment,\n\t\tattribs: {\n\t\t\tposition: \"f 3\",\n\t\t\tage: \"f\"\n\t\t},\n\t\tuniforms: {\n\t\t\tprojection: \"m 4\",\n\t\t\ttime: \"f\",\n\t\t\tsize: \"f 2\"\n\t\t}\n\t}\n\t\t\n\treturn this.renderer.updateShader(ports.ctx, \"shader\", shader)\n}",
+            "code": "function(ports) {\n\tvar shader = {\n\t\tvert: ports.vertex,\n\t\tfrag: ports.fragment,\n\t\tattribs: {\n\t\t\tposition: \"f 2\",\n\t\t\tage: \"f\"\n\t\t},\n\t\tuniforms: {\n\t\t\ttime: \"f\",\n\t\t\tsize: \"f 2\"\n\t\t}\n\t}\n\t\t\n\treturn this.renderer.updateShader(ports.ctx, \"shader\", shader)\n}",
             "meta": {
                 "ui": {
-                    "x": 82,
-                    "y": 64
+                    "x": 364,
+                    "y": -178
                 }
             }
         },
@@ -314,24 +272,23 @@ export const graph =
             "async": true,
             "meta": {
                 "ui": {
-                    "x": 854,
-                    "y": 456
+                    "x": 640,
+                    "y": 268
                 }
             }
         },
         "manipulate-object": {
             "id": "manipulate-object",
             "ports": {
-                "projection": "hot",
                 "time": "hot",
                 "obj": "accumulator",
                 "size": "hot"
             },
-            "code": "function(ports) {\n\tvar uniforms = ports.obj.uniforms\n\tuniforms.time = ports.time / 1000.0\n\tuniforms.projection = ports.projection\n\tuniforms.size = [ports.size.width, ports.size.height]\n\treturn ports.obj\n}",
+            "code": "function(ports) {\n\tvar uniforms = ports.obj.uniforms\n\tuniforms.time = ports.time / 1000.0\n\tuniforms.size = [ports.size.width, ports.size.height]\n\treturn ports.obj\n}",
             "meta": {
                 "ui": {
-                    "x": 644,
-                    "y": -60
+                    "x": -75,
+                    "y": 66
                 }
             }
         },
@@ -344,8 +301,8 @@ export const graph =
             "async": true,
             "meta": {
                 "ui": {
-                    "x": -462,
-                    "y": 93
+                    "x": -481,
+                    "y": 304
                 }
             }
         },
@@ -358,8 +315,8 @@ export const graph =
             "code": "function(ports) {\n\tthis.renderer.renderLayers(ports.ctx, [\"main-layer\"])\n}",
             "meta": {
                 "ui": {
-                    "y": 344,
-                    "x": 569
+                    "y": 75,
+                    "x": 443
                 }
             }
         },
@@ -373,22 +330,8 @@ export const graph =
             "async": true,
             "meta": {
                 "ui": {
-                    "x": -379,
-                    "y": 382
-                }
-            }
-        },
-        "create-projection": {
-            "id": "create-projection",
-            "ports": {
-                "settings": "hot"
-            },
-            "code": "function(ports) {\n\tvar m = this.mat4.create(),\n\t\t\tconf = ports.settings\n\t\n\tthis.mat4.perspective(m, conf.fovy, conf.aspect, conf.near, conf.far)\n\t\n\treturn m\n}",
-            "autostart": true,
-            "meta": {
-                "ui": {
-                    "y": -379,
-                    "x": 551
+                    "x": -398,
+                    "y": 605
                 }
             }
         },
@@ -397,7 +340,7 @@ export const graph =
             "ports": {
                 "count": "hot"
             },
-            "code": "function(ports) {\n\treturn new Float32Array(ports.count * 3)\n}",
+            "code": "function(ports) {\n\treturn new Float32Array(ports.count * 2)\n}",
             "autostart": true,
             "meta": {
                 "ui": {
@@ -415,8 +358,8 @@ export const graph =
             "async": true,
             "meta": {
                 "ui": {
-                    "x": -296,
-                    "y": 83
+                    "x": -313,
+                    "y": 315
                 }
             }
         },
@@ -444,8 +387,8 @@ export const graph =
             "code": "function(ports) {\n\treturn this.renderer.updateSize(ports.ctx, ports.size.width, ports.size.height)\n}",
             "meta": {
                 "ui": {
-                    "y": -215,
-                    "x": 243
+                    "y": 31,
+                    "x": 103
                 }
             }
         },
@@ -456,8 +399,8 @@ export const graph =
             "autostart": true,
             "meta": {
                 "ui": {
-                    "x": 726,
-                    "y": 650
+                    "x": 643,
+                    "y": 540
                 }
             }
         },
@@ -486,34 +429,8 @@ export const graph =
             "code": "function(ports) {\n\treturn {\n\t\tattribs: {\n\t\t\tposition: {\n\t\t\t\tbuffer: ports.positions,\n\t\t\t\tstoreType: \"DYNAMIC\"\n\t\t\t},\n\t\t\tage: {\n\t\t\t\tbuffer: ports.ages,\n\t\t\t\tstoreType: \"DYNAMIC\"\n\t\t\t}\n\t\t},\n\t\titemCount: ports.count,\n\t\tdrawType: \"POINTS\"\n\t}\n}",
             "meta": {
                 "ui": {
-                    "x": 213,
-                    "y": 291
-                }
-            }
-        },
-        "create-transform": {
-            "id": "create-transform",
-            "ports": {},
-            "code": "function(ports) {\n  return this.mat4.create()\n}",
-            "autostart": true,
-            "meta": {
-                "ui": {
-                    "x": 862,
-                    "y": -191
-                }
-            }
-        },
-        "update-projection-settings": {
-            "id": "update-projection-settings",
-            "ports": {
-                "settings": "accumulator",
-                "size": "hot"
-            },
-            "code": "function(ports) {\n\tvar settings = ports.settings\n\t\n\tsettings.aspect = ports.size.width / ports.size.height\n\t\n\treturn settings;\n}",
-            "meta": {
-                "ui": {
-                    "y": -503,
-                    "x": 381
+                    "x": 211,
+                    "y": 315
                 }
             }
         },
@@ -526,8 +443,8 @@ export const graph =
             "code": "function(ports) {\n\tvar ctx = this.renderer.create(ports.canvas)\n\tthis.renderer.updateObject(ctx, 'object', ports.obj)\n\treturn ctx\n}",
             "meta": {
                 "ui": {
-                    "y": -189,
-                    "x": 86
+                    "y": -265,
+                    "x": -58
                 }
             }
         },
@@ -538,7 +455,7 @@ export const graph =
                 "pos": "cold",
                 "particles": "accumulator"
             },
-            "code": "function(ports) {\n\tvar i = ports.i * 3\n\tports.particles[i] = ports.pos.x\n\tports.particles[i + 1] = ports.pos.y\n\treturn ports.particles\n}",
+            "code": "function(ports) {\n\tvar i = ports.i * 2\n\tports.particles[i] = ports.pos.x\n\tports.particles[i + 1] = ports.pos.y\n\treturn ports.particles\n}",
             "meta": {
                 "ui": {
                     "x": -26,
@@ -553,8 +470,8 @@ export const graph =
             "autostart": true,
             "meta": {
                 "ui": {
-                    "x": -139,
-                    "y": -310
+                    "x": -391,
+                    "y": -31
                 }
             }
         }
@@ -571,13 +488,6 @@ export const graph =
             "entity": "particle-count",
             "process": "createParticles",
             "port": "count",
-            "meta": {}
-        },
-        "projection->update-object::projection": {
-            "id": "projection->update-object::projection",
-            "entity": "projection",
-            "process": "manipulate-object",
-            "port": "projection",
             "meta": {}
         },
         "canvas-size->set-canvas-size::size": {
@@ -606,22 +516,10 @@ export const graph =
             "process": "get-starttime",
             "meta": {}
         },
-        "update-camera-settings->camera-settings": {
-            "id": "update-camera-settings->camera-settings",
-            "entity": "projection-settings",
-            "process": "update-projection-settings",
-            "meta": {}
-        },
         "count-events->new-particle-pos": {
             "id": "count-events->new-particle-pos",
             "entity": "new-particle-pos",
             "process": "count-events",
-            "meta": {}
-        },
-        "create-transform->transform": {
-            "id": "create-transform->transform",
-            "entity": "transform",
-            "process": "create-transform",
             "meta": {}
         },
         "create-render-context->render-context": {
@@ -723,12 +621,6 @@ export const graph =
             "port": "tick",
             "meta": {}
         },
-        "create-camera->camera": {
-            "id": "create-camera->camera",
-            "entity": "projection",
-            "process": "create-projection",
-            "meta": {}
-        },
         "get-particle-index->particle-index": {
             "id": "get-particle-index->particle-index",
             "entity": "particle-index",
@@ -786,13 +678,6 @@ export const graph =
             "id": "update-object->render-context",
             "entity": "render-context",
             "process": "update-object",
-            "meta": {}
-        },
-        "canvas-size->update-camera-settings::size": {
-            "id": "canvas-size->update-camera-settings::size",
-            "entity": "canvas-size",
-            "process": "update-projection-settings",
-            "port": "size",
             "meta": {}
         },
         "geometry->update-geometry::geometry": {
@@ -893,13 +778,6 @@ export const graph =
             "entity": "new-particle-pos",
             "process": "update-particle-position",
             "port": "pos",
-            "meta": {}
-        },
-        "camera-settings->create-camera::settings": {
-            "id": "camera-settings->create-camera::settings",
-            "entity": "projection-settings",
-            "process": "create-projection",
-            "port": "settings",
             "meta": {}
         },
         "fragment->update-shader::fragment": {

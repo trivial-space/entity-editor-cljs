@@ -11,6 +11,7 @@ const localGraph = localStorage.getItem(localStorageKey)
 window.runtime = runtime
 window.graph = graph
 
+runtime.setDebug(true)
 try {
   if (localGraph) {
     runtime.addGraph(JSON.parse(localGraph))
@@ -22,3 +23,4 @@ try {
 }
 
 flow_editor.core.init(runtime, localStorageKey);
+runtime.setDebug(false)
