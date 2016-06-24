@@ -38,6 +38,15 @@ export const graph =
 				}
 			}
 		},
+		"free-rows": {
+			"id": "free-rows",
+			"meta": {
+				"ui": {
+					"x": -35,
+					"y": -504
+				}
+			}
+		},
 		"element1": {
 			"id": "element1",
 			"meta": {
@@ -53,6 +62,15 @@ export const graph =
 				"ui": {
 					"x": -395,
 					"y": -306
+				}
+			}
+		},
+		"points": {
+			"id": "points",
+			"meta": {
+				"ui": {
+					"x": 479,
+					"y": -408
 				}
 			}
 		},
@@ -108,8 +126,8 @@ export const graph =
 			"id": "rows",
 			"meta": {
 				"ui": {
-					"x": -34,
-					"y": -320
+					"x": -37,
+					"y": -259
 				}
 			}
 		},
@@ -126,8 +144,8 @@ export const graph =
 			"id": "current-action",
 			"meta": {
 				"ui": {
-					"x": -128,
-					"y": 129
+					"x": -161,
+					"y": 192
 				}
 			}
 		},
@@ -166,8 +184,17 @@ export const graph =
 			"id": "new-element-request",
 			"meta": {
 				"ui": {
-					"x": -507,
-					"y": 222
+					"x": -635,
+					"y": 247
+				}
+			}
+		},
+		"element3": {
+			"id": "element3",
+			"meta": {
+				"ui": {
+					"x": -979.5358590539779,
+					"y": -312.0069695854118
 				}
 			}
 		}
@@ -176,7 +203,7 @@ export const graph =
 		"create-element1": {
 			"id": "create-element1",
 			"ports": {},
-			"code": "function(ports) {\n\treturn {\n\t\tcolor: \"yellow\",\n\t\ttiles: [\n\t\t\t[[0, 0], [0, 1], [1, 0], [1, 1]],\n\t\t\t[[0, 0], [0, 1], [1, 0], [1, 1]],\n\t\t\t[[0, 0], [0, 1], [1, 0], [1, 1]],\n\t\t\t[[0, 0], [0, 1], [1, 0], [1, 1]]\n\t\t]\n\t}\n}",
+			"code": "function(ports) {\n\treturn {\n\t\tid: \"square\",\n\t\tcolor: \"yellow\",\n\t\ttiles: [\n\t\t\t[[0, 0], [0, 1], [1, 0], [1, 1]],\n\t\t\t[[0, 0], [0, 1], [1, 0], [1, 1]],\n\t\t\t[[0, 0], [0, 1], [1, 0], [1, 1]],\n\t\t\t[[0, 0], [0, 1], [1, 0], [1, 1]]\n\t\t]\n\t}\n}",
 			"autostart": true,
 			"meta": {
 				"ui": {
@@ -199,17 +226,55 @@ export const graph =
 				}
 			}
 		},
+		"create-element3": {
+			"id": "create-element3",
+			"ports": {},
+			"code": "function(ports) {\n\treturn {\n\t\tid: \"cross\",\n\t\tcolor: \"#00ff00\",\n\t\ttiles: [\n\t\t\t[[1, 0], [1, 1], [1, 2], [2, 1]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [1, 2]],\n\t\t\t[[1, 0], [1, 1], [1, 2], [0, 1]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [1, 0]]\n\t\t]\n\t}\n}",
+			"autostart": true,
+			"meta": {
+				"ui": {
+					"x": -986,
+					"y": -442
+				}
+			}
+		},
 		"fillup-rows": {
 			"id": "fillup-rows",
 			"ports": {
-				"rows": "accumulator",
+				"rows": "hot",
 				"size": "hot"
 			},
-			"code": "function(ports) {\n\tvar col\n\tfor (var i = ports.rows.length; i < ports.size.rows; i++) {\n\t\tcol = []\n\t\tfor (var j = 0; j < ports.size.cols; j++) {\n\t\t\tcol.push(false)\n\t\t}\n\t\tports.rows.push(col)\n\t}\n\treturn ports.rows\n}",
+			"code": "function(ports) {\n\tvar col, i,\n\t\t\trows = ports.rows,\n\t\t\tcolSize = ports.size.cols,\n\t\t\trowSize = ports.size.rows\n\t\n\tif (rows.length <= rowSize) {\n\t\tvar newRows = []\n\t\tfor (i = rows.length; i < rowSize; i++) {\n\t\t\tcol = []\n\t\t\tnewRows.unshift(col)\n\t\t}\n\t\trows = newRows.concat(rows)\n\t} else {\n\t\tfor (i = rows.length; i > rowSize; i--) {\n\t\t\tports.rows.shift()\n\t\t}\n\t}\n\t\n\trows.forEach((row) => {\n\t\tif (row.length <= colSize) {\n\t\t\tfor (i = row.length; i < colSize; i++) {\n\t\t\t\trow.push(false)\n\t\t\t}\n\t\t} else {\n\t\t\tfor (i = row.length; i > colSize; i--) {\n\t\t\t\trow.pop()\n\t\t\t}\n\t\t}\n\t})\n\treturn rows\n}",
 			"meta": {
 				"ui": {
-					"x": 78,
-					"y": -328
+					"x": -31,
+					"y": -369
+				}
+			}
+		},
+		"reset-points": {
+			"id": "reset-points",
+			"ports": {},
+			"code": "function(ports) {\n\treturn 0\n}",
+			"autostart": true,
+			"meta": {
+				"ui": {
+					"x": 474.7783727581664,
+					"y": -525.7468474147979
+				}
+			}
+		},
+		"cleanup-rows": {
+			"id": "cleanup-rows",
+			"ports": {
+				"trigger": "hot",
+				"rows": "cold"
+			},
+			"code": "function(ports) {\n\treturn ports.rows.filter(\n\t\t(row) => row.reduce(\n\t\t\t(acc, cell) => acc || !cell, false\n\t\t)\n\t)\n\t\t\t\n}",
+			"meta": {
+				"ui": {
+					"x": -127.61473685519918,
+					"y": -420.69203742309287
 				}
 			}
 		},
@@ -220,9 +285,10 @@ export const graph =
 				"tile": "hot",
 				"state": "hot",
 				"el": "hot",
-				"rows": "hot"
+				"rows": "hot",
+				"els": "cold"
 			},
-			"code": "function(ports) {\n\tfunction drawTile (x, y, color) {\n\t\tports.ctx.fillStyle = color\n\t\tports.ctx.fillRect(\n\t\t\tx * (ports.tile.edge + ports.tile.margin),\n\t\t\ty * (ports.tile.edge + ports.tile.margin),\n\t\t\tports.tile.edge,\n\t\t\tports.tile.edge\n\t\t)\n\t}\n\t\n\tports.rows.forEach((row, y) => {\n\t\trow.forEach((col, x) => {\n\t\t\tdrawTile(x, y, col || \"lightgray\")\n\t\t})\n\t})\n\t\n\tif (ports.el) {\n\t\tvar tiles = ports.el.tiles[ports.state.rotation],\n\t\t\t\tcolor = ports.el.color, \n\t\t\t\tpos = ports.state.position\n\t\ttiles.forEach((tile) => {\n\t\t\tdrawTile(tile[0] + pos[0], tile[1] + pos[1], color)\n\t\t})\n\t}\n}",
+			"code": "function(ports) {\n\tfunction drawTile (x, y, color) {\n\t\tports.ctx.fillStyle = color\n\t\tports.ctx.fillRect(\n\t\t\tx * (ports.tile.edge + ports.tile.margin),\n\t\t\ty * (ports.tile.edge + ports.tile.margin),\n\t\t\tports.tile.edge,\n\t\t\tports.tile.edge\n\t\t)\n\t}\n\t\n\tports.rows.forEach((row, y) => {\n\t\trow.forEach((elId, x) => {\n\t\t\tvar color = elId ? ports.els[elId].color : \"lightgray\"\n\t\t\tdrawTile(x, y, color)\n\t\t})\n\t})\n\t\n\tif (ports.el) {\n\t\tvar tiles = ports.el.tiles[ports.state.rotation],\n\t\t\t\tcolor = ports.el.color, \n\t\t\t\tpos = ports.state.position\n\t\ttiles.forEach((tile) => {\n\t\t\tdrawTile(tile[0] + pos[0], tile[1] + pos[1], color)\n\t\t})\n\t}\n}",
 			"meta": {
 				"ui": {
 					"x": -201,
@@ -233,14 +299,15 @@ export const graph =
 		"animate": {
 			"id": "animate",
 			"ports": {
-				"speed": "hot"
+				"speed": "hot",
+				"points": "hot"
 			},
-			"code": "function(ports, send) {\n\tvar i = setInterval(function() {\n\t\tsend(true)\n\t\tsend(false)\n\t}, ports.speed)\n\t\n\treturn function() {\n\t\tclearInterval(i)\n\t}\n}",
+			"code": "function(ports, send) {\n\tvar i = setInterval(function() {\n\t\tsend(true)\n\t\tsend(false)\n\t}, ports.speed - ports.points * 10)\n\t\n\treturn function() {\n\t\tclearInterval(i)\n\t}\n}",
 			"async": true,
 			"meta": {
 				"ui": {
-					"x": 246,
-					"y": 892
+					"x": 341,
+					"y": 867
 				}
 			}
 		},
@@ -268,7 +335,7 @@ export const graph =
 				"tick": "hot",
 				"actions": "cold"
 			},
-			"code": "function(ports, send) {\n\tvar pos = ports.state.position,\n\t\t\tshape =  ports.el.tiles[ports.state.rotation]\n\t\t\t\t.map((tile) => [tile[0] + pos[0], tile[1] + pos[1]]),\n\t\t\top, newShape\n\t\n\tif(ports.tick) {\n\t\tnewShape = shape.map((tile) => [\n\t\t\ttile[0], \n\t\t\ttile[1] + 1\n\t\t])\n\t\top = ports.actions.MOVE_DOWN\n\t}\n\t\n\tif(ports.key == \"right\") {\n\t\tnewShape = shape.map((tile) => [\n\t\t\ttile[0] + 1,\n\t\t\ttile[1]\n\t\t])\n\t\top = ports.actions.MOVE_RIGHT\n\t}\n\t\n\tif(ports.key == \"left\") {\n\t\tnewShape = shape.map((tile) => [\n\t\t\ttile[0] - 1,\n\t\t\ttile[1]\n\t\t])\n\t\top = ports.actions.MOVE_LEFT\n\t}\n\t\n\tif(ports.key == \"up\") {\n\t\tnewShape = ports.el.tiles[(ports.state.rotation + 3) % 4]\n\t\t\t.map((tile) => [tile[0] + pos[0], tile[1] + pos[1]]),\n\t\top = ports.actions.ROTATE_LEFT\n\t}\n\t\n\tif(ports.key == \"down\") {\n\t\tnewShape = ports.el.tiles[(ports.state.rotation + 1) % 4]\n\t\t\t.map((tile) => [tile[0] + pos[0], tile[1] + pos[1]]),\n\t\top = ports.actions.ROTATE_RIGHT\n\t}\n\t\n\tif (op) send({\n\t\tshape: newShape,\n\t\taction: op\n\t})\n}",
+			"code": "function(ports, send) {\n\tvar pos = ports.state.position,\n\t\t\tshape =  ports.el.tiles[ports.state.rotation]\n\t\t\t\t.map((tile) => [tile[0] + pos[0], tile[1] + pos[1]]),\n\t\t\top, newShape\n\t\n\tif(ports.tick || ports.key == \"down\") {\n\t\tnewShape = shape.map((tile) => [\n\t\t\ttile[0], \n\t\t\ttile[1] + 1\n\t\t])\n\t\top = ports.actions.MOVE_DOWN\n\t}\n\t\n\tif(ports.key == \"right\") {\n\t\tnewShape = shape.map((tile) => [\n\t\t\ttile[0] + 1,\n\t\t\ttile[1]\n\t\t])\n\t\top = ports.actions.MOVE_RIGHT\n\t}\n\t\n\tif(ports.key == \"left\") {\n\t\tnewShape = shape.map((tile) => [\n\t\t\ttile[0] - 1,\n\t\t\ttile[1]\n\t\t])\n\t\top = ports.actions.MOVE_LEFT\n\t}\n\t\n\tif(ports.key == \"up\") {\n\t\tnewShape = ports.el.tiles[(ports.state.rotation + 3) % 4]\n\t\t\t.map((tile) => [tile[0] + pos[0], tile[1] + pos[1]]),\n\t\top = ports.actions.ROTATE_LEFT\n\t}\n\t\n\tif (op) send({\n\t\tshape: newShape,\n\t\taction: op\n\t})\n}",
 			"async": true,
 			"meta": {
 				"ui": {
@@ -280,7 +347,7 @@ export const graph =
 		"get-keyboard-input": {
 			"id": "get-keyboard-input",
 			"ports": {},
-			"code": "function(ports, send) {\n\tvar oldE = null,\n\t\t\tnewE = null\n\t\n\tfunction keyup(e) {\n\t\tnewE = oldE = null\n\t\tsend(newE)\n\t}\n\t\n\tfunction keydown(e) {\n\t\tswitch (e.keyCode) {\n        case 37:\n            newE = 'left';\n            break;\n        case 38:\n            newE = 'up';\n            break;\n        case 39:\n            newE = 'right';\n            break;\n        case 40:\n            newE = 'down';\n            break;\n    }\n\t\t\n\t\tif (newE != oldE) {\n\t\t\tconsole.log(\"fufufu\")\n\t\t\tsend(newE)\n\t\t\tsend(null)\n\t\t\toldE = newE\n\t\t}\n\t}\n\t\n\tdocument.addEventListener(\"keydown\", keydown)\n\tdocument.addEventListener(\"keyup\", keyup)\n\t\n\treturn function() {\n\t\tdocument.removeEventListener(\"keydown\", keydown)\n\t\tdocument.removeEventListener(\"keyup\", keyup)\n\t}\n}",
+			"code": "function(ports, send) {\n\tvar oldE = null,\n\t\t\tnewE = null\n\t\n\tfunction keyup(e) {\n\t\tnewE = oldE = null\n\t\tsend(newE)\n\t}\n\t\n\tfunction keydown(e) {\n\t\tswitch (e.keyCode) {\n        case 37:\n            newE = 'left';\n            break;\n        case 38:\n            newE = 'up';\n            break;\n        case 39:\n            newE = 'right';\n            break;\n        case 40:\n            send('down');\n            break;\n    }\n\t\t\n\t\tif (newE != oldE) {\n\t\t\tsend(newE)\n\t\t\tsend(null)\n\t\t\toldE = newE\n\t\t}\n\t}\n\t\n\tdocument.addEventListener(\"keydown\", keydown)\n\tdocument.addEventListener(\"keyup\", keyup)\n\t\n\treturn function() {\n\t\tdocument.removeEventListener(\"keydown\", keydown)\n\t\tdocument.removeEventListener(\"keyup\", keyup)\n\t}\n}",
 			"autostart": true,
 			"async": true,
 			"meta": {
@@ -290,10 +357,25 @@ export const graph =
 				}
 			}
 		},
+		"update-points": {
+			"id": "update-points",
+			"ports": {
+				"rows": "hot",
+				"points": "accumulator",
+				"size": "cold"
+			},
+			"code": "function(ports) {\n\tvar points = ports.points\n\tif (ports.rows.length) {\n\t\tpoints += ports.size.rows - ports.rows.length\n\t}\n\treturn points\n}",
+			"meta": {
+				"ui": {
+					"x": 271,
+					"y": -437
+				}
+			}
+		},
 		"create-element2": {
 			"id": "create-element2",
 			"ports": {},
-			"code": "function(ports) {\n\treturn {\n\t\tcolor: \"cyan\",\n\t\ttiles: [\n\t\t\t[[1, 0], [1, 1], [1, 2], [1, 3]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [3, 1]],\n\t\t\t[[1, 0], [1, 1], [1, 2], [1, 3]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [3, 1]]\n\t\t]\n\t}\n}",
+			"code": "function(ports) {\n\treturn {\n\t\tid: \"long\", \n\t\tcolor: \"cyan\",\n\t\ttiles: [\n\t\t\t[[1, 0], [1, 1], [1, 2], [1, 3]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [3, 1]],\n\t\t\t[[2, 0], [2, 1], [2, 2], [2, 3]],\n\t\t\t[[0, 2], [1, 2], [2, 2], [3, 2]]\n\t\t]\n\t}\n}",
 			"autostart": true,
 			"meta": {
 				"ui": {
@@ -309,8 +391,8 @@ export const graph =
 			"autostart": true,
 			"meta": {
 				"ui": {
-					"x": -31,
-					"y": -463
+					"x": -34,
+					"y": -630
 				}
 			}
 		},
@@ -348,9 +430,12 @@ export const graph =
 			"id": "action-reset",
 			"ports": {
 				"action": "hot",
-				"actions": "cold"
+				"actions": "cold",
+				"rows": "cold",
+				"el": "cold",
+				"state": "cold"
 			},
-			"code": "function(ports, send) {\n\tif (ports.action === ports.actions.DOCK_BOTTOM) {\n\t\tsend()\n\t}\n}",
+			"code": "function(ports, send) {\n\tif (ports.action === ports.actions.DOCK_BOTTOM) {\n\t\t\n\t\tvar pos = ports.state.position,\n\t\t\t\tshape = ports.el.tiles[ports.state.rotation]\n\t\t\t\t\t.map((tile) => [tile[0] + pos[0], tile[1] + pos[1]])\n\t\t\t\t\n\t\tshape.forEach((tile) => {\n\t\t\tports.rows[tile[1]][tile[0]] = ports.el.id\n\t\t})\n\t\t\n\t\tsend()\n\t}\n}",
 			"async": true,
 			"meta": {
 				"ui": {
@@ -381,7 +466,7 @@ export const graph =
 				"field": "hot",
 				"canvas": "hot"
 			},
-			"code": "function(ports) {\n\tvar c = ports.canvas,\n\t\t\tcols = ports.field.cols,\n\t\t\trows = ports.field.rows,\n\t\t\tedge = ports.tile.edge,\n\t\t\tmargin = ports.tile.margin\n\t\n\tc.width = cols * edge + (cols - 1) * margin\n\tc.height = rows * edge + (rows - 1) * margin\n\tc.style.border = \"1px solid gray\"\n}",
+			"code": "function(ports) {\n\tvar c = ports.canvas,\n\t\t\tcols = ports.field.cols,\n\t\t\trows = ports.field.rows,\n\t\t\tedge = ports.tile.edge,\n\t\t\tmargin = ports.tile.margin\n\t\n\tc.width = cols * edge + (cols - 1) * margin\n\tc.height = rows * edge + (rows - 1) * margin\n}",
 			"meta": {
 				"ui": {
 					"x": -210,
@@ -393,9 +478,10 @@ export const graph =
 			"id": "collect-elements",
 			"ports": {
 				"e1": "hot",
-				"e2": "hot"
+				"e2": "hot",
+				"e3": "hot"
 			},
-			"code": "function(ports) {\n \treturn Object.keys(ports).map((k) => ports[k])\n}",
+			"code": "function(ports) {\n\tvar els = {}\n\t\n\tObject.keys(ports).forEach((k) => {\n\t\tvar el = ports[k]\n\t\tels[el.id] = el\n\t})\n\t\n \treturn els\n}",
 			"meta": {
 				"ui": {
 					"x": -767,
@@ -424,11 +510,25 @@ export const graph =
 			"port": "canvas",
 			"meta": {}
 		},
+		"current-element->action-reset::el": {
+			"id": "current-element->action-reset::el",
+			"entity": "current-element",
+			"process": "action-reset",
+			"port": "el",
+			"meta": {}
+		},
 		"render-ctx->render-field::ctx": {
 			"id": "render-ctx->render-field::ctx",
 			"entity": "render-ctx",
 			"process": "render-field",
 			"port": "ctx",
+			"meta": {}
+		},
+		"points->animate::points": {
+			"id": "points->animate::points",
+			"entity": "points",
+			"process": "animate",
+			"port": "points",
 			"meta": {}
 		},
 		"field-size->update-canvas::field": {
@@ -442,6 +542,13 @@ export const graph =
 			"id": "get-canvas-ctx->render-ctx",
 			"entity": "render-ctx",
 			"process": "get-canvas-ctx",
+			"meta": {}
+		},
+		"rows->action-reset::rows": {
+			"id": "rows->action-reset::rows",
+			"entity": "rows",
+			"process": "action-reset",
+			"port": "rows",
 			"meta": {}
 		},
 		"collect-elements->elements": {
@@ -469,6 +576,20 @@ export const graph =
 			"process": "update-state",
 			"meta": {}
 		},
+		"field-size->update-points::size": {
+			"id": "field-size->update-points::size",
+			"entity": "field-size",
+			"process": "update-points",
+			"port": "size",
+			"meta": {}
+		},
+		"rows->cleanup-rows::rows": {
+			"id": "rows->cleanup-rows::rows",
+			"entity": "rows",
+			"process": "cleanup-rows",
+			"port": "rows",
+			"meta": {}
+		},
 		"field-size->initial-state::size": {
 			"id": "field-size->initial-state::size",
 			"entity": "field-size",
@@ -481,6 +602,18 @@ export const graph =
 			"entity": "field-size",
 			"process": "validate-future-shape",
 			"port": "size",
+			"meta": {}
+		},
+		"update-points->points": {
+			"id": "update-points->points",
+			"entity": "points",
+			"process": "update-points",
+			"meta": {}
+		},
+		"create-rows->free-rows": {
+			"id": "create-rows->free-rows",
+			"entity": "free-rows",
+			"process": "create-rows",
 			"meta": {}
 		},
 		"action->action-reset::action": {
@@ -557,6 +690,13 @@ export const graph =
 			"port": "trigger",
 			"meta": {}
 		},
+		"elements->render-field::els": {
+			"id": "elements->render-field::els",
+			"entity": "elements",
+			"process": "render-field",
+			"port": "els",
+			"meta": {}
+		},
 		"create-state->current-state": {
 			"id": "create-state->current-state",
 			"entity": "element-state",
@@ -576,6 +716,12 @@ export const graph =
 			"port": "actions",
 			"meta": {}
 		},
+		"reset-points->points": {
+			"id": "reset-points->points",
+			"entity": "points",
+			"process": "reset-points",
+			"meta": {}
+		},
 		"speed->animate::speed": {
 			"id": "speed->animate::speed",
 			"entity": "speed",
@@ -583,11 +729,31 @@ export const graph =
 			"port": "speed",
 			"meta": {}
 		},
+		"cleanup-rows->free-rows": {
+			"id": "cleanup-rows->free-rows",
+			"entity": "free-rows",
+			"process": "cleanup-rows",
+			"meta": {}
+		},
+		"free-rows->update-points::rows": {
+			"id": "free-rows->update-points::rows",
+			"entity": "free-rows",
+			"process": "update-points",
+			"port": "rows",
+			"meta": {}
+		},
 		"future-shape->validate-future-shape::shape": {
 			"id": "future-shape->validate-future-shape::shape",
 			"entity": "future-shape",
 			"process": "validate-future-shape",
 			"port": "shape",
+			"meta": {}
+		},
+		"new-element-request->cleanup-rows::trigger": {
+			"id": "new-element-request->cleanup-rows::trigger",
+			"entity": "new-element-request",
+			"process": "cleanup-rows",
+			"port": "trigger",
 			"meta": {}
 		},
 		"get-keyboard-input->key": {
@@ -608,6 +774,12 @@ export const graph =
 			"entity": "tick",
 			"process": "get-future-shape",
 			"port": "tick",
+			"meta": {}
+		},
+		"create-element3->element3": {
+			"id": "create-element3->element3",
+			"entity": "element3",
+			"process": "create-element3",
 			"meta": {}
 		},
 		"get-canvas->canvas": {
@@ -644,6 +816,13 @@ export const graph =
 			"port": "trigger",
 			"meta": {}
 		},
+		"free-rows->fillup-rows::rows": {
+			"id": "free-rows->fillup-rows::rows",
+			"entity": "free-rows",
+			"process": "fillup-rows",
+			"port": "rows",
+			"meta": {}
+		},
 		"actions->get-future-shape::actions": {
 			"id": "actions->get-future-shape::actions",
 			"entity": "actions",
@@ -656,12 +835,6 @@ export const graph =
 			"entity": "rows",
 			"process": "validate-future-shape",
 			"port": "rows",
-			"meta": {}
-		},
-		"create-rows->rows": {
-			"id": "create-rows->rows",
-			"entity": "rows",
-			"process": "create-rows",
 			"meta": {}
 		},
 		"element2->collect-elements::e2": {
@@ -697,6 +870,13 @@ export const graph =
 			"port": "actions",
 			"meta": {}
 		},
+		"element-state->action-reset::state": {
+			"id": "element-state->action-reset::state",
+			"entity": "element-state",
+			"process": "action-reset",
+			"port": "state",
+			"meta": {}
+		},
 		"field-size->fillup-rows::size": {
 			"id": "field-size->fillup-rows::size",
 			"entity": "field-size",
@@ -708,6 +888,13 @@ export const graph =
 			"id": "create-element2->element2",
 			"entity": "element2",
 			"process": "create-element2",
+			"meta": {}
+		},
+		"element3->collect-elements::e3": {
+			"id": "element3->collect-elements::e3",
+			"entity": "element3",
+			"process": "collect-elements",
+			"port": "e3",
 			"meta": {}
 		},
 		"element1->collect-elements::e1": {
