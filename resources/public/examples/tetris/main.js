@@ -6,7 +6,7 @@ console.log(immutable)
 
 //const context = {}
 
-const localStorageKey = "__renderer-interactive-example"
+const localStorageKey = "__tetris-example"
 const runtime = flow.create()
 const localGraph = localStorage.getItem(localStorageKey)
 
