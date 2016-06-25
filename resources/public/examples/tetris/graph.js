@@ -5,8 +5,8 @@ export const graph =
 			"id": "tick",
 			"meta": {
 				"ui": {
-					"x": 33,
-					"y": 778
+					"x": -22,
+					"y": 825
 				}
 			}
 		},
@@ -14,8 +14,8 @@ export const graph =
 			"id": "key",
 			"meta": {
 				"ui": {
-					"x": -103,
-					"y": 904
+					"x": -158,
+					"y": 951
 				}
 			}
 		},
@@ -33,8 +33,8 @@ export const graph =
 			"value": 1000,
 			"meta": {
 				"ui": {
-					"x": 293,
-					"y": 773
+					"x": 238,
+					"y": 820
 				}
 			}
 		},
@@ -86,8 +86,8 @@ export const graph =
 			},
 			"meta": {
 				"ui": {
-					"x": -616,
-					"y": 652
+					"x": -455,
+					"y": 534
 				}
 			}
 		},
@@ -135,8 +135,8 @@ export const graph =
 			"id": "future-shape",
 			"meta": {
 				"ui": {
-					"x": -281,
-					"y": 791
+					"x": -164,
+					"y": 670
 				}
 			}
 		},
@@ -144,8 +144,8 @@ export const graph =
 			"id": "current-action",
 			"meta": {
 				"ui": {
-					"x": -279,
-					"y": 485
+					"x": -169,
+					"y": 367
 				}
 			}
 		},
@@ -193,8 +193,8 @@ export const graph =
 			"id": "new-element-request",
 			"meta": {
 				"ui": {
-					"x": -451,
-					"y": 195
+					"x": -350,
+					"y": 111
 				}
 			}
 		},
@@ -336,8 +336,8 @@ export const graph =
 			"async": true,
 			"meta": {
 				"ui": {
-					"x": 172,
-					"y": 780
+					"x": 117,
+					"y": 827
 				}
 			}
 		},
@@ -369,8 +369,8 @@ export const graph =
 			"async": true,
 			"meta": {
 				"ui": {
-					"x": -107,
-					"y": 781
+					"x": -162,
+					"y": 828
 				}
 			}
 		},
@@ -382,8 +382,8 @@ export const graph =
 			"async": true,
 			"meta": {
 				"ui": {
-					"x": -107,
-					"y": 1021
+					"x": -162,
+					"y": 1068
 				}
 			}
 		},
@@ -451,8 +451,8 @@ export const graph =
 			"async": true,
 			"meta": {
 				"ui": {
-					"x": -282,
-					"y": 646
+					"x": -165,
+					"y": 525
 				}
 			}
 		},
@@ -469,8 +469,8 @@ export const graph =
 			"async": true,
 			"meta": {
 				"ui": {
-					"x": -453,
-					"y": 334
+					"x": -207,
+					"y": 201
 				}
 			}
 		},
@@ -484,8 +484,8 @@ export const graph =
 			"code": "function(ports) {\n\tif (ports.action == ports.actions.MOVE_RIGHT) {\n\t\tports.state.position[0]++\n\t}\n\tif (ports.action == ports.actions.MOVE_LEFT) {\n\t\tports.state.position[0]--\n\t}\n\tif (ports.action == ports.actions.MOVE_DOWN) {\n\t\tports.state.position[1]++\n\t}\n\tif (ports.action == ports.actions.ROTATE_RIGHT) {\n\t\tports.state.rotation = (ports.state.rotation + 1) % 4\n\t}\n\tif (ports.action == ports.actions.ROTATE_LEFT) {\n\t\tports.state.rotation = (ports.state.rotation + 3) % 4\n\t}\n\treturn ports.state\n}",
 			"meta": {
 				"ui": {
-					"x": -21,
-					"y": 99
+					"x": -28,
+					"y": 91
 				}
 			}
 		},
