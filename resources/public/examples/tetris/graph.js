@@ -5,8 +5,8 @@ export const graph =
 			"id": "tick",
 			"meta": {
 				"ui": {
-					"x": 244,
-					"y": 743
+					"x": 33,
+					"y": 778
 				}
 			}
 		},
@@ -14,8 +14,8 @@ export const graph =
 			"id": "key",
 			"meta": {
 				"ui": {
-					"x": -194,
-					"y": 746
+					"x": -103,
+					"y": 904
 				}
 			}
 		},
@@ -23,8 +23,8 @@ export const graph =
 			"id": "element-state",
 			"meta": {
 				"ui": {
-					"x": 21,
-					"y": -104
+					"x": -24,
+					"y": -38
 				}
 			}
 		},
@@ -33,8 +33,8 @@ export const graph =
 			"value": 1000,
 			"meta": {
 				"ui": {
-					"x": 245,
-					"y": 1028
+					"x": 293,
+					"y": 773
 				}
 			}
 		},
@@ -42,8 +42,8 @@ export const graph =
 			"id": "free-rows",
 			"meta": {
 				"ui": {
-					"x": -35,
-					"y": -504
+					"x": 267,
+					"y": -239
 				}
 			}
 		},
@@ -51,8 +51,8 @@ export const graph =
 			"id": "element1",
 			"meta": {
 				"ui": {
-					"x": -677,
-					"y": -356
+					"x": -1011,
+					"y": -297
 				}
 			}
 		},
@@ -60,8 +60,8 @@ export const graph =
 			"id": "render-ctx",
 			"meta": {
 				"ui": {
-					"x": -395,
-					"y": -306
+					"x": -403,
+					"y": -379
 				}
 			}
 		},
@@ -69,8 +69,8 @@ export const graph =
 			"id": "points",
 			"meta": {
 				"ui": {
-					"x": 479,
-					"y": -408
+					"x": 410,
+					"y": -44
 				}
 			}
 		},
@@ -86,8 +86,8 @@ export const graph =
 			},
 			"meta": {
 				"ui": {
-					"x": 488,
-					"y": 286
+					"x": -616,
+					"y": 652
 				}
 			}
 		},
@@ -95,8 +95,8 @@ export const graph =
 			"id": "elements",
 			"meta": {
 				"ui": {
-					"x": -761,
-					"y": -112
+					"x": -674,
+					"y": -40
 				}
 			}
 		},
@@ -104,8 +104,8 @@ export const graph =
 			"id": "canvas",
 			"meta": {
 				"ui": {
-					"x": -393,
-					"y": -557
+					"x": -404,
+					"y": -646
 				}
 			}
 		},
@@ -117,8 +117,8 @@ export const graph =
 			},
 			"meta": {
 				"ui": {
-					"x": 278,
-					"y": -651
+					"x": -28,
+					"y": -587
 				}
 			}
 		},
@@ -126,8 +126,8 @@ export const graph =
 			"id": "rows",
 			"meta": {
 				"ui": {
-					"x": -37,
-					"y": -259
+					"x": -26,
+					"y": -252
 				}
 			}
 		},
@@ -135,8 +135,8 @@ export const graph =
 			"id": "future-shape",
 			"meta": {
 				"ui": {
-					"x": -30,
-					"y": 426
+					"x": -281,
+					"y": 791
 				}
 			}
 		},
@@ -144,8 +144,8 @@ export const graph =
 			"id": "current-action",
 			"meta": {
 				"ui": {
-					"x": -161,
-					"y": 192
+					"x": -279,
+					"y": 485
 				}
 			}
 		},
@@ -153,8 +153,8 @@ export const graph =
 			"id": "element2",
 			"meta": {
 				"ui": {
-					"x": -842,
-					"y": -357
+					"x": -1014,
+					"y": -156
 				}
 			}
 		},
@@ -166,8 +166,17 @@ export const graph =
 			},
 			"meta": {
 				"ui": {
-					"x": -209,
-					"y": -558
+					"x": -280,
+					"y": -451
+				}
+			}
+		},
+		"element4": {
+			"id": "element4",
+			"meta": {
+				"ui": {
+					"x": -1021.7589100571096,
+					"y": 99.50477765676284
 				}
 			}
 		},
@@ -175,8 +184,8 @@ export const graph =
 			"id": "current-element",
 			"meta": {
 				"ui": {
-					"x": -406,
-					"y": 42
+					"x": -300,
+					"y": -46
 				}
 			}
 		},
@@ -184,8 +193,8 @@ export const graph =
 			"id": "new-element-request",
 			"meta": {
 				"ui": {
-					"x": -635,
-					"y": 247
+					"x": -451,
+					"y": 195
 				}
 			}
 		},
@@ -193,8 +202,17 @@ export const graph =
 			"id": "element3",
 			"meta": {
 				"ui": {
-					"x": -979.5358590539779,
-					"y": -312.0069695854118
+					"x": -1012,
+					"y": -14
+				}
+			}
+		},
+		"element5": {
+			"id": "element5",
+			"meta": {
+				"ui": {
+					"x": -1016.856839784277,
+					"y": 202.4255392621983
 				}
 			}
 		}
@@ -207,8 +225,8 @@ export const graph =
 			"autostart": true,
 			"meta": {
 				"ui": {
-					"x": -673,
-					"y": -512
+					"x": -1142,
+					"y": -299
 				}
 			}
 		},
@@ -221,20 +239,20 @@ export const graph =
 			"code": "function(ports) {\n\tvar keys = Object.keys(ports.elements),\n\t\t\ti = Math.floor(Math.random() * keys.length)\n\treturn ports.elements[keys[i]]\n}",
 			"meta": {
 				"ui": {
-					"x": -626,
-					"y": 57
+					"x": -484,
+					"y": -44
 				}
 			}
 		},
 		"create-element3": {
 			"id": "create-element3",
 			"ports": {},
-			"code": "function(ports) {\n\treturn {\n\t\tid: \"cross\",\n\t\tcolor: \"#00ff00\",\n\t\ttiles: [\n\t\t\t[[1, 0], [1, 1], [1, 2], [2, 1]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [1, 2]],\n\t\t\t[[1, 0], [1, 1], [1, 2], [0, 1]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [1, 0]]\n\t\t]\n\t}\n}",
+			"code": "function(ports) {\n\treturn {\n\t\tid: \"cross\",\n\t\tcolor: \"#00ff00\",\n\t\ttiles: [\n\t\t\t[[1, 0], [1, 1], [1, 2], [0, 1]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [1, 2]],\n\t\t\t[[1, 0], [1, 1], [1, 2], [2, 1]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [1, 0]]\n\t\t]\n\t}\n}",
 			"autostart": true,
 			"meta": {
 				"ui": {
-					"x": -986,
-					"y": -442
+					"x": -1137,
+					"y": -12
 				}
 			}
 		},
@@ -259,8 +277,8 @@ export const graph =
 			"autostart": true,
 			"meta": {
 				"ui": {
-					"x": 474.7783727581664,
-					"y": -525.7468474147979
+					"x": 410,
+					"y": 71
 				}
 			}
 		},
@@ -273,8 +291,8 @@ export const graph =
 			"code": "function(ports) {\n\treturn ports.rows.filter(\n\t\t(row) => row.reduce(\n\t\t\t(acc, cell) => acc || !cell, false\n\t\t)\n\t)\n\t\t\t\n}",
 			"meta": {
 				"ui": {
-					"x": -127.61473685519918,
-					"y": -420.69203742309287
+					"x": 118,
+					"y": -237
 				}
 			}
 		},
@@ -288,11 +306,23 @@ export const graph =
 				"rows": "hot",
 				"els": "cold"
 			},
-			"code": "function(ports) {\n\tfunction drawTile (x, y, color) {\n\t\tports.ctx.fillStyle = color\n\t\tports.ctx.fillRect(\n\t\t\tx * (ports.tile.edge + ports.tile.margin),\n\t\t\ty * (ports.tile.edge + ports.tile.margin),\n\t\t\tports.tile.edge,\n\t\t\tports.tile.edge\n\t\t)\n\t}\n\t\n\tports.rows.forEach((row, y) => {\n\t\trow.forEach((elId, x) => {\n\t\t\tvar color = elId ? ports.els[elId].color : \"lightgray\"\n\t\t\tdrawTile(x, y, color)\n\t\t})\n\t})\n\t\n\tif (ports.el) {\n\t\tvar tiles = ports.el.tiles[ports.state.rotation],\n\t\t\t\tcolor = ports.el.color, \n\t\t\t\tpos = ports.state.position\n\t\ttiles.forEach((tile) => {\n\t\t\tdrawTile(tile[0] + pos[0], tile[1] + pos[1], color)\n\t\t})\n\t}\n}",
+			"code": "function(ports) {\n\tfunction drawTile (x, y, color) {\n\t\tports.ctx.fillStyle = color\n\t\tports.ctx.fillRect(\n\t\t\tx * (ports.tile.edge + ports.tile.margin),\n\t\t\ty * (ports.tile.edge + ports.tile.margin),\n\t\t\tports.tile.edge,\n\t\t\tports.tile.edge\n\t\t)\n\t}\n\t\n\tports.rows.forEach((row, y) => {\n\t\trow.forEach((elId, x) => {\n\t\t\tvar color = elId ? ports.els[elId].color : \"#eee\"\n\t\t\tdrawTile(x, y, color)\n\t\t})\n\t})\n\t\n\tif (ports.el) {\n\t\tvar tiles = ports.el.tiles[ports.state.rotation],\n\t\t\t\tcolor = ports.el.color, \n\t\t\t\tpos = ports.state.position\n\t\ttiles.forEach((tile) => {\n\t\t\tdrawTile(tile[0] + pos[0], tile[1] + pos[1], color)\n\t\t})\n\t}\n}",
 			"meta": {
 				"ui": {
-					"x": -201,
-					"y": -104
+					"x": -287,
+					"y": -274
+				}
+			}
+		},
+		"create-element4": {
+			"id": "create-element4",
+			"ports": {},
+			"code": "function(ports) {\n\treturn {\n\t\tid: \"lleft\",\n\t\tcolor: \"#ffbb00\",\n\t\ttiles: [\n\t\t\t[[1, 0], [1, 1], [1, 2], [2, 2]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [2, 0]],\n\t\t\t[[1, 0], [1, 1], [1, 2], [0, 0]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [0, 2]]\n\t\t]\n\t}\n}",
+			"autostart": true,
+			"meta": {
+				"ui": {
+					"x": -1135,
+					"y": 98
 				}
 			}
 		},
@@ -306,8 +336,8 @@ export const graph =
 			"async": true,
 			"meta": {
 				"ui": {
-					"x": 341,
-					"y": 867
+					"x": 172,
+					"y": 780
 				}
 			}
 		},
@@ -321,8 +351,8 @@ export const graph =
 			"autostart": true,
 			"meta": {
 				"ui": {
-					"x": 198,
-					"y": -103
+					"x": 121,
+					"y": -32
 				}
 			}
 		},
@@ -339,8 +369,8 @@ export const graph =
 			"async": true,
 			"meta": {
 				"ui": {
-					"x": 22,
-					"y": 686
+					"x": -107,
+					"y": 781
 				}
 			}
 		},
@@ -352,8 +382,8 @@ export const graph =
 			"async": true,
 			"meta": {
 				"ui": {
-					"x": -194,
-					"y": 893
+					"x": -107,
+					"y": 1021
 				}
 			}
 		},
@@ -367,8 +397,8 @@ export const graph =
 			"code": "function(ports) {\n\tvar points = ports.points\n\tif (ports.rows.length) {\n\t\tpoints += ports.size.rows - ports.rows.length\n\t}\n\treturn points\n}",
 			"meta": {
 				"ui": {
-					"x": 271,
-					"y": -437
+					"x": 274,
+					"y": -41
 				}
 			}
 		},
@@ -379,8 +409,8 @@ export const graph =
 			"autostart": true,
 			"meta": {
 				"ui": {
-					"x": -840,
-					"y": -510
+					"x": -1147,
+					"y": -154
 				}
 			}
 		},
@@ -391,8 +421,8 @@ export const graph =
 			"autostart": true,
 			"meta": {
 				"ui": {
-					"x": -34,
-					"y": -630
+					"x": 389,
+					"y": -241
 				}
 			}
 		},
@@ -404,8 +434,8 @@ export const graph =
 			"code": "function(ports) {\n\treturn ports.canvas.getContext('2d')\n}",
 			"meta": {
 				"ui": {
-					"x": -394,
-					"y": -426
+					"x": -405,
+					"y": -490
 				}
 			}
 		},
@@ -421,8 +451,8 @@ export const graph =
 			"async": true,
 			"meta": {
 				"ui": {
-					"x": -84,
-					"y": 288
+					"x": -282,
+					"y": 646
 				}
 			}
 		},
@@ -439,8 +469,8 @@ export const graph =
 			"async": true,
 			"meta": {
 				"ui": {
-					"x": -404,
-					"y": 407
+					"x": -453,
+					"y": 334
 				}
 			}
 		},
@@ -454,8 +484,20 @@ export const graph =
 			"code": "function(ports) {\n\tif (ports.action == ports.actions.MOVE_RIGHT) {\n\t\tports.state.position[0]++\n\t}\n\tif (ports.action == ports.actions.MOVE_LEFT) {\n\t\tports.state.position[0]--\n\t}\n\tif (ports.action == ports.actions.MOVE_DOWN) {\n\t\tports.state.position[1]++\n\t}\n\tif (ports.action == ports.actions.ROTATE_RIGHT) {\n\t\tports.state.rotation = (ports.state.rotation + 1) % 4\n\t}\n\tif (ports.action == ports.actions.ROTATE_LEFT) {\n\t\tports.state.rotation = (ports.state.rotation + 3) % 4\n\t}\n\treturn ports.state\n}",
 			"meta": {
 				"ui": {
-					"x": 200,
-					"y": 122
+					"x": -21,
+					"y": 99
+				}
+			}
+		},
+		"create-element5": {
+			"id": "create-element5",
+			"ports": {},
+			"code": "function(ports) {\n\treturn {\n\t\tid: \"lright\",\n\t\tcolor: \"#ff88ff\",\n\t\ttiles: [\n\t\t\t[[1, 0], [1, 1], [1, 2], [0, 2]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [0, 0]],\n\t\t\t[[1, 0], [1, 1], [1, 2], [2, 0]],\n\t\t\t[[0, 1], [1, 1], [2, 1], [2, 2]]\n\t\t]\n\t}\n}",
+			"autostart": true,
+			"meta": {
+				"ui": {
+					"x": -1135,
+					"y": 203
 				}
 			}
 		},
@@ -469,8 +511,8 @@ export const graph =
 			"code": "function(ports) {\n\tvar c = ports.canvas,\n\t\t\tcols = ports.field.cols,\n\t\t\trows = ports.field.rows,\n\t\t\tedge = ports.tile.edge,\n\t\t\tmargin = ports.tile.margin\n\t\n\tc.width = cols * edge + (cols - 1) * margin\n\tc.height = rows * edge + (rows - 1) * margin\n}",
 			"meta": {
 				"ui": {
-					"x": -210,
-					"y": -728
+					"x": -271,
+					"y": -611
 				}
 			}
 		},
@@ -479,13 +521,15 @@ export const graph =
 			"ports": {
 				"e1": "hot",
 				"e2": "hot",
-				"e3": "hot"
+				"e3": "hot",
+				"e4": "hot",
+				"e5": "hot"
 			},
 			"code": "function(ports) {\n\tvar els = {}\n\t\n\tObject.keys(ports).forEach((k) => {\n\t\tvar el = ports[k]\n\t\tels[el.id] = el\n\t})\n\t\n \treturn els\n}",
 			"meta": {
 				"ui": {
-					"x": -767,
-					"y": -233
+					"x": -815,
+					"y": -43
 				}
 			}
 		},
@@ -496,8 +540,8 @@ export const graph =
 			"autostart": true,
 			"meta": {
 				"ui": {
-					"x": -394,
-					"y": -684
+					"x": -409,
+					"y": -779
 				}
 			}
 		}
@@ -549,6 +593,12 @@ export const graph =
 			"entity": "rows",
 			"process": "action-reset",
 			"port": "rows",
+			"meta": {}
+		},
+		"create-element5->element5": {
+			"id": "create-element5->element5",
+			"entity": "element5",
+			"process": "create-element5",
 			"meta": {}
 		},
 		"collect-elements->elements": {
@@ -676,6 +726,13 @@ export const graph =
 			"port": "action",
 			"meta": {}
 		},
+		"element5->collect-elements::e5": {
+			"id": "element5->collect-elements::e5",
+			"entity": "element5",
+			"process": "collect-elements",
+			"port": "e5",
+			"meta": {}
+		},
 		"rows->render-field::rows": {
 			"id": "rows->render-field::rows",
 			"entity": "rows",
@@ -747,6 +804,13 @@ export const graph =
 			"entity": "future-shape",
 			"process": "validate-future-shape",
 			"port": "shape",
+			"meta": {}
+		},
+		"element4->collect-elements::e4": {
+			"id": "element4->collect-elements::e4",
+			"entity": "element4",
+			"process": "collect-elements",
+			"port": "e4",
 			"meta": {}
 		},
 		"new-element-request->cleanup-rows::trigger": {
@@ -868,6 +932,12 @@ export const graph =
 			"entity": "actions",
 			"process": "action-reset",
 			"port": "actions",
+			"meta": {}
+		},
+		"create-element4->element4": {
+			"id": "create-element4->element4",
+			"entity": "element4",
+			"process": "create-element4",
 			"meta": {}
 		},
 		"element-state->action-reset::state": {

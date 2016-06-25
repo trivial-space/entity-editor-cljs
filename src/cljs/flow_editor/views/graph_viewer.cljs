@@ -111,6 +111,7 @@
                                  edge {:from eid :to pid}] ;;:title (str "port: " (:port a))}]
                              (if (= port (get types "COLD"))
                                (assoc edge :dashes true
+                                           :width 1
                                            :title "COLD")
                                (if acc
                                  (assoc edge :arrows {:middle true :from true :to true}
