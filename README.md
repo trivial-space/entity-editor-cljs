@@ -1,21 +1,22 @@
-# flow-editor
+# Flow editor
 
-A [re-frame](https://github.com/Day8/re-frame) application designed to ... well, that part is up to you.
+A visual development environment for [flow](https://github.com/trivial-space/flow) graphs.
 
-## Development Mode
+## Development
 
-### Compile css:
+### Requirements
 
-Compile css file once.
+* [Node.js](https://nodejs.org/)
+* [Leiningen](https://github.com/technomancy/leiningen)
+* [jspm](http://jspm.io/) (to run the examples)
+* [gulp](http://gulpjs.com/) (to compile styles)
+
+### Install Dependencies:
 
 ```
-lein garden once
-```
-
-Automatically recompile css file on change.
-
-```
-lein garden auto
+npm install
+cd resources/public
+jspm install
 ```
 
 ### Run application:
@@ -27,16 +28,13 @@ lein figwheel dev
 
 Figwheel will automatically push cljs changes to the browser.
 
-Wait a bit, then browse to [http://localhost:3449](http://localhost:3449).
+Wait a bit, then browse to [http://localhost:8080/examples/tetris/index.html](http://localhost:8080/examples/tetris/index.html).
 
-### Run tests:
+### Compile styles
 
 ```
-lein clean
-lein doo phantom test once
+gulp
 ```
-
-The above command assumes that you have [phantomjs](https://www.npmjs.com/package/phantomjs) installed. However, please note that [doo](https://github.com/bensu/doo) can be configured to run cljs.test in many other JS environments (chrome, ie, safari, opera, slimer, node, rhino, or nashorn).
 
 ## Production Build
 
@@ -45,10 +43,8 @@ lein clean
 lein cljsbuild once min
 ```
 
-## REPL commands
+## Licence
 
-```
-(use 'figwheel-sidecar.repl-api)
-(start-figwheel!)
-(cljs-repl)
-```
+MIT, see the LICENCE file in the repository.
+
+Copyright (c) 2016 Thomas Gorny
