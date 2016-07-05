@@ -2,6 +2,16 @@
   (:require [re-frame.core :refer [register-handler]]))
 
 
+(defn save-window-dimensions
+  [db]
+  (let [dimensions (->> (get-in db [:ui :main-frame-dimensions :current])
+                     (clj->js)
+                     (.stringify js/JSON))
+        key (:local-storage-key db)
+        window-key (str key :main-frame-dimensions)]
+    (.setItem js/localStorage window-key dimensions)
+    db))
+
 (register-handler
   :ui/open-modal
   (fn [db [_ modal-key]]
@@ -25,7 +35,8 @@
   (fn [db [_ {:keys [top left]}]]
     (-> db
       (update-in [:ui :main-frame-dimensions :current :top] #(+ % top))
-      (update-in [:ui :main-frame-dimensions :current :left] #(+ % left)))))
+      (update-in [:ui :main-frame-dimensions :current :left] #(+ % left))
+      (save-window-dimensions))))
 
 
 (register-handler
@@ -37,7 +48,8 @@
         (update-in [:ui :main-frame-dimensions :current :width]
           #(.min js/Math (+ % width) max-width))
         (update-in [:ui :main-frame-dimensions :current :height]
-          #(.min js/Math (+ % height) max-height))))))
+          #(.min js/Math (+ % height) max-height))
+        (save-window-dimensions)))))
 
 
 (register-handler

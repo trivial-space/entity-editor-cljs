@@ -44,5 +44,8 @@
    (mount-root)
    (main-frame/setup el))
   ([flow-runtime local-storage-key]
-   (init flow-runtime)
-   (dispatch-sync [:initialize-local-storage-key local-storage-key])))
+   (dispatch-sync [:initialize-db])
+   (dispatch-sync [:initialize-local-storage-key local-storage-key])
+   (dispatch-sync [:initialize-flow-runtime flow-runtime])
+   (mount-root)
+   (main-frame/setup el)))

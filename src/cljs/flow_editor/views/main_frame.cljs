@@ -21,9 +21,6 @@
       #(dispatch [:ui/window-resize {:width (.-innerWidth js/window)
                                      :height (.-innerHeight js/window)}]))
 
-    (dispatch [:ui/init-main-frame-dimensions
-               {:top t :left l :width (.-width r) :height (.-height r)}])
-
     (let [dimensions (subscribe [:ui/main-frame-dimensions])
           left (reaction (:left @dimensions))
           top (reaction (:top @dimensions))
@@ -32,4 +29,7 @@
       (run! (set! (.-style.top el) (str @top "px")))
       (run! (set! (.-style.left el) (str @left "px")))
       (run! (set! (.-style.width el) (str @width "px")))
-      (run! (set! (.-style.height el) (str @height "px"))))))
+      (run! (set! (.-style.height el) (str @height "px"))))
+
+    (dispatch [:ui/init-main-frame-dimensions
+               {:top t :left l :width (.-width r) :height (.-height r)}])))

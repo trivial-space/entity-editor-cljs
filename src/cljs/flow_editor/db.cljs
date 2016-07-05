@@ -2,6 +2,7 @@
 
 (def initial-db
   {:name "re-frame"
+   :local-storage-key "flow-graph"
    :code-mirror-defaults
      {:theme "monokai"
       :keyMap "vim"

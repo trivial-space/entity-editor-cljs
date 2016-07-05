@@ -24,4 +24,9 @@
   :initialize-local-storage-key
   (fn [db [_ key]]
     (println "localStorage handler " key)
+    (let [window-key (str key :main-frame-dimensions)
+          dimensions-js (.parse js/JSON (.getItem js/localStorage window-key))
+          dimensions (js->clj dimensions-js :keywordize-keys true)]
+      (when dimensions
+        (js/setTimeout #(dispatch [:ui/init-main-frame-dimensions dimensions]) 100)))
     (assoc db :local-storage-key key)))
