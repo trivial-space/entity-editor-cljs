@@ -205,28 +205,39 @@
          :on-change #(dispatch [:flow-runtime/connect-output pid %])]))))
 
 
-(defn process-component
-  [process]
-  (let [code-changes (r/atom (:code process))
-        minified (r/atom false)
+(defn procedure-editor
+  [process code-changes]
+  (let [cm-options {:mode {:name "javascript"
+                           :globalVars true}}
+
         id (:id process)
         port-types (subscribe [:flow-runtime/port-types])
         runtime (subscribe [:flow-runtime/runtime])
-        connections (subscribe [:flow-runtime/process-port-connection id])
-        cm-options {:mode {:name "javascript"
-                           :globalVars true}}
-        port-vals (->> (:ports process)
-                    (map (fn [[port type]]
-                           (let [arc (if (= type (get @port-types "ACCUMULATOR"))
-                                       (filter (fn [arc] (not (:port arc))) @connections)
-                                       (filter (fn [arc] (= (:port arc) (name port))) @connections))
-                                 val (when arc (.get @runtime (:entity (first arc))))]
-                              [port val])))
-                    (into {}))
-        additionalCtx {"this" (.getContext @runtime)
-                       "ports" port-vals}]
+        connections (subscribe [:flow-runtime/process-port-connection id])]
+
+      (fn [process code-changes]
+        (println "reloading procedure-editor on" (:id process))
+        (let [port-vals (->> (:ports process)
+                          (map (fn [[port type]]
+                                 (let [arc (if (= type (get @port-types "ACCUMULATOR"))
+                                             (filter (fn [arc] (not (:port arc))) @connections)
+                                             (filter (fn [arc] (= (:port arc) (name port))) @connections))
+                                       val (when arc (.get @runtime (:entity (first arc))))]
+                                    [port val])))
+                          (into {}))
+              additionalCtx {"this" (.getContext @runtime)
+                             "ports" port-vals}]
+
+          [cm (:code process) cm-options code-changes additionalCtx]))))
+
+
+(defn process-component
+  [process]
+  (let [code-changes (r/atom (:code process))
+        minified (r/atom false)]
     (fn [process]
-      (let [code-changed? (not= @code-changes (:code process))]
+      (let [code-changed? (not= @code-changes (:code process))
+            id (:id process)]
         [v-box
          :class "process-component"
          :gap "5px"
@@ -235,7 +246,7 @@
                      [[header process minified]
                       [ports-editor (:ports process) id]
                       [label :label "procedure"]
-                      [cm (:code process) cm-options code-changes additionalCtx]
+                      [procedure-editor process code-changes]
                       [h-box
                        :gap "10px"
                        :children [[button

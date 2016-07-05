@@ -22,8 +22,9 @@
 (defn cm-inner []
   (let [cm (atom nil)
         update (fn [comp]
-                 (let [props (r/props comp)]
-                   (.setOption @cm "hintOptions" (clj->js {:additionalContext (:hint-ctx props)}))
+                 (let [props (r/props comp)
+                       ctx (clj->js {:additionalContext (:hint-ctx props)})]
+                   (.setOption @cm "hintOptions" ctx)
                    (.setValue @cm (:val props))))]
 
     (r/create-class
@@ -49,7 +50,7 @@
   (let [defaults (subscribe [:ui/code-mirror-defaults])
         options (merge @defaults opts)]
     (fn [v o changes hint-ctx]
-        [cm-inner {:val v
-                   :opts options
-                   :changes changes
-                   :hint-ctx hint-ctx}])))
+      [cm-inner {:val v
+                 :opts options
+                 :changes changes
+                 :hint-ctx hint-ctx}])))

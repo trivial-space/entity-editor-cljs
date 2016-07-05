@@ -251,7 +251,6 @@
          p (if (= port-type acc-type)
              (merge p {:async nil :autostart nil})
              p)]
-     (println acc-type)
      (.addProcess runtime (clj->js (merge p {:ports ports})))
      (update-runtime db))))
 
