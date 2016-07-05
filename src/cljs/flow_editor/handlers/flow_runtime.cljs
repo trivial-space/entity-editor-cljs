@@ -83,10 +83,10 @@
 
 
 (register-handler
-  :flow-runtime/edit-entity-value
-  (fn [db [_ eid value]]
+  :flow-runtime/set-entity-initial-as-current
+  (fn [db [_ eid]]
     (let [e (get-in db [:graph :entities (keyword eid)])]
-      (->> (merge e {:value value})
+      (->> (merge e {:json (.stringify js/JSON (.get (:runtime db) eid))})
         (clj->js)
         (.addEntity (:runtime db))))
     (update-runtime db)))

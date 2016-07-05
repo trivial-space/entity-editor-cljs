@@ -120,45 +120,20 @@
 
 
 (defn initial-value-editor
-  [eid json mode]
-  (let [initial-value? (r/atom (not= json nil))]
-    (fn [eid json mode]
-      (dispatch [:flow-runtime/unwatch-entity eid])
-      (if @initial-value?
-        [v-box
-         :gap "10px"
-         :children [[json-value-editor eid json]
-                    [h-box
-                     :gap "10px"
-                     :children [[button
-                                 :label [:span [:i.zmdi.zmdi-hc-fw-rc.zmdi-redo] " use"]
-                                 :tooltip "reset current value to initial"
-                                 :on-click #(do (dispatch [:flow-runtime/set-current-value
-                                                           eid (.parse js/JSON json)])
-                                                (reset! mode ::current))]
-                                [button
-                                 :label [:span [:i.zmdi.zmdi-hc-fw-rc.zmdi-space-bar] " clear"]
-                                 :tooltip "remove initial value"
-                                 :on-click #(do (dispatch [:flow-runtime/edit-entity-json
-                                                           eid nil])
-                                                (reset! initial-value? false))]]]]]
-        [button
-         :label "add initial value"
-         :on-click #(reset! initial-value? true)]))));
-
+  [eid json initial-value?]
+  (dispatch [:flow-runtime/unwatch-entity eid])
+  (if @initial-value?
+    [json-value-editor eid json]
+    [button
+     :label "add initial value"
+     :on-click #(reset! initial-value? true)]));
 
 
 (defn current-value-editor
-  [eid current-value type mode]
-  [v-box
-   :gap "10px"
-   :children [[(value-editors type) eid current-value]
-              [button
-               :label [:span [:i.zmdi.zmdi-hc-fw-rc.zmdi-square-right] " save"]
-               :tooltip "set current value as initial value"
-               :on-click #(do (dispatch [:flow-runtime/edit-entity-value
-                                         eid (:value current-value)])
-                              (reset! mode ::initial))]]])
+  [eid type]
+  (let [current-value (subscribe [:flow-runtime/entity-value eid])]
+    (fn [eid type]
+      [(value-editors type) eid @current-value])))
 
 
 (def value-type-choices
@@ -170,21 +145,43 @@
 (defn entity-component
   [entity minified]
   (let [id (:id entity)
-        value-ratom (subscribe [:flow-runtime/entity-value id])
         value-mode (r/atom (:id (first (value-tabs entity))))]
     (fn [entity minified]
       (let [eid (:id entity)
-            value-type (get-in entity [:meta :type] "evaled-JSON")]
+            value-type (get-in entity [:meta :type] "evaled-JSON")
+            modes (value-tabs entity)
+            initial-value? (r/atom (not= (:json entity) nil))]
         [v-box
          :class "entity-component"
-         :gap "5px"
+         :gap "10px"
          :children [[header entity minified]
                     (when-not minified
                       [h-box
+                       :gap "10px"
                        :children [[horizontal-bar-tabs
-                                   :tabs (value-tabs entity)
+                                   :tabs modes
                                    :model value-mode
                                    :on-change #(reset! value-mode %)]
+                                  (when (= @value-mode ::current)
+                                    [button
+                                     :label [:span [:i.zmdi.zmdi-hc-fw-rc.zmdi-square-right] " save"]
+                                     :tooltip "set current value as initial value"
+                                     :on-click #(do (dispatch [:flow-runtime/set-entity-initial-as-current eid])
+                                                    (reset! value-mode ::initial))])
+                                  (when (and (= @value-mode ::initial) (:json entity))
+                                    [button
+                                     :label [:span [:i.zmdi.zmdi-hc-fw-rc.zmdi-redo] " use"]
+                                     :tooltip "reset current value to initial"
+                                     :on-click #(do (dispatch [:flow-runtime/set-current-value
+                                                               eid (.parse js/JSON (:json entity))])
+                                                    (reset! value-mode ::current))])
+                                  (when (and (= @value-mode ::initial) (:json entity))
+                                    [button
+                                     :label [:span [:i.zmdi.zmdi-hc-fw-rc.zmdi-space-bar] " clear"]
+                                     :tooltip "remove initial value"
+                                     :on-click #(do (dispatch [:flow-runtime/edit-entity-json
+                                                               eid nil])
+                                                    (reset! initial-value? false))])
                                   [gap :size "auto"]
                                   [single-dropdown
                                    :choices value-type-choices
@@ -192,5 +189,5 @@
                                    :on-change #(dispatch [:flow-runtime/set-entity-value-type eid %])]]])
                     (when-not minified
                       (if (= @value-mode ::initial)
-                        [initial-value-editor id (:json entity) value-mode]
-                        [current-value-editor id @value-ratom value-type value-mode]))]]))))
+                        [initial-value-editor id (:json entity) initial-value?]
+                        [current-value-editor id value-type]))]]))))
