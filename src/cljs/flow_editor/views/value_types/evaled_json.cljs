@@ -22,7 +22,7 @@
 
 (defn json
   [obj]
-  (.stringify js/JSON obj nil "\t"))
+  (.stringify js/JSON obj nil "  "))
 
 
 (defn value-editor

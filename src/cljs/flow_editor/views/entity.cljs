@@ -120,9 +120,9 @@
 
 
 (defn initial-value-editor
-  [eid json type mode]
+  [eid json mode]
   (let [initial-value? (r/atom (not= json nil))]
-    (fn [eid json type mode]
+    (fn [eid json mode]
       (dispatch [:flow-runtime/unwatch-entity eid])
       (if @initial-value?
         [v-box
@@ -131,12 +131,14 @@
                     [h-box
                      :gap "10px"
                      :children [[button
-                                 :label "reset current value"
+                                 :label [:span [:i.zmdi.zmdi-hc-fw-rc.zmdi-redo] " use"]
+                                 :tooltip "reset current value to initial"
                                  :on-click #(do (dispatch [:flow-runtime/set-current-value
                                                            eid (.parse js/JSON json)])
                                                 (reset! mode ::current))]
                                 [button
-                                 :label "remove initial value"
+                                 :label [:span [:i.zmdi.zmdi-hc-fw-rc.zmdi-space-bar] " clear"]
+                                 :tooltip "remove initial value"
                                  :on-click #(do (dispatch [:flow-runtime/edit-entity-json
                                                            eid nil])
                                                 (reset! initial-value? false))]]]]]
@@ -152,7 +154,8 @@
    :gap "10px"
    :children [[(value-editors type) eid current-value]
               [button
-               :label "set as initial value"
+               :label [:span [:i.zmdi.zmdi-hc-fw-rc.zmdi-square-right] " save"]
+               :tooltip "set current value as initial value"
                :on-click #(do (dispatch [:flow-runtime/edit-entity-value
                                          eid (:value current-value)])
                               (reset! mode ::initial))]]])
@@ -160,7 +163,7 @@
 
 (def value-type-choices
   (mapv
-    (fn [[type-key _]] {:id type-key :label (name type-key)})
+    (fn [[type-key _]] {:id type-key :label type-key})
     value-editors))
 
 
@@ -168,25 +171,26 @@
   [entity minified]
   (let [id (:id entity)
         value-ratom (subscribe [:flow-runtime/entity-value id])
-        value-mode (r/atom (:id (first (value-tabs entity))))
-        value-type (r/atom :evaled-JSON)]
+        value-mode (r/atom (:id (first (value-tabs entity))))]
     (fn [entity minified]
-      [v-box
-       :class "entity-component"
-       :gap "5px"
-       :children [[header entity minified]
-                  (when-not minified
-                    [h-box
-                     :gap "10px"
-                     :children [[horizontal-bar-tabs
-                                 :tabs (value-tabs entity)
-                                 :model value-mode
-                                 :on-change #(reset! value-mode %)]
-                                [single-dropdown
-                                 :choices value-type-choices
-                                 :model value-type
-                                 :on-change #(reset! value-type %)]]])
-                  (when-not minified
-                    (if (= @value-mode ::initial)
-                      [initial-value-editor id (:json entity) @value-type value-mode]
-                      [current-value-editor id @value-ratom @value-type value-mode]))]])))
+      (let [eid (:id entity)
+            value-type (get-in entity [:meta :type] "evaled-JSON")]
+        [v-box
+         :class "entity-component"
+         :gap "5px"
+         :children [[header entity minified]
+                    (when-not minified
+                      [h-box
+                       :children [[horizontal-bar-tabs
+                                   :tabs (value-tabs entity)
+                                   :model value-mode
+                                   :on-change #(reset! value-mode %)]
+                                  [gap :size "auto"]
+                                  [single-dropdown
+                                   :choices value-type-choices
+                                   :model value-type
+                                   :on-change #(dispatch [:flow-runtime/set-entity-value-type eid %])]]])
+                    (when-not minified
+                      (if (= @value-mode ::initial)
+                        [initial-value-editor id (:json entity) value-mode]
+                        [current-value-editor id @value-ratom value-type value-mode]))]]))))

@@ -147,6 +147,15 @@
     (update-runtime db)))
 
 
+(register-handler
+  :flow-runtime/set-entity-value-type
+  (fn [db [_ eid value-type]]
+    (let [e (get-in db [:graph :entities (keyword eid)])]
+      (->> (assoc-in e [:meta :type] value-type)
+        (clj->js)
+        (.addEntity (:runtime db))))
+    (update-runtime db)))
+
 
 ;; ===== Process handlers =====
 

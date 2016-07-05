@@ -220,7 +220,6 @@
         connections (subscribe [:flow-runtime/process-port-connection id])]
 
       (fn [process code-changes]
-        (println "reloading procedure-editor on" (:id process))
         (let [port-vals (->> (:ports process)
                           (map (fn [[port type]]
                                  (let [arc (if (= type (get @port-types "ACCUMULATOR"))

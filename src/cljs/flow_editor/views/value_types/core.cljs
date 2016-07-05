@@ -4,5 +4,5 @@
 
 
 (def value-editors
-  {:evaled-JSON evaled-json/value-editor
-   :code code/value-editor})
+  {"evaled-JSON" evaled-json/value-editor
+   "code" code/value-editor})
