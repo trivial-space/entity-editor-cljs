@@ -89,9 +89,9 @@
                  :children [(for [node @nodes]
                               (if (= (:type node) "entity")
                                 (when-let [e (get entities (keyword (:id node)))]
-                                  ^{:key (str "entity-" (:id e))} [entity-component e])
+                                  ^{:key (str "entity-" (:id e))} [entity-component e (:minified node)])
                                 (when-let [p (get processes (keyword (:id node)))]
-                                  ^{:key (str "process-" (:id p))} [process-component p])))]]]))))
+                                  ^{:key (str "process-" (:id p))} [process-component p (:minified node)])))]]]))))
 
 
 (defn resize-drag [e]

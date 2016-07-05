@@ -1,6 +1,7 @@
 (ns flow-editor.views.entity
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
+            [flow-editor.utils.graph-ui :refer [e-node]]
             [flow-editor.views.utils.codemirror :refer [cm]]
             [flow-editor.views.value-types.core :refer [value-editors]]
             [re-com.core :refer [title horizontal-bar-tabs
@@ -71,7 +72,9 @@
                      :md-icon-name "zmdi-search"
                      :tooltip "inspect in console"
                      :on-click #(dispatch [:flow-runtime/log-entity eid])]
-                    [gap :size "5px"]
+                    [gap :size "10px"]
+                    [line]
+                    [gap :size "10px"]
                     [md-icon-button
                      :md-icon-name "zmdi-delete"
                      :tooltip "delete this entity"
@@ -79,15 +82,15 @@
                     [gap :size "10px"]
                     [line]
                     [gap :size "10px"]
-                    (if @minified
+                    (if minified
                       [md-icon-button
                        :md-icon-name "zmdi-plus"
                        :tooltip "reopen"
-                       :on-click #(reset! minified false)]
+                       :on-click #(dispatch [:flow-runtime-ui/minify-node (e-node eid) nil])]
                       [md-icon-button
                        :md-icon-name "zmdi-minus"
                        :tooltip "minimize"
-                       :on-click #(reset! minified true)])
+                       :on-click #(dispatch [:flow-runtime-ui/minify-node (e-node eid) true])])
                     [md-icon-button
                      :md-icon-name "zmdi-close"
                      :on-click #(dispatch [:flow-runtime-ui/close-node
@@ -162,18 +165,17 @@
 
 
 (defn entity-component
-  [entity]
+  [entity minified]
   (let [id (:id entity)
         value-ratom (subscribe [:flow-runtime/entity-value id])
         value-mode (r/atom (:id (first (value-tabs entity))))
-        value-type (r/atom :evaled-JSON)
-        minified (r/atom false)]
-    (fn [entity]
+        value-type (r/atom :evaled-JSON)]
+    (fn [entity minified]
       [v-box
        :class "entity-component"
        :gap "5px"
        :children [[header entity minified]
-                  (when-not @minified
+                  (when-not minified
                     [h-box
                      :gap "10px"
                      :children [[horizontal-bar-tabs
@@ -184,7 +186,7 @@
                                  :choices value-type-choices
                                  :model value-type
                                  :on-change #(reset! value-type %)]]])
-                  (when-not @minified
+                  (when-not minified
                     (if (= @value-mode ::initial)
                       [initial-value-editor id (:json entity) @value-type value-mode]
                       [current-value-editor id @value-ratom @value-type value-mode]))]])))

@@ -2,6 +2,7 @@
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
             [clojure.set :refer [union]]
+            [flow-editor.utils.graph-ui :refer [p-node]]
             [flow-editor.views.utils.codemirror :refer [cm]]
             [re-com.core :refer [input-text
                                  md-icon-button button md-circle-icon-button
@@ -102,6 +103,9 @@
                        :md-icon-name "zmdi-stop"
                        :tooltip "stop"
                        :on-click #(dispatch [:flow-runtime/stop-process id])])
+                    [gap :size "10px"]
+                    [line]
+                    [gap :size "10px"]
                     [md-icon-button
                      :md-icon-name "zmdi-delete"
                      :tooltip "delete this process"
@@ -109,15 +113,15 @@
                     [gap :size "10px"]
                     [line]
                     [gap :size "10px"]
-                    (if @minified
+                    (if minified
                       [md-icon-button
                        :md-icon-name "zmdi-plus"
                        :tooltip "reopen"
-                       :on-click #(reset! minified false)]
+                       :on-click #(dispatch [:flow-runtime-ui/minify-node (p-node id) nil])]
                       [md-icon-button
                        :md-icon-name "zmdi-minus"
                        :tooltip "minimize"
-                       :on-click #(reset! minified true)])
+                       :on-click #(dispatch [:flow-runtime-ui/minify-node (p-node id) true])])
                     [md-icon-button
                      :md-icon-name "zmdi-close"
                      :on-click #(dispatch [:flow-runtime-ui/close-node
@@ -232,16 +236,15 @@
 
 
 (defn process-component
-  [process]
-  (let [code-changes (r/atom (:code process))
-        minified (r/atom false)]
-    (fn [process]
+  [process minified]
+  (let [code-changes (r/atom (:code process))]
+    (fn [process minified]
       (let [code-changed? (not= @code-changes (:code process))
             id (:id process)]
         [v-box
          :class "process-component"
          :gap "5px"
-         :children (if @minified
+         :children (if minified
                      [[header process minified]]
                      [[header process minified]
                       [ports-editor (:ports process) id]

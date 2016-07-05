@@ -340,15 +340,18 @@
     (update-runtime db)))
 
 
+(defn =node
+  [n1 n2]
+  (and (= (:type n1) (:type n2))
+       (= (:id n1) (:id n2))))
+
+
 (register-handler
   :flow-runtime-ui/open-node
   (fn [db [_ nid]]
     (let [node (node-from-id nid)
           layout (get-in db [:ui :layout])
-          open? (some (fn [n]
-                        (and (= (:type n) (:type node))
-                             (= (:id n) (:id node))))
-                      layout)]
+          open? (some (fn [n] (=node n node)) layout)]
       (if-not open?
         (update-layout db (into [node] layout))
         db))))
@@ -360,11 +363,20 @@
     (when (= (:type node) "entity")
       (dispatch [:flow-runtime/unwatch-entity (:id node)]))
     (let [layout (->> (get-in db [:ui :layout])
-                   (remove (fn [n]
-                             (and (= (:type n) (:type node))
-                                  (= (:id n) (:id node)))))
+                   (remove (fn [n] (=node n node)))
                    (filter (fn [n]
                              (if (= (:type n) "entity")
                                (get-in db [:graph :entities (keyword (:id n))])
                                (get-in db [:graph :processes (keyword (:id n))])))))]
+      (update-layout db layout))))
+
+
+(register-handler
+  :flow-runtime-ui/minify-node
+  (fn [db [_ node minify?]]
+    (let [layout (->> (get-in db [:ui :layout])
+                   (map (fn [n]
+                          (if (=node n node)
+                            (assoc n :minified minify?)
+                            n))))]
       (update-layout db layout))))

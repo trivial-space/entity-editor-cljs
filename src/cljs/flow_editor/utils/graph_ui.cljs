@@ -1,6 +1,18 @@
 (ns flow-editor.utils.graph-ui)
 
 
+(defn e-node
+  [eid]
+  {:type "entity"
+   :id eid})
+
+
+(defn p-node
+  [pid]
+  {:type "process"
+   :id pid})
+
+
 (defn p-node-id
   [pid]
   (str "p" pid))
