@@ -14,8 +14,11 @@
                     (->> (:entities new-graph)
                       (map (fn [[k v]]
                              (if (:value v)
-                               [k (merge v {:value nil
-                                            :json (.stringify js/JSON (clj->js (:value v)) nil "\t")})]
+                               (let [json (.stringify js/JSON (clj->js (:value v)) nil "\t")
+                                     v (merge v {:value nil
+                                                 :json json})]
+                                  (.addEntity (:runtime db) (clj->js v))
+                                  [k v])
                                [k v])))
                       (into {})))
         layout (get-in new-graph [:meta :ui :layout] [])]
