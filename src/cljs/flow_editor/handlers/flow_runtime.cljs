@@ -1,6 +1,6 @@
 (ns flow-editor.handlers.flow-runtime
   (:require [re-frame.core :refer [register-handler dispatch]]
-            [flow-editor.utils.graph-ui :refer [node-from-id p-node-id e-node-id]]))
+            [flow-editor.utils.graph-ui :refer [node-from-id p-node-id e-node-id =node]]))
 
 
 (def default-process-code
@@ -338,12 +338,6 @@
           (when-let [p (get-in db [:graph :processes (keyword id)])]
             (.addProcess (:runtime db) (update p))))))
     (update-runtime db)))
-
-
-(defn =node
-  [n1 n2]
-  (and (= (:type n1) (:type n2))
-       (= (:id n1) (:id n2))))
 
 
 (register-handler

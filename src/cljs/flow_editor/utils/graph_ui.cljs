@@ -30,3 +30,9 @@
     (if (= t "e")
       {:id k :type "entity"}
       {:id k :type "process"})))
+
+
+(defn =node
+  [n1 n2]
+  (and (= (:type n1) (:type n2))
+       (= (:id n1) (:id n2))))
