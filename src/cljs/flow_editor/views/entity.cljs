@@ -99,8 +99,8 @@
 
 (defn value-tabs
   [entity]
-  [{:id ::current :label (if (:isEvent entity) "Latest value" "Current value")}
-   {:id ::initial :label "Initial value"}])
+  [{:id ::current :label (if (:isEvent entity) "latest" "current")}
+   {:id ::initial :label "initial"}])
 
 
 (defn json-value-editor
