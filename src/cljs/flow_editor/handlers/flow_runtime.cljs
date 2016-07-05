@@ -281,7 +281,7 @@
                             (and (= process pid)
                                  (= port port-name)))))]
       (.removeArc (:runtime db) (:id arc)))
-    (when eid
+    (when (and eid (not= port-name ""))
       (.addArc (:runtime db) (clj->js {:port port-name :process pid :entity eid})))
     (update-runtime db)))
 
