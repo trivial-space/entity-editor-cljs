@@ -137,6 +137,17 @@
     db))
 
 
+(register-handler
+  :flow-runtime/set-entity-event
+  (fn [db [_ eid event?]]
+    (let [e (get-in db [:graph :entities (keyword eid)])]
+      (->> (merge e {:isEvent event?})
+        (clj->js)
+        (.addEntity (:runtime db))))
+    (update-runtime db)))
+
+
+
 ;; ===== Process handlers =====
 
 (register-handler

@@ -75,11 +75,15 @@
                               (let [node {:id (e-node-id (name eid))
                                           :label eid
                                           :group "entities"}
-                                    node (adjust-pos e node)]
-                                (if (:json e)
-                                  (assoc node :borderWidth 5
-                                              :borderWidthSelected 5)
-                                  node)))))
+                                    node (adjust-pos e node)
+                                    node (if (:json e)
+                                           (assoc node :borderWidth 5
+                                                       :borderWidthSelected 5)
+                                           node)
+                                    node (if (:isEvent e)
+                                           (assoc node :shape "diamond")
+                                           node)]
+                                node))))
 
         process-nodes (->> (:processes graph)
                         (map (fn [[pid p]]

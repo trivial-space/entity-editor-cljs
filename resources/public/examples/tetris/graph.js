@@ -3,6 +3,7 @@ export const graph =
 	"entities": {
 		"tick": {
 			"id": "tick",
+			"isEvent": true,
 			"meta": {
 				"ui": {
 					"x": -22,
@@ -12,6 +13,7 @@ export const graph =
 		},
 		"key": {
 			"id": "key",
+			"isEvent": true,
 			"meta": {
 				"ui": {
 					"x": -158,
@@ -142,6 +144,7 @@ export const graph =
 		},
 		"current-action": {
 			"id": "current-action",
+			"isEvent": true,
 			"meta": {
 				"ui": {
 					"x": -169,
@@ -191,6 +194,7 @@ export const graph =
 		},
 		"new-element-request": {
 			"id": "new-element-request",
+			"isEvent": true,
 			"meta": {
 				"ui": {
 					"x": -350,
@@ -288,7 +292,7 @@ export const graph =
 				"trigger": "hot",
 				"rows": "cold"
 			},
-			"code": "function(ports) {\n\treturn ports.rows.filter(\n\t\t(row) => row.reduce(\n\t\t\t(acc, cell) => acc || !cell, false\n\t\t)\n\t)\n\t\t\t\n}",
+			"code": "function(ports) {\n\treturn ports.rows.filter(\n\t\t(row) => row.reduce(\n\t\t\t(acc, cell) => acc || !cell, false\n\t\t)\n\t)\n}",
 			"meta": {
 				"ui": {
 					"x": 118,
@@ -332,7 +336,7 @@ export const graph =
 				"speed": "hot",
 				"points": "hot"
 			},
-			"code": "function(ports, send) {\n\tvar i = setInterval(function() {\n\t\tsend(true)\n\t\tsend(false)\n\t}, ports.speed - ports.points * 10)\n\t\n\treturn function() {\n\t\tclearInterval(i)\n\t}\n}",
+			"code": "function(ports, send) {\n\tvar i = setInterval(\n\t\tfunction() { send(true) },\n\t\tports.speed - ports.points * 10\n\t)\n\t\n\treturn function() {\n\t\tclearInterval(i)\n\t}\n}",
 			"async": true,
 			"meta": {
 				"ui": {
@@ -377,7 +381,7 @@ export const graph =
 		"get-keyboard-input": {
 			"id": "get-keyboard-input",
 			"ports": {},
-			"code": "function(ports, send) {\n\tvar oldE = null,\n\t\t\tnewE = null\n\t\n\tfunction keyup(e) {\n\t\tnewE = oldE = null\n\t\tsend(newE)\n\t}\n\t\n\tfunction keydown(e) {\n\t\tswitch (e.keyCode) {\n        case 37:\n            newE = 'left';\n            break;\n        case 38:\n            newE = 'up';\n            break;\n        case 39:\n            newE = 'right';\n            break;\n        case 40:\n            send('down');\n            break;\n    }\n\t\t\n\t\tif (newE != oldE) {\n\t\t\tsend(newE)\n\t\t\tsend(null)\n\t\t\toldE = newE\n\t\t}\n\t}\n\t\n\tdocument.addEventListener(\"keydown\", keydown)\n\tdocument.addEventListener(\"keyup\", keyup)\n\t\n\treturn function() {\n\t\tdocument.removeEventListener(\"keydown\", keydown)\n\t\tdocument.removeEventListener(\"keyup\", keyup)\n\t}\n}",
+			"code": "function(ports, send) {\n\tvar oldE = null,\n\t\t\tnewE = null\n\t\n\tfunction keyup(e) {\n\t\tnewE = oldE = null\n\t}\n\t\n\tfunction keydown(e) {\n\t\tswitch (e.keyCode) {\n        case 37:\n            newE = 'left';\n            break;\n        case 38:\n            newE = 'up';\n            break;\n        case 39:\n            newE = 'right';\n            break;\n        case 40:\n            send('down');\n            break;\n    }\n\t\t\n\t\tif (newE != oldE) {\n\t\t\tsend(newE)\n\t\t\toldE = newE\n\t\t}\n\t}\n\t\n\tdocument.addEventListener(\"keydown\", keydown)\n\tdocument.addEventListener(\"keyup\", keyup)\n\t\n\treturn function() {\n\t\tdocument.removeEventListener(\"keydown\", keydown)\n\t\tdocument.removeEventListener(\"keyup\", keyup)\n\t}\n}",
 			"autostart": true,
 			"async": true,
 			"meta": {

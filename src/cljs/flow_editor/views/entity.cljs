@@ -11,10 +11,12 @@
 
 
 (defn header
-  [eid minified]
+  [entity minified]
   (let [editing-id? (r/atom false)]
-    (fn [eid minified]
-      (let [new-id (atom eid)]
+    (fn [entity minified]
+      (let [eid (:id entity)
+            event? (:isEvent entity)
+            new-id (atom eid)]
         [h-box
          :children [[:div
                      {:style {:background-color "#2B7CE9"
@@ -55,6 +57,16 @@
                        :tooltip "rename"
                        :on-click #(reset! editing-id? true)])
                     [gap :size "auto"]
+                    (if event?
+                      [md-icon-button
+                       :md-icon-name "zmdi-flash"
+                       :tooltip "remove event behavior"
+                       :style {:color "orange"}
+                       :on-click #(dispatch [:flow-runtime/set-entity-event eid nil])]
+                      [md-icon-button
+                       :md-icon-name "zmdi-flash"
+                       :tooltip "behave as event"
+                       :on-click #(dispatch [:flow-runtime/set-entity-event eid true])])
                     [md-icon-button
                      :md-icon-name "zmdi-search"
                      :tooltip "inspect in console"
@@ -82,8 +94,9 @@
                                             {:id eid :type "entity"}])]]]))))
 
 
-(def value-tabs
-  [{:id ::current :label "Current value"}
+(defn value-tabs
+  [entity]
+  [{:id ::current :label (if (:isEvent entity) "Latest value" "Current value")}
    {:id ::initial :label "Initial value"}])
 
 
@@ -152,19 +165,19 @@
   [entity]
   (let [id (:id entity)
         value-ratom (subscribe [:flow-runtime/entity-value id])
-        value-mode (r/atom (:id (first value-tabs)))
+        value-mode (r/atom (:id (first (value-tabs entity))))
         value-type (r/atom :evaled-JSON)
         minified (r/atom false)]
     (fn [entity]
       [v-box
        :class "entity-component"
        :gap "5px"
-       :children [[header (:id entity) minified]
+       :children [[header entity minified]
                   (when-not @minified
                     [h-box
                      :gap "10px"
                      :children [[horizontal-bar-tabs
-                                 :tabs value-tabs
+                                 :tabs (value-tabs entity)
                                  :model value-mode
                                  :on-change #(reset! value-mode %)]
                                 [single-dropdown
