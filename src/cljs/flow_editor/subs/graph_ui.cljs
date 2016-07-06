@@ -4,12 +4,12 @@
 
 
 (register-sub
-  :graph-ui/context-menu
-  (fn [db]
-    (reaction (get-in @db [:graph-ui :context-menu]))))
+ :graph-ui/context-menu
+ (fn [db]
+   (reaction (get-in @db [:graph-ui :context-menu]))))
 
 
 (register-sub
-  :graph-ui/graph-mode
-  (fn [db]
-    (reaction (get-in @db [:graph-ui :mode]))))
+ :graph-ui/graph-mode
+ (fn [db]
+   (reaction (get-in @db [:graph-ui :mode]))))
