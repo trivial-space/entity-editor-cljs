@@ -23,6 +23,7 @@
    :graph-ui
      {:new-node-position nil
       :context-menu nil
+      :active-node nil
       :mode nil}
    :ui
      {:layout []

@@ -13,3 +13,9 @@
  :graph-ui/graph-mode
  (fn [db]
    (reaction (get-in @db [:graph-ui :mode]))))
+
+
+(register-sub
+ :graph-ui/active-node
+ (fn [db]
+   (reaction (get-in @db [:graph-ui :active-node]))))

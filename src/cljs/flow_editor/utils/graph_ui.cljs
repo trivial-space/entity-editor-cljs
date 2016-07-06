@@ -36,3 +36,10 @@
   [n1 n2]
   (and (= (:type n1) (:type n2))
        (= (:id n1) (:id n2))))
+
+
+(defn node-id
+  [n]
+  (if (= (:type n) "entity")
+    (e-node-id (:id n))
+    (p-node-id (:id n))))

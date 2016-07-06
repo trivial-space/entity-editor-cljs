@@ -154,6 +154,7 @@
         [v-box
          :class "entity-component"
          :gap "10px"
+         :attr {:on-mouse-enter #(dispatch [:graph-ui/set-active-node (e-node eid)])}
          :children [[header entity minified]
                     (when-not minified
                       [h-box

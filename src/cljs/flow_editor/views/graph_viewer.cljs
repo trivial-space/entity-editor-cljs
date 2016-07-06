@@ -1,7 +1,7 @@
 (ns flow-editor.views.graph-viewer
   (:require-macros [reagent.ratom :refer [reaction]])
   (:require [cljsjs.vis]
-            [flow-editor.utils.graph-ui :refer [p-node-id e-node-id]]
+            [flow-editor.utils.graph-ui :refer [p-node-id e-node-id node-id]]
             [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
             [re-com.core :refer [box single-dropdown title h-box v-box button md-icon-button]]))
@@ -222,8 +222,16 @@
                                 (.fit new-network)))
 
        :component-did-update (fn [comp]
-                               (.setOptions @network (get-graph-options {:mode (:mode (r/props comp))}))
-                               (render comp @network))})))
+                               (let [props (r/props comp)
+                                     net @network
+                                     node (:node props)]
+                                 (.setOptions net (get-graph-options {:mode (:mode props)}))
+                                 (render comp net)
+                                 (when node
+                                   (println node (node-id node))
+                                   (.selectNodes net #js[(node-id node)]))))})))
+
+
 
 
 (def context-menus
@@ -234,6 +242,7 @@
   (let [graph (subscribe [:flow-runtime/graph])
         context-menu (subscribe [:graph-ui/context-menu])
         window-size (subscribe [:ui/main-frame-dimensions])
+        active-node (subscribe [:graph-ui/active-node])
         height (reaction (:height @window-size))
         width (subscribe [:ui/graph-width])
         mode (subscribe [:graph-ui/graph-mode])]
@@ -253,6 +262,7 @@
                   [graph-inner {:graph @graph
                                 :size {:height @height
                                        :width @width}
+                                :node @active-node
                                 :mode @mode}]
                   (when-let [ctx @context-menu]
                     (let [top (:y (:pos ctx))

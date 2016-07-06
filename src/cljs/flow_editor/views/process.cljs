@@ -243,6 +243,7 @@
         [v-box
          :class "process-component"
          :gap "5px"
+         :attr {:on-mouse-enter #(dispatch [:graph-ui/set-active-node (p-node id)])}
          :children (if minified
                      [[header process minified]]
                      [[header process minified]
