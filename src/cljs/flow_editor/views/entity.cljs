@@ -1,7 +1,7 @@
 (ns flow-editor.views.entity
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
-            [flow-editor.utils.graph-ui :refer [e-node]]
+            [flow-editor.utils.graph-ui :refer [e-node e-node-id]]
             [flow-editor.views.utils.codemirror :refer [cm]]
             [flow-editor.views.value-types.core :refer [value-editors]]
             [re-com.core :refer [title horizontal-bar-tabs
@@ -71,7 +71,9 @@
                     [md-icon-button
                      :md-icon-name "zmdi-search"
                      :tooltip "inspect in console"
-                     :on-click #(dispatch [:flow-runtime/log-entity eid])]
+                     :on-click #(if (.-ctrlKey %)
+                                  (dispatch [:flow-runtime/log-table-entity eid])
+                                  (dispatch [:flow-runtime/log-entity eid]))]
                     [gap :size "10px"]
                     [line]
                     [gap :size "10px"]
@@ -152,7 +154,7 @@
             modes (value-tabs entity)
             initial-value? (r/atom (not= (:json entity) nil))]
         [v-box
-         :class "entity-component"
+         :class (str "entity-component " (e-node-id eid))
          :gap "10px"
          :attr {:on-mouse-enter #(dispatch [:graph-ui/set-active-node (e-node eid)])}
          :children [[header entity minified]
