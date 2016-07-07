@@ -236,15 +236,16 @@
 
 (defn process-component
   [process minified]
-  (let [code-changes (r/atom (:code process))]
+  (let [code-changes (r/atom (:code process))
+        active-node (subscribe [:graph-ui/active-node])]
     (fn [process minified]
       (let [code-changed? (not= @code-changes (:code process))
             id (:id process)]
         [v-box
-         :class "process-component"
-         :class (str "process-component " (p-node-id id))
+         :class (str "process-component " (p-node-id id)
+                     (when (= (:id @active-node) id) " selected"))
          :gap "5px"
-         :attr {:on-mouse-enter #(dispatch [:graph-ui/set-active-node (p-node id)])}
+         :attr {:on-mouse-over #(dispatch [:graph-ui/set-active-node (p-node id)])}
          :children (if minified
                      [[header process minified]]
                      [[header process minified]

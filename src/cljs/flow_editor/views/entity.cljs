@@ -147,16 +147,18 @@
 (defn entity-component
   [entity minified]
   (let [id (:id entity)
-        value-mode (r/atom (:id (first (value-tabs entity))))]
+        value-mode (r/atom (:id (first (value-tabs entity))))
+        active-node (subscribe [:graph-ui/active-node])]
     (fn [entity minified]
       (let [eid (:id entity)
             value-type (get-in entity [:meta :type] "evaled-JSON")
             modes (value-tabs entity)
             initial-value? (r/atom (not= (:json entity) nil))]
         [v-box
-         :class (str "entity-component " (e-node-id eid))
+         :class (str "entity-component " (e-node-id eid)
+                     (when (= (:id @active-node) id) " selected"))
          :gap "10px"
-         :attr {:on-mouse-enter #(dispatch [:graph-ui/set-active-node (e-node eid)])}
+         :attr {:on-mouse-over #(dispatch [:graph-ui/set-active-node (e-node eid)])}
          :children [[header entity minified]
                     (when-not minified
                       [h-box

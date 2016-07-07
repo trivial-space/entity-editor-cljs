@@ -368,7 +368,7 @@
          db (if-not open?
               (update-layout db (into [node] layout))
               db)]
-     (dispatch [:graph-ui/set-active-node (assoc node :scrollto true)])
+     (dispatch [:graph-ui/set-active-node (assoc node :scroll true)])
      db)))
 
 
@@ -383,8 +383,7 @@
                             (if (= (:type n) "entity")
                               (get-in db [:graph :entities (keyword (:id n))])
                               (get-in db [:graph :processes (keyword (:id n))])))))]
-     (when (empty? layout)
-       (dispatch [:graph-ui/set-active-node nil]))
+     (dispatch [:graph-ui/set-active-node nil])
      (update-layout db layout))))
 
 

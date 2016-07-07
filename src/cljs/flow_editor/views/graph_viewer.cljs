@@ -168,7 +168,12 @@
   (.on net "stabilized"
     (fn [stabilized-event]
       (println stabilized-event)
-      (dispatch [:flow-runtime-ui/set-node-positions (.getPositions net)]))))
+      (dispatch [:flow-runtime-ui/set-node-positions (.getPositions net)])))
+
+  (.on net "deselectNode"
+    (fn [e]
+      (when (= 0 (.-length (aget e "nodes"))))
+      (dispatch [:graph-ui/set-active-node nil]))))
 
 
 (defn add-node-menu

@@ -40,6 +40,8 @@
 
 (defn node-id
   [n]
-  (if (= (:type n) "entity")
-    (e-node-id (:id n))
-    (p-node-id (:id n))))
+  (if n
+    (if (= (:type n) "entity")
+      (e-node-id (:id n))
+      (p-node-id (:id n)))
+    nil))

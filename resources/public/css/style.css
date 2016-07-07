@@ -13489,12 +13489,29 @@
 }
 #tvs-flow-editor .entity-component,
 #tvs-flow-editor .process-component {
+  position: relative;
   margin: 5px 0;
   padding: 10px;
 }
 #tvs-flow-editor .entity-component pre,
 #tvs-flow-editor .process-component pre {
   margin: 0;
+}
+#tvs-flow-editor .entity-component.selected:after,
+#tvs-flow-editor .process-component.selected:after {
+  content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+#tvs-flow-editor .entity-component.selected:after {
+  box-shadow: 0 0 4px 4px rgba(43,124,233,0.5);
+}
+#tvs-flow-editor .process-component.selected:after {
+  box-shadow: 0 0 4px 4px rgba(222,122,19,0.5);
 }
 #tvs-flow-editor .vis-network {
   display: -webkit-box;
