@@ -2,7 +2,7 @@
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
             [clojure.set :refer [union]]
-            [flow-editor.utils.graph-ui :refer [p-node]]
+            [flow-editor.utils.graph-ui :refer [p-node p-node-id]]
             [flow-editor.views.utils.codemirror :refer [cm]]
             [re-com.core :refer [input-text
                                  md-icon-button button md-circle-icon-button
@@ -242,6 +242,7 @@
             id (:id process)]
         [v-box
          :class "process-component"
+         :class (str "process-component " (p-node-id id))
          :gap "5px"
          :attr {:on-mouse-enter #(dispatch [:graph-ui/set-active-node (p-node id)])}
          :children (if minified

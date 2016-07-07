@@ -1,9 +1,10 @@
 (ns flow-editor.views.graph-viewer
-  (:require-macros [reagent.ratom :refer [reaction]])
+  (:require-macros [reagent.ratom :refer [reaction run!]])
   (:require [cljsjs.vis]
             [flow-editor.utils.graph-ui :refer [p-node-id e-node-id node-id]]
             [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
+            [reagent.ratom :refer [dispose!]]
             [re-com.core :refer [box single-dropdown title h-box v-box button md-icon-button]]))
 
 
@@ -198,6 +199,7 @@
 
 (defn graph-inner []
   (let [network (atom nil)
+        active-node-reaction (atom nil)
         types (subscribe [:flow-runtime/port-types])
         render (fn [comp net]
                  (let [dom-node (r/dom-node comp)
@@ -205,7 +207,10 @@
                        graph (:graph (r/props comp))
                        vis-data (get-vis-graph graph @types)]
                    (.setSize net (aget dom-rect "width") (aget dom-rect "height"))
-                   (.setData net (clj->js vis-data))))]
+                   (.setData net (clj->js vis-data))
+                   (if-let [node @(:node (r/props comp))]
+                     (.selectNodes net #js[(node-id node)])
+                     (.unselectAll net))))]
 
     (r/create-class
       {:reagent-render (fn []
@@ -214,22 +219,30 @@
                           :child [:div]])
 
        :component-did-mount (fn [comp]
-                              (let [node (r/dom-node comp)
-                                    new-network (js/vis.Network. node)]
-                                (init-vis new-network (:mode (r/props comp)))
+                              (let [dom-node (r/dom-node comp)
+                                    props (r/props comp)
+                                    active-node (:node props)
+                                    new-network (js/vis.Network. dom-node)]
+                                (init-vis new-network (:mode props))
                                 (reset! network new-network)
                                 (render comp new-network)
-                                (.fit new-network)))
+                                (.fit new-network)
+                                (reset! active-node-reaction
+                                        (run!
+                                         (let [node @active-node]
+                                           (if node
+                                             (.selectNodes new-network #js[(node-id node)])
+                                             (.unselectAll new-network)))))))
 
        :component-did-update (fn [comp]
                                (let [props (r/props comp)
-                                     net @network
-                                     node (:node props)]
+                                     net @network]
                                  (.setOptions net (get-graph-options {:mode (:mode props)}))
-                                 (render comp net)
-                                 (when node
-                                   (println node (node-id node))
-                                   (.selectNodes net #js[(node-id node)]))))})))
+                                 (render comp net)))
+
+       :component-will-unmount (fn [comp]
+                                 (dispose! @active-node-reaction))})))
+
 
 
 
@@ -262,7 +275,7 @@
                   [graph-inner {:graph @graph
                                 :size {:height @height
                                        :width @width}
-                                :node @active-node
+                                :node active-node
                                 :mode @mode}]
                   (when-let [ctx @context-menu]
                     (let [top (:y (:pos ctx))

@@ -80,7 +80,7 @@
       (let [processes (:processes @graph)
             entities (:entities @graph)]
         [scroller
-         :class "item-list process-item-list"
+         :class "item-list"
          :min-width "570px"
          :h-scroll :off
          :child [v-box

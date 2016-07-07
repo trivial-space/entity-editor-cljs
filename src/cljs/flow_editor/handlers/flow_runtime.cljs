@@ -141,6 +141,13 @@
 
 
 (register-handler
+ :flow-runtime/log-table-entity
+ (fn [db [_ eid]]
+   (.table js/console (.get (:runtime db) eid))
+   db))
+
+
+(register-handler
  :flow-runtime/set-entity-event
  (fn [db [_ eid event?]]
    (let [e (get-in db [:graph :entities (keyword eid)])]
@@ -357,10 +364,12 @@
  (fn [db [_ nid]]
    (let [node (node-from-id nid)
          layout (get-in db [:ui :layout])
-         open? (some (fn [n] (=node n node)) layout)]
-     (if-not open?
-       (update-layout db (into [node] layout))
-       db))))
+         open? (some (fn [n] (=node n node)) layout)
+         db (if-not open?
+              (update-layout db (into [node] layout))
+              db)]
+     (dispatch [:graph-ui/set-active-node (assoc node :scrollto true)])
+     db)))
 
 
 (register-handler
@@ -374,6 +383,8 @@
                             (if (= (:type n) "entity")
                               (get-in db [:graph :entities (keyword (:id n))])
                               (get-in db [:graph :processes (keyword (:id n))])))))]
+     (when (empty? layout)
+       (dispatch [:graph-ui/set-active-node nil]))
      (update-layout db layout))))
 
 

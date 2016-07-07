@@ -30,5 +30,4 @@
 (register-handler
  :graph-ui/set-active-node
  (fn [db [_ node]]
-   (println "setting active node" node)
    (assoc-in db [:graph-ui :active-node] node)))
