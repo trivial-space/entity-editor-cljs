@@ -13571,7 +13571,7 @@
   right: -123px;
   margin: 0;
   padding: 0;
-  min-width: 200px;
+  min-width: 250px;
   min-height: 20px;
   list-style: none;
 }
@@ -13594,7 +13594,7 @@
   border-left: 4px solid #428bca;
 }
 #tvs-flow-editor .layout-widget__list li.dragging {
-  border-left: 4px solid #ff0;
+  border-left: 4px solid #ffa500;
   cursor: ns-resize;
 }
 #tvs-flow-editor .layout-widget__list li.dragging .drag-handle {
