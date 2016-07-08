@@ -30,6 +30,7 @@
       :modal nil
       :minimized? false
       :fullscreen? false
+      :pinned? false
       :graph-width 600
       :main-frame-dimensions
        {:current {:width 0

@@ -49,3 +49,9 @@
  :ui/graph-width
  (fn [db]
    (reaction (get-in @db [:ui :graph-width]))))
+
+
+(register-sub
+ :ui/pinned?
+ (fn [db]
+   (reaction (get-in @db [:ui :pinned?]))))

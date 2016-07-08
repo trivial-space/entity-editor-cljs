@@ -25,11 +25,16 @@
           left (reaction (:left @dimensions))
           top (reaction (:top @dimensions))
           width (reaction (:width @dimensions))
-          height (reaction (:height @dimensions))]
+          height (reaction (:height @dimensions))
+          pinned? (subscribe [:ui/pinned?])
+          class-list (.-classList el)]
       (run! (set! (.-style.top el) (str @top "px")))
       (run! (set! (.-style.left el) (str @left "px")))
       (run! (set! (.-style.width el) (str @width "px")))
-      (run! (set! (.-style.height el) (str @height "px"))))
+      (run! (set! (.-style.height el) (str @height "px")))
+      (run! (if @pinned?
+              (.add class-list "pinned")
+              (.remove class-list "pinned"))))
 
     (dispatch [:ui/init-main-frame-dimensions
                {:top t :left l :width (.-width r) :height (.-height r)}])))

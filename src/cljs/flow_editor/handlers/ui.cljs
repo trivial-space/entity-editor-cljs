@@ -114,3 +114,9 @@
  (fn [db [_ delta]]
    (assoc-in db [:ui :graph-width]
              (+ (get-in db [:ui :graph-width]) delta))))
+
+
+(register-handler
+ :ui/set-pinned
+ (fn [db [_ pinned?]]
+   (assoc-in db [:ui :pinned?] pinned?)))

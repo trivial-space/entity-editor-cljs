@@ -38,7 +38,8 @@
 (defn headline [fullscreen?]
   (let [active-node (subscribe [:graph-ui/active-node])
         entities (subscribe [:flow-runtime/all-entities])
-        processes (subscribe [:flow-runtime/all-processes])]
+        processes (subscribe [:flow-runtime/all-processes])
+        pinned? (subscribe [:ui/pinned?])]
     (fn [fullscreen?]
       (let [drag-handler (if-not fullscreen?
                            headerline-drag
@@ -78,6 +79,16 @@
                      :emphasise? true
                      :tooltip "export graph"
                      :on-click #(dispatch [:ui/open-modal :modals/export-graph])]
+                    (if @pinned?
+                      [md-icon-button
+                       :md-icon-name "zmdi-pin"
+                       :style {:color "orange"}
+                       :tooltip "always opaque"
+                       :on-click #(dispatch [:ui/set-pinned false])]
+                      [md-icon-button
+                       :md-icon-name "zmdi-pin"
+                       :tooltip "transparent on mouse out"
+                       :on-click #(dispatch [:ui/set-pinned true])])
                     (if fullscreen?
                       [md-icon-button
                        :md-icon-name "zmdi-minus"
