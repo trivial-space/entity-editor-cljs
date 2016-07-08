@@ -172,8 +172,8 @@
 
   (.on net "deselectNode"
     (fn [e]
-      (when (= 0 (.-length (aget e "nodes"))))
-      (dispatch [:graph-ui/set-active-node nil]))))
+      (when (= 0 (.-length (aget e "nodes")))
+        (dispatch [:graph-ui/set-active-node nil])))))
 
 
 (defn add-node-menu
