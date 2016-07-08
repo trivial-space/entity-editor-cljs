@@ -24,9 +24,16 @@
  :initialize-local-storage-key
  (fn [db [_ key]]
    (println "localStorage handler " key)
-   (let [window-key (str key :main-frame-dimensions)
-         dimensions-js (.parse js/JSON (.getItem js/localStorage window-key))
-         dimensions (js->clj dimensions-js :keywordize-keys true)]
-     (when dimensions
-       (js/setTimeout #(dispatch [:ui/init-main-frame-dimensions dimensions]) 100)))
+   (let [ui-key (str key :ui)
+         ui-settings (-> (.parse js/JSON (.getItem js/localStorage ui-key))
+                       (js->clj :keywordize-keys true))]
+     (when ui-settings
+       (js/setTimeout
+        #(do (when-let [dimensions (:main-frame-dimensions ui-settings)]
+               (dispatch [:ui/init-main-frame-dimensions (:current dimensions)]))
+             (when-let [pinned? (:pinned? ui-settings)]
+               (dispatch [:ui/set-pinned pinned?]))
+             (when-let [width (:graph-width ui-settings)]
+               (dispatch [:ui/set-graph-width width])))
+        100)))
    (assoc db :local-storage-key key)))
