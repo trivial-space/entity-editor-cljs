@@ -396,3 +396,18 @@
                            (assoc n :minified minify?)
                            n))))]
      (update-layout db layout))))
+
+
+(register-handler
+ :flow-runtime-ui/swap-nodes
+ (fn [db [_ node1 node2]]
+   (println (get-in db [:ui :layout]))
+   (let [layout (get-in db [:ui :layout])
+         indices (->> (map-indexed vector layout)
+                      (map reverse)
+                      (flatten)
+                      (apply hash-map))
+         new-layout (assoc layout
+                           (indices node1) node2
+                           (indices node2) node1)]
+     (update-layout db new-layout))))

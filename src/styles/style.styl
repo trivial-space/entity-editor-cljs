@@ -150,6 +150,49 @@ $sink
     @extend $sink
 
 
+  .layout-widget
+    position relative
+    z-index 200
+
+  .layout-widget__list
+    @extend $box
+    position: absolute
+    top: 30px
+    right: -123px
+    margin: 0
+    padding 0
+    min-width: 200px
+    min-height: 20px
+    list-style: none
+
+    li
+      position: relative
+      display: block
+      padding: 5px 25px 5px 10px
+      border-top 1px solid white
+      border-bottom 1px solid rgba(0, 0, 0, 0.2)
+
+      .drag-handle
+        user-select: none
+        cursor: grab
+
+      &.selected
+        border-left 4px solid #428bca
+
+      &.dragging
+        border-left 4px solid yellow
+        cursor: ns-resize
+
+        .drag-handle
+          cursor: ns-resize
+
+    .rc-md-icon-button
+      position absolute
+      top 7px
+      right 7px
+
+
+
   .CodeMirror
     height auto
     width 100%

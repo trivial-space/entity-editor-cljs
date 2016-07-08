@@ -4,7 +4,8 @@
 #tvs-flow-editor .entity-component,
 #tvs-flow-editor .process-component,
 #tvs-flow-editor .vis-network .vis-network-tooltip,
-#tvs-flow-editor .context-menu {
+#tvs-flow-editor .context-menu,
+#tvs-flow-editor .layout-widget__list {
   background-color: rgba(245,245,245,0.8);
   border-top: 1px solid rgba(255,255,255,0.8);
   box-shadow: 0 2px 5px rgba(0,0,0,0.4);
@@ -13559,6 +13560,50 @@
 #tvs-flow-editor .context-menu {
   position: absolute;
   padding: 5px 5px 10px;
+}
+#tvs-flow-editor .layout-widget {
+  position: relative;
+  z-index: 200;
+}
+#tvs-flow-editor .layout-widget__list {
+  position: absolute;
+  top: 30px;
+  right: -123px;
+  margin: 0;
+  padding: 0;
+  min-width: 200px;
+  min-height: 20px;
+  list-style: none;
+}
+#tvs-flow-editor .layout-widget__list li {
+  position: relative;
+  display: block;
+  padding: 5px 25px 5px 10px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#tvs-flow-editor .layout-widget__list li .drag-handle {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+#tvs-flow-editor .layout-widget__list li.selected {
+  border-left: 4px solid #428bca;
+}
+#tvs-flow-editor .layout-widget__list li.dragging {
+  border-left: 4px solid #ff0;
+  cursor: ns-resize;
+}
+#tvs-flow-editor .layout-widget__list li.dragging .drag-handle {
+  cursor: ns-resize;
+}
+#tvs-flow-editor .layout-widget__list .rc-md-icon-button {
+  position: absolute;
+  top: 7px;
+  right: 7px;
 }
 #tvs-flow-editor .CodeMirror {
   height: auto;

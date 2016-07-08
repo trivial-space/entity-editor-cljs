@@ -1,14 +1,63 @@
 (ns flow-editor.views.editor
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
-            [re-com.core :refer [title md-icon-button button single-dropdown v-box gap h-box box h-split scroller]]
+            [re-com.core :refer [title md-icon-button button line single-dropdown v-box gap h-box box h-split scroller]]
             [flow-editor.views.process :refer [process-component]]
             [flow-editor.views.entity :refer [entity-component]]
             [flow-editor.views.graph-viewer :refer [graph-component]]
             [flow-editor.views.modals.helpers :refer [get-modal]]
-            [flow-editor.utils.graph-ui :refer [e-node-id node-from-id p-node-id node-id]]
+            [flow-editor.utils.graph-ui :refer [=node e-node-id node-from-id p-node-id node-id]]
             [goog.events :as events])
   (:import [goog.events EventType]))
+
+
+(defn layout-widget
+  []
+  (let [nodes (subscribe [:ui/layout])
+        active (subscribe [:graph-ui/active-node])
+        open? (r/atom false)
+        dragging (r/atom nil)]
+    (fn []
+      (let [active @active
+            li (fn [node active]
+                 (let [suffix (if (= "entity" (:type node)) "(E)" "(P)")]
+                   [:li
+                    {:class (if (= @dragging node)
+                              "dragging"
+                              (if (=node active node)
+                                "selected"
+                                ""))}
+
+                    [:div
+                     {:class "drag-handle"
+                      :on-mouse-down #(reset! dragging node)
+                      :on-mouse-over #(when (and @dragging (not= @dragging node))
+                                        (dispatch [:flow-runtime-ui/swap-nodes node @dragging]))
+                      :on-mouse-up #(do (dispatch [:flow-runtime-ui/open-node (node-id node)])
+                                        (reset! dragging nil))}
+                     (str (:id node) " " suffix)]
+                    [md-icon-button
+                     :md-icon-name "zmdi-close"
+                     :size :smaller
+                     :on-click #(dispatch [:flow-runtime-ui/close-node node])]]))]
+        [:span
+         {:class "layout-widget"}
+         (if @open?
+           [md-icon-button
+            :md-icon-name "zmdi-format-list-bulleted"
+            :style {:color "orange"}
+            :tooltip "close group view"
+            :on-click #(reset! open? false)]
+           [md-icon-button
+            :md-icon-name "zmdi-format-list-bulleted"
+            :tooltip "open group view"
+            :on-click #(reset! open? true)])
+         (when @open?
+           [:ul {:class "layout-widget__list"}
+            (for [node @nodes]
+              (if (= (:type node) "entity")
+                ^{:key (str "list-e" (:id node))} [li node active]
+                ^{:key (str "list-p" (:id node))} [li node active]))])]))))
 
 
 (defn minimized
@@ -74,11 +123,17 @@
                      :size "auto"
                      :class class
                      :attr {:on-mouse-down drag-handler}]
+                    [layout-widget]
+                    [gap :size "5px"]
                     [md-icon-button
                      :md-icon-name "zmdi-download"
                      :emphasise? true
                      :tooltip "export graph"
                      :on-click #(dispatch [:ui/open-modal :modals/export-graph])]
+                    [gap :size "5px"]
+                    [line
+                     :style {:height "26px"}
+                     :color "rgba(0, 0, 0, 0.2)"]
                     (if @pinned?
                       [md-icon-button
                        :md-icon-name "zmdi-pin"
