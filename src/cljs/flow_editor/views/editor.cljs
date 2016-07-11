@@ -123,13 +123,13 @@
                      :size "auto"
                      :class class
                      :attr {:on-mouse-down drag-handler}]
-                    [layout-widget]
-                    [gap :size "5px"]
                     [md-icon-button
                      :md-icon-name "zmdi-download"
                      :emphasise? true
                      :tooltip "export graph"
                      :on-click #(dispatch [:ui/open-modal :modals/export-graph])]
+                    [gap :size "5px"]
+                    [layout-widget]
                     [gap :size "5px"]
                     [line
                      :style {:height "26px"}
