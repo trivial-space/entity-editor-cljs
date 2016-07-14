@@ -5,6 +5,9 @@ const gulp = require('gulp'),
       autoprefixer = require('gulp-autoprefixer'),
       postcss = require('gulp-postcss'),
       stylus = require('gulp-stylus'),
+      rename = require('gulp-rename'),
+      umd = require('gulp-umd'),
+      del = require('del'),
       lost = require('lost')
 
 
@@ -39,54 +42,73 @@ gulp.task('watch', function() {
 })
 
 
-gulp.task('minify', function() {
-  let child = spawn('lein', ['clean']),
-      stdout = "",
-      stderr = ""
-
-  child.stdout.setEncoding('utf8')
-  child.stderr.setEncoding('utf8')
-
-  child.stdout.on('data', data => {
-    stdout += data
-    gutil.log(stdout)
-  })
-
-  child.stderr.on('data', data => {
-    stderr += data
-    gutil.log(stderr)
-  })
-
-  child.on('close', code => {
-    gutil.log('Lein clean complete', code)
-
-    let child2 = spawn('lein', ['cljsbuild', 'once', 'min']),
+function leinClean(callback) {
+  del(paths.jsBuild).then(() => {
+    let child = spawn('lein', ['clean']),
         stdout = "",
         stderr = ""
 
-    child2.stdout.setEncoding('utf8')
-    child2.stderr.setEncoding('utf8')
+    child.stdout.setEncoding('utf8')
+    child.stderr.setEncoding('utf8')
 
-    child2.stdout.on('data', data => {
+    child.stdout.on('data', data => {
       stdout += data
       gutil.log(stdout)
     })
 
-    child2.stderr.on('data', data => {
+    child.stderr.on('data', data => {
       stderr += data
       gutil.log(stderr)
     })
 
-    child2.on('close', code => {
-      gutil.log('Compilation done with exitcode', code)
-      process.exit()
+    child.on('close', code => {
+      gutil.log('Lein clean complete', code)
+      callback && callback()
     })
   })
+}
+
+
+function leinCljsbuild(callback) {
+  let child2 = spawn('lein', ['cljsbuild', 'once', 'min']),
+      stdout = "",
+      stderr = ""
+
+  child2.stdout.setEncoding('utf8')
+  child2.stderr.setEncoding('utf8')
+
+  child2.stdout.on('data', data => {
+    stdout += data
+    gutil.log(stdout)
+  })
+
+  child2.stderr.on('data', data => {
+    stderr += data
+    gutil.log(stderr)
+  })
+
+  child2.on('close', code => {
+    gutil.log('Compilation done with exitcode', code)
+
+    callback && callback()
+  })
+}
+
+
+gulp.task('minify', function() {
+  leinClean(() => leinCljsbuild(() => {
+    setTimeout(function() {process.exit()}, 1000)
+  }))
 })
 
 
 gulp.task('copy-js', function() {
   gulp.src(paths.jsBuild)
+    .pipe(rename('tvs-flow-editor.js'))
+    .pipe(umd({
+      exports: () => "flow_editor.core",
+      namespace: () => "tvsFlowEditor"
+    }))
     .pipe(gulp.dest(paths.dist))
 })
 
@@ -109,4 +131,4 @@ gulp.task('watch-build', function() {
 
 gulp.task('default', ['styles', 'watch'])
 
-gulp.task('build', ['watch-build', 'styles', 'minify', 'copy-fonts'])
+gulp.task('build', ['minify', 'watch-build', 'styles', 'copy-fonts'])

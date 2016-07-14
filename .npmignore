@@ -1,0 +1,16 @@
+/*.log
+/target
+/*-init.clj
+/resources/public/js/compiled
+/resources/public/js/libs
+/resources/public/css/compiled
+out
+.nrepl-port
+.lein-repl-history
+.DS_Store
+node_modules
+/test
+/src
+/resources
+.eslintrc
+gulpfile.js
