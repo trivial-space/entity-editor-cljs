@@ -30,16 +30,21 @@
     "eslint": "^2.10.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
+    "gulp-concat": "^2.6.0",
     "gulp-postcss": "^6.1.1",
-    "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-stylus": "^2.3.1",
-    "gulp-umd": "^0.2.0",
     "jspm": "^0.16.34",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^1.0.1",
     "karma-cljs-test": "^0.1.0",
     "lost": "^6.7.2",
     "webpack-stream": "^3.2.0"
+  },
+  "dependencies": {
+    "codemirror": "^5.16.0",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
+    "vis": "^4.16.1"
   }
 }

@@ -1,16 +1,5 @@
 (ns flow-editor.views.utils.codemirror
-  (:require [cljsjs.codemirror]
-            [cljsjs.codemirror.mode.javascript]
-            [cljsjs.codemirror.mode.htmlmixed]
-            [cljsjs.codemirror.keymap.vim]
-            [cljsjs.codemirror.addon.edit.closebrackets]
-            [cljsjs.codemirror.addon.edit.closetag]
-            [cljsjs.codemirror.addon.edit.matchbrackets]
-            [cljsjs.codemirror.addon.edit.matchtags]
-            [cljsjs.codemirror.addon.edit.trailingspace]
-            [cljsjs.codemirror.addon.display.autorefresh]
-            [cljsjs.codemirror.addon.hint.show-hint]
-            [custom-codemirror.javascript-hint]
+  (:require [custom-codemirror.javascript-hint]
             [re-frame.core :refer [subscribe]]
             [reagent.core :as r]))
 

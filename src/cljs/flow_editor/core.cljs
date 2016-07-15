@@ -1,12 +1,13 @@
 (ns flow-editor.core
-    (:require [reagent.core :as reagent]
-              [re-frame.core :as re-frame :refer [dispatch-sync]]
-              [flow-editor.handlers.core]
-              [flow-editor.subs.core]
-              [flow-editor.views.editor :refer [editor]]
-              [flow-editor.views.main-frame :as main-frame]
-              [flow-editor.config :as config]
-              [cljs.pprint :refer [pprint]]))
+  (:require [reagent.core :as reagent]
+    [re-frame.core :as re-frame :refer [dispatch-sync]]
+    [flow-editor.handlers.core]
+    [flow-editor.subs.core]
+    [flow-editor.views.editor :refer [editor]]
+    [flow-editor.views.main-frame :as main-frame]
+    [flow-editor.config :as config]
+    [cljs.pprint :refer [pprint]]
+    [libs.dependencies]))
 
 
 (when config/debug?

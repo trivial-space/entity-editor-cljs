@@ -1,7 +1,6 @@
 (ns flow-editor.views.graph-viewer
   (:require-macros [reagent.ratom :refer [reaction run!]])
-  (:require [cljsjs.vis]
-            [flow-editor.utils.graph-ui :refer [p-node-id e-node-id node-id]]
+  (:require [flow-editor.utils.graph-ui :refer [p-node-id e-node-id node-id]]
             [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]
             [reagent.ratom :refer [dispose!]]

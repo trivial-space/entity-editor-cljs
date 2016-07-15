@@ -1,4 +1,5 @@
 import flow from "tvs-flow"
+import flowEditor from "/js/dist/tvs-flow-editor"
 import {graph} from "./graph"
 import mat4 from 'gl-matrix/src/gl-matrix/mat4'
 import * as renderer from 'tvs-renderer'
@@ -28,5 +29,5 @@ try {
   console.warn(e)
 }
 
-flow_editor.core.init(runtime, localStorageKey)
+flowEditor.init(runtime, localStorageKey)
 runtime.setDebug(false)

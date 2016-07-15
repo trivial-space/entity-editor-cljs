@@ -5,14 +5,17 @@
     },
     "configFile": "js/config.js",
     "dependencies": {
+      "codemirror": "npm:codemirror@^5.16.0",
       "coffee": "github:forresto/system-coffee@^0.1.2",
       "gl-matrix": "npm:gl-matrix@^2.3.2",
       "immutable": "npm:immutable@^3.8.1",
+      "react": "npm:react@^15.2.1",
+      "react-dom": "npm:react-dom@^15.2.1",
       "three": "npm:three@^0.76.1",
       "trivial-space/flow": "github:trivial-space/flow@master",
       "trivial-space/libs": "github:trivial-space/libs@master",
       "trivial-space/renderer": "github:trivial-space/renderer@master",
-      "uuid": "npm:uuid@^2.0.2"
+      "vis": "npm:vis@^4.16.1"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",

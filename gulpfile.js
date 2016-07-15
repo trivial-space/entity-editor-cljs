@@ -5,8 +5,7 @@ const gulp = require('gulp'),
       autoprefixer = require('gulp-autoprefixer'),
       postcss = require('gulp-postcss'),
       stylus = require('gulp-stylus'),
-      rename = require('gulp-rename'),
-      umd = require('gulp-umd'),
+      concat = require('gulp-concat'),
       del = require('del'),
       lost = require('lost')
 
@@ -103,13 +102,13 @@ gulp.task('minify', function() {
 
 
 gulp.task('copy-js', function() {
-  gulp.src(paths.jsBuild)
-    .pipe(rename('tvs-flow-editor.js'))
-    .pipe(umd({
-      exports: () => "flow_editor.core",
-      namespace: () => "tvsFlowEditor"
-    }))
-    .pipe(gulp.dest(paths.dist))
+  gulp.src([paths.jsBuild, "resources/build/dist-export.js"])
+    .pipe(concat('tvs-flow-editor.js'))
+    .pipe(gulp.dest("resources/public/js/dist/"))
+    .on('end', () => {
+      gulp.src("resources/public/js/dist/tvs-flow-editor.js")
+        .pipe(gulp.dest(paths.dist))
+    })
 })
 
 gulp.task('copy-css', function() {
