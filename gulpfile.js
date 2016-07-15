@@ -112,7 +112,7 @@ gulp.task('copy-js', function() {
 })
 
 gulp.task('copy-css', function() {
-  gulp.src(paths.cssBuild)
+  gulp.src([paths.styleDest + "/*.*", "!" + paths.styleDest + "/*.map"])
     .pipe(gulp.dest(paths.dist + '/css'))
 })
 
