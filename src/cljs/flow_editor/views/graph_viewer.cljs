@@ -200,6 +200,16 @@
                            :on-click (fn [] (dispatch [:graph-ui/close-context-menu])
                                             (dispatch [:ui/open-modal :modals/add-process]))]]]]])
 
+(defn set-active-node-selection
+  [node net]
+  (when net
+    (if-let [node @node]
+      (try
+        (.selectNodes net #js[(node-id node)])
+        (catch :default e
+          (.log js/console "vis selection too fast" e)))
+      (.unselectAll net))))
+
 
 (defn graph-inner []
   (let [network (atom nil)
@@ -212,9 +222,8 @@
                        vis-data (get-vis-graph graph @types)]
                    (.setSize net (aget dom-rect "width") (aget dom-rect "height"))
                    (.setData net (clj->js vis-data))
-                   (if-let [node @(:node (r/props comp))]
-                     (.selectNodes net #js[(node-id node)])
-                     (.unselectAll net))))]
+                   (when-let [node (:node (r/props comp))]
+                     (set-active-node-selection node net))))]
 
     (r/create-class
       {:reagent-render (fn []
@@ -232,11 +241,7 @@
                                 (render comp new-network)
                                 (.fit new-network)
                                 (reset! active-node-reaction
-                                        (run!
-                                         (let [node @active-node]
-                                           (if node
-                                             (.selectNodes new-network #js[(node-id node)])
-                                             (.unselectAll new-network)))))))
+                                        (run! (set-active-node-selection active-node new-network)))))
 
        :component-did-update (fn [comp]
                                (let [props (r/props comp)
