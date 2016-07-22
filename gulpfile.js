@@ -1,5 +1,5 @@
 const gulp = require('gulp'),
-      spawn = require('child_process').spawn,
+      exec = require('child_process').exec,
       gutil = require('gulp-util'),
       sourcemaps = require('gulp-sourcemaps'),
       autoprefixer = require('gulp-autoprefixer'),
@@ -43,7 +43,12 @@ gulp.task('watch', function() {
 
 function leinClean(callback) {
   del(paths.jsBuild).then(() => {
-    let child = spawn('lein', ['clean']),
+    gutil.log("Exec lein clean")
+    let child = exec('lein clean', function(err) {
+          if (err) throw err
+          gutil.log('Lein clean complete')
+          callback && callback()
+        }),
         stdout = "",
         stderr = ""
 
@@ -59,17 +64,17 @@ function leinClean(callback) {
       stderr += data
       gutil.log(stderr)
     })
-
-    child.on('close', code => {
-      gutil.log('Lein clean complete', code)
-      callback && callback()
-    })
   })
 }
 
 
 function leinCljsbuild(callback) {
-  let child2 = spawn('lein', ['cljsbuild', 'once', 'min']),
+  gutil.log("Exec lein cljsbuild once min")
+  let child2 = exec('lein cljsbuild once min', function(err) {
+        if (err) throw err
+        gutil.log('lein cljsbuild complete')
+        callback && callback()
+      }),
       stdout = "",
       stderr = ""
 
@@ -87,9 +92,6 @@ function leinCljsbuild(callback) {
   })
 
   child2.on('close', code => {
-    gutil.log('Compilation done with exitcode', code)
-
-    callback && callback()
   })
 }
 
