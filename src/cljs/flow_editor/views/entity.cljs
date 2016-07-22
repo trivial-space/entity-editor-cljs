@@ -156,7 +156,9 @@
             initial-value? (r/atom (not= (:json entity) nil))]
         [v-box
          :class (str "entity-component " (e-node-id eid)
-                     (when (= (:id @active-node) id) " selected"))
+                     (when (and (= (:id @active-node) id)
+                                (= (:type @active-node) "entity"))
+                       " selected"))
          :gap "10px"
          :attr {:on-mouse-over #(dispatch [:graph-ui/set-active-node (e-node eid)])}
          :children [[header entity minified]

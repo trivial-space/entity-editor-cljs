@@ -243,7 +243,9 @@
             id (:id process)]
         [v-box
          :class (str "process-component " (p-node-id id)
-                     (when (= (:id @active-node) id) " selected"))
+                     (when (and (= (:id @active-node) id)
+                                (= (:type @active-node) "process"))
+                       " selected"))
          :gap "5px"
          :attr {:on-mouse-over #(dispatch [:graph-ui/set-active-node (p-node id)])}
          :children (if minified
