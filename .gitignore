@@ -4,9 +4,9 @@
 /resources/public/js/compiled
 /resources/public/js/libs
 /resources/public/css/compiled
+/resources/public/js/dist
 out
 .nrepl-port
 .lein-repl-history
 .DS_Store
 node_modules
-dist
